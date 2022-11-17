@@ -17,7 +17,24 @@ export class GuestService {
         telephone: "311-111-11-11",
         f_arrival: "",
         f_leave: "",
-        room: "A303"
+        room: "A303",
+        rol: "admin"
+      },
+      {
+        token: "B1111",
+        name: "Juan Antonio Soltero Barrera",
+        telephone: "311-118-32-72",
+        f_arrival: "",
+        f_leave: "",
+        room: "B301"
+      },
+      {
+        token: "C1111",
+        name: "Axel Lopez Renteria",
+        telephone: "311-203-14-43",
+        f_arrival: "",
+        f_leave: "",
+        room: "A101"
       }
     ]
    }

@@ -5,4 +5,5 @@ export class Guest {
     f_leave: string;
     room: string;
     token: string;
+    rol?: string;
 }
