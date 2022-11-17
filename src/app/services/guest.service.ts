@@ -24,16 +24,16 @@ export class GuestService {
         token: "B1111",
         name: "Juan Antonio Soltero Barrera",
         telephone: "311-118-32-72",
-        f_arrival: "",
-        f_leave: "",
+        f_arrival: "18/11/22",
+        f_leave: "19/11/22",
         room: "B301"
       },
       {
         token: "C1111",
         name: "Axel Lopez Renteria",
         telephone: "311-203-14-43",
-        f_arrival: "",
-        f_leave: "",
+        f_arrival: "19/11/22",
+        f_leave: "20/11/22",
         room: "A101"
       }
     ]
