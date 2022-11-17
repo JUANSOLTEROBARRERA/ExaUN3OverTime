@@ -14,7 +14,7 @@ export class GuestService {
       {
         token: "A1111",
         name: "admin",
-        telephone: "311-111-11-11",
+        telephone: "+52 311-111-11-11",
         f_arrival: "",
         f_leave: "",
         room: "A303",
@@ -23,7 +23,7 @@ export class GuestService {
       {
         token: "B1111",
         name: "Juan Antonio Soltero Barrera",
-        telephone: "311-118-32-72",
+        telephone: " +52 311-118-32-72",
         f_arrival: "18/11/22",
         f_leave: "19/11/22",
         room: "B301"
@@ -31,10 +31,18 @@ export class GuestService {
       {
         token: "C1111",
         name: "Axel Lopez Renteria",
-        telephone: "311-203-14-43",
+        telephone: "+52 311-340-39-43",
         f_arrival: "19/11/22",
         f_leave: "20/11/22",
         room: "A101"
+      },
+      {
+        token: "D1111",
+        name: "Yazmin Elizabeth Ochoa Benitez",
+        telephone: "+52 311-300-19-17",
+        f_arrival: "19/11/22",
+        f_leave: "20/11/22",
+        room: "K101"
       }
     ]
    }
@@ -54,5 +62,4 @@ export class GuestService {
     }
     return bandera;
   }
-
 }

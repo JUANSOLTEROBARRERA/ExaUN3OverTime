@@ -19,7 +19,11 @@
                   <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
                   <br>
                   <ion-chip color="success" style="float: left">
-                    <ion-label>Enviar Mensaje</ion-label>
+                    <ion-label (click)="getPhone(i)">
+                      <a [href]="message">
+                        Enviar Mensaje
+                      </a>
+                    </ion-label>
                     <ion-icon name="logo-whatsapp" style="font-size: 20px;">
                     </ion-icon>
                   </ion-chip>
