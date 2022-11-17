@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GuestService } from '../services/guest.service';
+import {AlertController} from '@ionic/angular';
+import { Guest } from '../models/guest';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +14,9 @@ export class LoginPage implements OnInit {
 
   public myForm: FormGroup;
   public validationMessages: Object;
+  public guest: Guest;
 
-  constructor(private guestService: GuestService, private fb: FormBuilder) { }
+  constructor(private guestService: GuestService, private fb: FormBuilder, private alertController: AlertController, private router: Router) { }
 
   ngOnInit() {
     this.myForm = this.fb.group(
@@ -30,4 +34,40 @@ export class LoginPage implements OnInit {
     }
   }
 
+  public async alerta() {
+    const alert = await this.alertController.create({
+      header: 'Precaución',
+      subHeader: 'No existe las credenciales',
+      message: 'Esto es una advertencia',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ()=> {
+          }
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: ()=> {
+            
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  ingresar(){
+    var f = this.myForm.value;
+    console.log(this.guestService.getGuest().map((f) => f.token));
+    if(f.token == this.guestService.getGuest().map((f) => f.token)){
+      console.log('ingresado');
+      this.router.navigate(['/tabs'])
+      this.myForm.setValue({token: ''});
+    }else{
+      this.alerta();
+      this.myForm.setValue({token: ''});
+    }
+  }
 }

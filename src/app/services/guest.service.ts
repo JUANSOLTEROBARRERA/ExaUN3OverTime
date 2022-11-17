@@ -12,7 +12,7 @@ export class GuestService {
     
     this.guests = [
       {
-        token: "11111",
+        token: "A1111",
         name: "admin",
         telephone: "311-111-11-11",
         f_arrival: "",
@@ -21,5 +21,8 @@ export class GuestService {
       }
     ]
    }
-   
+   public getGuest(): Guest[]{
+    return this.guests;
+  }
+
 }
