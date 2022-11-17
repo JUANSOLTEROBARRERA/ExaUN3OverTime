@@ -55,4 +55,17 @@ export class GuestService {
     return bandera;
   }
 
+  public searchTokenExisting(token: string): boolean{
+    let bandera = false;
+    for(let i = 0; i<=this.guests.length-1;i++){
+      if(token === this.guests[i].token){    
+           bandera = true;
+           return bandera;
+       }else{
+        bandera = false;
+       }   
+    }
+    return bandera;
+  }
+
 }
