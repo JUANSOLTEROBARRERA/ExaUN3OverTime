@@ -59,9 +59,8 @@ export class LoginPage implements OnInit {
   }
 
   ingresar(){
-    var f = this.myForm.value;
-    console.log(this.guestService.getGuest().map((f) => f.token));
-    if(f.token == this.guestService.getGuest().map((f) => f.token)){
+    var f = this.myForm.get('token').value;
+    if(this.guestService.searchToken(f, 'admin')===true){
       console.log('ingresado');
       this.router.navigate(['/tabs'])
       this.myForm.setValue({token: ''});

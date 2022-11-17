@@ -42,4 +42,17 @@ export class GuestService {
     return this.guests;
   }
 
+  public searchToken(token: string, admin:string): boolean{
+    let bandera = false;
+    for(let i = 0; i<=this.guests.length-1;i++){
+      if(token === this.guests[i].token && admin===this.guests[i].rol){    
+           bandera = true;
+           return bandera;
+       }else{
+        bandera = false;
+       }   
+    }
+    return bandera;
+  }
+
 }
