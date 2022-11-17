@@ -14,7 +14,7 @@
             <ion-item-sliding>
               <!-- <ion-item href="/account/{{i}}" (click)="obtainStudent(i)"> -->
               <ion-item>
-                <ion-label>
+                <ion-label (click)="getGuestByToken(item.token)">
                   <div style="float: left"><a>Huésped: </a>{{item.name}}</div>
                   <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
                   <br>
@@ -32,14 +32,15 @@
 
 
                 </ion-label>
-
               </ion-item>
 
-              <ion-item-options side="end" (ionSwipe)="removeStudent(i)">
+              <ion-item-options side="end" (ionSwipe)="removeGuest(i)">
                 <ion-item-option expandable color="danger">
                   <ion-icon name="trash-outline"></ion-icon>
                 </ion-item-option>
               </ion-item-options>
+
+
             </ion-item-sliding>
           </div>
         </div>

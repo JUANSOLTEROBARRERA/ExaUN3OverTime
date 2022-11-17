@@ -76,4 +76,16 @@ export class GuestService {
     return bandera;
   }
 
+  public getGuestByToken(token: string): Guest {
+    let item: Guest = this.guests.find((student)=> {
+      return student.token===token;
+    });
+    return item;
+  }
+
+  public removeGuest(pos: number): Guest[]{
+    this.guests.splice(pos, 1);
+    return this.guests;
+  }
+
 }
