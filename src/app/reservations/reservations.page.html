@@ -14,8 +14,19 @@
             <ion-item-sliding>
               <!-- <ion-item href="/account/{{i}}" (click)="obtainStudent(i)"> -->
               <ion-item>
-                <ion-label (click)="getStudentByControlNumber(item.controlnumber)">
-                  {{item.name}}
+                <ion-label>
+                  <div style="float: left"><a>Huésped: </a>{{item.name}}</div>
+                  <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
+                  <br>
+                  <ion-chip color="success" style="float: left">
+                    <ion-label>Enviar Mensaje</ion-label>
+                    <ion-icon name="logo-whatsapp" style="font-size: 20px;">
+                    </ion-icon>
+                  </ion-chip>
+                  <div style="margin-top: 2%;float: right"><a>Salida: </a>{{item.f_arrival}}</div>
+                  <div style="margin: 2% auto; width: 100px;"><a>Entrada: </a>{{item.f_leave}}</div>
+
+
                 </ion-label>
 
               </ion-item>
