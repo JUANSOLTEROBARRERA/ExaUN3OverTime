@@ -62,11 +62,13 @@ export class LoginPage implements OnInit {
     var f = this.myForm.get('token').value;
     if(this.guestService.searchToken(f, 'admin')===true){
       console.log('ingresado');
-      this.router.navigate(['/tabs'])
+      this.router.navigate(['/reservations'])
+      this.myForm.setValue({token: ''});
+    }else if(this.guestService.searchTokenExisting(f)===true){
+      this.router.navigate(['/tabs']);
       this.myForm.setValue({token: ''});
     }else{
       this.alerta();
-      this.myForm.setValue({token: ''});
     }
   }
 }
