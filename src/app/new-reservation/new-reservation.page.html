@@ -49,16 +49,15 @@
       <ion-row>
         <ion-col>
           <div style="float: left;">Fecha de llegada:&nbsp;&nbsp;</div>
-          <div style="float: left">
-            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+          <div style="float: left;">
+            <ion-datetime-button datetime="datetime" ></ion-datetime-button>
           </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
+              <ion-datetime formControlName="fecha2" id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
                 [showDefaultButtons]="true" presentation="date">
               </ion-datetime>
-
 
             </ng-template>
           </ion-modal>
@@ -111,7 +110,7 @@
   </ion-grid>
 
 
-  <ion-button size="default" shape="round">
+  <ion-button size="default" shape="round" (click)="newGuest()">
     Guardar
   </ion-button>
 
