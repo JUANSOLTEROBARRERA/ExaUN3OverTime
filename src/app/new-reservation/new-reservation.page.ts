@@ -96,9 +96,6 @@ export class NewReservationPage implements OnInit {
       room: [
         { type: 'required', message: "La habitación es obligatoria." }
       ],
-      fecha2: [
-        { type: 'required', message: "La habitación es obligatoria." }
-      ]
     }
   }
 
