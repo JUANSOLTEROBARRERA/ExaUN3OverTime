@@ -88,28 +88,36 @@ export class GuestService {
         token: "21111",
         name: "Juan Antonio Soltero Barrera",
         telephone: " +52 311-118-32-72",
-        f_arrival: new Date(2022-11-18),
-        f_leave: new Date(2022-11-19),
+        f_arrival: new Date(11/18/2022),
+        f_arrival2: "2022-11-17",
+        f_leave: new Date(11/19/2022),
+        f_leave2: "2022-11-18",
         room: "B201"
       },
       {
         token: "31111",
         name: "Axel Lopez Renteria",
         telephone: "+52 311-340-39-43",
-        f_arrival: new Date(2022-11-19),
-        f_leave: new Date(2022-11-20),
+        f_arrival: new Date(11/19/2022),
+        f_arrival2: "2022-11-19",
+        f_leave: new Date(11/20/2022),
+        f_leave2: "2022-11-20",
         room: "A101"
       },
       {
         token: "41111",
         name: "Yazmin Elizabeth Ochoa Benitez",
         telephone: "+52 311-300-19-17",
-        f_arrival: new Date(2022-11-20),
-        f_leave: new Date(2022-11-21),
+        f_arrival: new Date(11/18/2022),
+        f_arrival2: "2022-11-18",
+        f_leave: new Date(11/19/2022),
+        f_leave2: "2022-11-19",
         room: "B101"
       }
     ]
    }
+
+   
 
    public getRooms():Room[]{
     return this.rooms;

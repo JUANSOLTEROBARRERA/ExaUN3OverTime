@@ -24,6 +24,7 @@ export class NewReservationPage implements OnInit {
       this.tomorrow =this.formatDate2(new Date());
       this.rooms = this.guestService.getRooms();
       console.log(this.rooms)
+      console.log(this.today)
    }
 
    public padTo2Digits(num: number) {

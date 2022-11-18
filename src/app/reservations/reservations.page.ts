@@ -32,6 +32,7 @@ export class ReservationsPage implements OnInit {
     this.reservations = this.guestService.getGuest();
   }
 
+
   public addReservation():void{
     this.router.navigate(['/new-reservation']);
   }
