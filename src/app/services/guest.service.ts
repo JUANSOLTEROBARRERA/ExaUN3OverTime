@@ -85,7 +85,8 @@ export class GuestService {
         f_arrival: null,
         f_leave: null,
         room: "A203",
-        rol: "admin"
+        rol: "admin",
+        accesscode: 9998
       },
       {
         token: "21111",
@@ -95,7 +96,8 @@ export class GuestService {
         f_arrival2: "2022-11-17",
         f_leave: new Date(11 / 19 / 2022),
         f_leave2: "2022-11-18",
-        room: "B201"
+        room: "B201",
+        accesscode: 1421
       },
       {
         token: "31111",
@@ -105,7 +107,8 @@ export class GuestService {
         f_arrival2: "2022-11-19",
         f_leave: new Date(11 / 20 / 2022),
         f_leave2: "2022-11-20",
-        room: "A101"
+        room: "A101",
+        accesscode: 1234
       },
       {
         token: "41111",
@@ -115,7 +118,8 @@ export class GuestService {
         f_arrival2: "2022-11-18",
         f_leave: new Date(11 / 19 / 2022),
         f_leave2: "2022-11-19",
-        room: "B101"
+        room: "B101",
+        accesscode: 6854
       }
     ]
   }
@@ -127,6 +131,10 @@ export class GuestService {
     this.router.navigate(
       ['/reservations']
     );
+  }
+
+  public getToken(): string{
+      return this.loggedAs;
   }
 
   public selectLanguage(ln: number) {

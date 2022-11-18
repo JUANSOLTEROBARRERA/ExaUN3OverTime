@@ -30,10 +30,8 @@ export class NewReservationPage implements OnInit {
   public f_leave2: string;
   public rooom2: string;
   public token: string;
+  public codacceso: number;
   constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router, private alertController: AlertController) {
-
-    
-
     let str1 = this.guestService.currentUser();
     let str2 = "admin"
     if (str1 !== str2) {
@@ -41,17 +39,12 @@ export class NewReservationPage implements OnInit {
     } else {
 
     }
-
     this.today = this.formatDate(new Date());
     this.tomorrow = this.formatDate2(new Date());
     this.rooms = this.guestService.getRooms();
     console.log(this.rooms)
     console.log(this.today)
-
-
   }
-
-  
 
   showdate(){
     console.log(this.myForm.get('fecha2').value);
@@ -62,6 +55,10 @@ export class NewReservationPage implements OnInit {
     return num.toString().padStart(2, '0');
   }
 
+  public randomIntFromInterval(min: number, max: number) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
   public newGuest():void{
     if(this.validarfechas() === false){
           this.name = this.myForm.get('name').value;
@@ -70,19 +67,20 @@ export class NewReservationPage implements OnInit {
           this.f_leave2 = this.myForm.get('fecha3').value;
           this.rooom2 = this.myForm.get('room').value
           this.token = this.myForm.get('phone').value.replace(" ", "").substring(this.myForm.get('phone').value.length-4, this.myForm.get('phone').value.length);
+          this.codacceso = this.randomIntFromInterval(1, 9999);
           this.guest = {
             token: this.token,
             name: this.name, 
             telephone: this.phone,
             f_arrival2: this.f_arrival2,
             f_leave2: this.f_leave2, 
-            room: this.rooom2
+            room: this.rooom2,
+            accesscode: this.codacceso
           }
 
           this.guestService.newGuest(this.guest);
           this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
     }else{
-        console.log("pos no carnal");
         this.alerta();
         this.myForm.controls.fecha2.setValue(this.today);
         this.myForm.controls.fecha3.setValue(this.tomorrow);

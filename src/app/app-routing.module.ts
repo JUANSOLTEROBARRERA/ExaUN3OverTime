@@ -25,7 +25,8 @@ const routes: Routes = [
   {
     path: 'view-reservation',
     loadChildren: () => import('./view-reservation/view-reservation.module').then( m => m.ViewReservationPageModule)
-  },  {
+  },  
+  {
     path: 'test',
     loadChildren: () => import('./test/test.module').then( m => m.TestPageModule)
   }
