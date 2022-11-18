@@ -73,7 +73,7 @@ export class NewReservationPage implements OnInit {
           this.f_leave2 = this.myForm.get('fecha3').value;
           this.rooom2 = this.myForm.get('room').value
           this.token = this.myForm.get('phone').value.replace(" ", "").substring(this.myForm.get('phone').value.length-4, this.myForm.get('phone').value.length);
-          this.codacceso = this.randomIntFromInterval(1, 9999);
+          this.codacceso = this.randomIntFromInterval(1000, 9999);
           this.guest = {
             token: this.token,
             name: this.name, 

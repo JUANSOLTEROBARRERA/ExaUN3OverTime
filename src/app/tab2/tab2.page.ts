@@ -127,7 +127,7 @@ export class Tab2Page implements OnInit{
   
   ngOnInit() {
     
-    
+    console.log("hola")
   }
   
 }

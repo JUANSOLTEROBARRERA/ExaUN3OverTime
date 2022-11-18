@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GuestService } from '../services/guest.service';
-import { Tab1Page } from '../tab1/tab1.page';
 
 @Component({
   selector: 'app-tab3',
@@ -16,7 +15,7 @@ export class Tab3Page implements OnInit {
   public text2:string[];
   public currenttext2:string;
 
-  constructor(private gestService: GuestService, private tab1:Tab1Page) { }
+  constructor(private gestService: GuestService) { }
 
   public changeLanguage(ln:number){
     this.currenttittle = this.tittle[ln];
