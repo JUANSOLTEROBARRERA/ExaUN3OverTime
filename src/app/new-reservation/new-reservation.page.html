@@ -49,11 +49,14 @@
       <ion-row>
         <ion-col>
           <div style="float: left;">Fecha de llegada:&nbsp;&nbsp;</div>
-          <div style="float: left"><ion-datetime-button datetime="datetime"></ion-datetime-button></div>
+          <div style="float: left">
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+          </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES" [showDefaultButtons]="true" presentation="date">
+              <ion-datetime id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
+                [showDefaultButtons]="true" presentation="date">
               </ion-datetime>
 
 
@@ -65,11 +68,14 @@
       <ion-row>
         <ion-col>
           <div style="float: left;">Fecha de salida:&nbsp;&nbsp;</div>
-          <div style="float: left"><ion-datetime-button datetime="datetime2"></ion-datetime-button></div>
+          <div style="float: left">
+            <ion-datetime-button datetime="datetime2"></ion-datetime-button>
+          </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="datetime2" [value]="tomorrow" [min]="tomorrow" [showDefaultTitle]="true" locale="es-ES" [showDefaultButtons]="true" presentation="date">
+              <ion-datetime id="datetime2" [value]="tomorrow" [min]="tomorrow" [showDefaultTitle]="true" locale="es-ES"
+                [showDefaultButtons]="true" presentation="date">
               </ion-datetime>
 
 
@@ -81,25 +87,12 @@
 
       <ion-list>
         <ion-item>
-          <ion-select formControlName="room" interface="popover" placeholder="Selecciona Carrera">
-            <ion-select-option value="ISC">A101</ion-select-option>
-            <ion-select-option value="IQ">A102</ion-select-option>
-            <ion-select-option value="IBQ">A103</ion-select-option>
-            <ion-select-option value="ARQ">A105</ion-select-option>
-            <ion-select-option value="IE">A201</ion-select-option>
-            <ion-select-option value="IM">A202</ion-select-option>
-            <ion-select-option value="II">A203</ion-select-option>
-            <ion-select-option value="IBQ">A204</ion-select-option>
-            <ion-select-option value="ARQ">A205</ion-select-option>
-            <ion-select-option value="ISC">B101</ion-select-option>
-            <ion-select-option value="IQ">B102</ion-select-option>
-            <ion-select-option value="IBQ">B103</ion-select-option>
-            <ion-select-option value="ARQ">B105</ion-select-option>
-            <ion-select-option value="IE">B201</ion-select-option>
-            <ion-select-option value="IM">B202</ion-select-option>
-            <ion-select-option value="II">B203</ion-select-option>
-            <ion-select-option value="IBQ">B204</ion-select-option>
-            <ion-select-option value="ARQ">B205</ion-select-option>
+          <ion-select formControlName="room" interface="popover" placeholder="Selecciona Habitación">
+            <div *ngFor="let item of rooms; let i = index">
+              <div>
+                <ion-select-option [value]="item.name">{{item.room}}</ion-select-option>
+              </div>
+            </div>
           </ion-select>
         </ion-item>
         <div>

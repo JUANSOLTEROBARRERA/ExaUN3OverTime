@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Guest } from '../models/guest';
 import { Router } from '@angular/router';
 import { GuestService } from '../services/guest.service';
+import { Room } from '../models/room';
 
 @Component({
   selector: 'app-new-reservation',
@@ -16,10 +17,13 @@ export class NewReservationPage implements OnInit {
   public guest: Guest;
   public today: string;
   public tomorrow: string;
+  public rooms: Room [];
 
   constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router) {
       this.today =this.formatDate(new Date());
       this.tomorrow =this.formatDate2(new Date());
+      this.rooms = this.guestService.getRooms();
+      console.log(this.rooms)
    }
 
    public padTo2Digits(num: number) {

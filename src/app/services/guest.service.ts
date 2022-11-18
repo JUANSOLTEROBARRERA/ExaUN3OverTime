@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Guest } from '../models/guest';
+import { Room } from '../models/room';
 
 @Injectable({
   providedIn: 'root'
@@ -7,10 +8,72 @@ import { Guest } from '../models/guest';
 export class GuestService {
 
   private guests: Guest[];
+  private rooms: Room[];
   private loggedAs: string;
 
   constructor() {
-    
+    this.rooms = [
+      {
+        room: "A101"
+      },
+      {
+        room: "A102"
+      },
+      {
+        room: "A103"
+      },
+      {
+        room: "A104"
+      },
+      {
+        room: "A105"
+      },
+      {
+        room: "A201"
+      },
+      {
+        room: "A202"
+      },
+      {
+        room: "A203"
+      },
+      {
+        room: "A204"
+      },
+      {
+        room: "A205"
+      },
+      {
+        room: "B101"
+      },
+      {
+        room: "B102"
+      },
+      {
+        room: "B103"
+      },
+      {
+        room: "B104"
+      },
+      {
+        room: "B105"
+      },
+      {
+        room: "B201"
+      },
+      {
+        room: "B202"
+      },
+      {
+        room: "B203"
+      },
+      {
+        room: "B204"
+      },
+      {
+        room: "B205"
+      }
+    ]
     this.guests = [
       {
         token: "11111",
@@ -18,7 +81,7 @@ export class GuestService {
         telephone: "+52 311-111-11-11",
         f_arrival: "",
         f_leave: "",
-        room: "A303",
+        room: "A203",
         rol: "admin"
       },
       {
@@ -27,7 +90,7 @@ export class GuestService {
         telephone: " +52 311-118-32-72",
         f_arrival: "18/11/22",
         f_leave: "19/11/22",
-        room: "B301"
+        room: "B201"
       },
       {
         token: "31111",
@@ -43,9 +106,13 @@ export class GuestService {
         telephone: "+52 311-300-19-17",
         f_arrival: "19/11/22",
         f_leave: "20/11/22",
-        room: "K101"
+        room: "B101"
       }
     ]
+   }
+
+   public getRooms():Room[]{
+    return this.rooms;
    }
 
    public logged(user: string){
