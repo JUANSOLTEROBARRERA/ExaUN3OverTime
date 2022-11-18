@@ -67,8 +67,8 @@ export class LoginPage implements OnInit {
       this.myForm.setValue({token: ''});
     }else if(this.guestService.searchTokenExisting(f)===true){
       this.router.navigate(['/tabs']);
-      this.myForm.setValue({token: ''});
       this.guestService.logged(this.myForm.get('token').value);
+      this.myForm.setValue({token: ''});
     }else{
       this.alerta();
     }

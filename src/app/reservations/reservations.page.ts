@@ -73,7 +73,8 @@ export class ReservationsPage implements OnInit {
   }
 
   ngOnInit() {
-
+    
+    console.log(this.guestService.currentUser());
   }
 
 }

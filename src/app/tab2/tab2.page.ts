@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GuestService } from '../services/guest.service';
 import { Guest } from '../models/guest';
 
@@ -7,7 +7,7 @@ import { Guest } from '../models/guest';
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit{
   
   public guest: Guest;
   public guests: Guest[];
@@ -24,8 +24,13 @@ export class Tab2Page {
         return guests.token == this.token;
       }
     );
-      console.log(item);
+    console.log(item.accesscode);
   }
 
+
+  ngOnInit() {
+    
+    
+  }
   
 }
