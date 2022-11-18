@@ -6,4 +6,77 @@
 
 <ion-content>
 
+
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header" color="light">
+        <ion-label style="font-size: 30px;">Actividades</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content" style="display:flex; justify-content:center; align-items: center;">
+        <h1>1. Ríos subterráneos y Mar Caribe</h1>
+        <h1>2. Danzas típicas mexicanas</h1>
+        <h1>3. Zonas arqueológicas mayas</h1>
+        <h1>4. ZXcaret México Espectacular</h1>
+        <img style=" margin:auto; float: right ;width: 200px" src="assets/admin-xc.webp"/>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="second">
+      <ion-item slot="header" color="light">
+        <ion-label style="font-size: 30px;">Recomendaciones</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <ul>
+          <li><h3>Usa ropa cómoda de playa y traje de baño. Trae toalla y una muda extra.</h3></li>
+          <li><h3>Tus bloqueadores y bronceadores solo deben contener óxido de titanio y óxido de zinc para su uso en el parque.</h3></li>
+          <li><h3>Lleva efectivo o tarjeta para comprar souvenirs, realizar alguna Actividad Opcional o adquirir las fotos de tu visita.</h3></li>
+        </ul>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="third">
+      <ion-item slot="header" color="light">
+        <ion-label style="font-size: 30px;">Historia</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <h3>En 1984, el arquitecto Miguel Quintana Pali adquirió cinco hectáreas en la Riviera Maya para construir su residencia. Sin embargo, al empezar a limpiar el terreno, descubrió que tenía cenotes y ríos subterráneos. Decidió entonces crear un parque para que todos tuvieran acceso a las bellezas naturales de la región.
+
+       <br><br>Junto con los hermanos Oscar, Marcos y Carlos Constandse, Quintana Pali logró concretar la idea de este parque al que llamó Xcaret. Desde su apertura en diciembre de 1990, ha sido reconocido como una de las atracciones más famosas del destino turístico Cancún-Riviera Maya.
+      </h3>
+      <img style=" margin:auto; width: 200px" src="assets/historia1.webp"/>
+      <img style=" margin:auto; float:right;width: 200px" src="assets/xcaret.webp"/>
+      <img style=" margin:auto; float:left;width: 200px" src="assets/Foto-Xcaret-13.webp"/>
+      <img style=" margin:auto; float: right ;width: 200px" src="assets/historia2.webp"/>
+      </div>
+    </ion-accordion>
+    <ion-accordion value="fourth">
+      <ion-item slot="header" color="light">
+        <ion-label style="font-size: 30px;">Números de emergencia</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <img style=" margin:auto; float: center ; width: 800px; display: flex; justify-content: center;" src="assets/numEmergencia.PNG"/>
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+
+
+
+  <ion-fab style="margin-top: 35px;" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button mini style="margin: 8px;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;">
+      <ion-icon name="language-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="changeLanguage(0)">
+        <img src="assets/spain.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(1)">
+        <img src="assets/english.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(2)">
+        <img src="assets/france.png"/>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
