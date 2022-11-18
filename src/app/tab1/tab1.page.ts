@@ -24,6 +24,7 @@ export class Tab1Page {
     this.changeLanguage(1);
   }
   public changeLanguage(ln:number){
+    this.guestService.selectLanguage(ln);
     this.currenttittle = this.tittle[ln];
     this.currenttext1 = this.text1[ln];
     this.currenttext2 = this.text2[ln];

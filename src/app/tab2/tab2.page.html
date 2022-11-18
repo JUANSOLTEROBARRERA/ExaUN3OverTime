@@ -6,18 +6,55 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-card>
-    <ion-card-header>
-      <ion-icon size="large" name="key-outline"></ion-icon>
-      <ion-card-title>Código de acceso</ion-card-title>
-      <ion-card-subtitle>El código de acceso es la clave de la caja fuerte que contiene la llave de su habitación.</ion-card-subtitle>
-    </ion-card-header>
-  
-    <ion-card-content>
-      <h2>Código: &nbsp;{{accesscode}}</h2>
-    </ion-card-content>
+  <div *ngIf="mayor1 && mayor2; else elseBlock">
+    <ion-card>
+      <ion-card-header>
+        <ion-icon size="large" name="key-outline"></ion-icon>
+        <ion-card-title>{{currenttext1}}</ion-card-title>
+        <ion-card-subtitle>{{currenttext2}}
+        </ion-card-subtitle>
+      </ion-card-header>
 
-  </ion-card>
+      <ion-card-content>
+        <h2>{{currenttext3}} &nbsp;{{accesscode}}</h2>
+      </ion-card-content>
 
+    </ion-card>
+  </div>
+
+  <ng-template #elseBlock>
+    <ion-card>
+      <ion-card-header>
+        <ion-icon size="large" name="key-outline"></ion-icon>
+        <ion-card-title>{{currenttext4}}</ion-card-title>
+        <ion-card-subtitle>{{currenttext5}} {{f_inicio[2]}} {{currenttext6}} {{f_inicio[1]}} {{currenttext7}} {{f_inicio[0]}}.</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+
+      </ion-card-content>
+
+    </ion-card>
+  </ng-template>
+
+  <ion-fab style="margin-top: 35px;" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button mini style="margin: 8px;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;">
+      <ion-icon name="language-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="changeLanguage(0)">
+        <img src="assets/spain.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(1)">
+        <img src="assets/english.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(2)">
+        <img src="assets/france.png"/>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>
