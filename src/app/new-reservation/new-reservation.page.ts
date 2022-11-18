@@ -84,7 +84,8 @@ export class NewReservationPage implements OnInit {
     }else{
         console.log("pos no carnal");
         this.alerta();
-        this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
+        this.myForm.controls.fecha2.setValue(this.today);
+        this.myForm.controls.fecha3.setValue(this.tomorrow);
     }
 
   }
