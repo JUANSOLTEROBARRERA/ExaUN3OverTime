@@ -1,9 +1,30 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Lista de Tareas </ion-title>
+    <ion-title>{{currenttittle}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+  <h1 style="margin-left:5%">{{currenttittle}}</h1>
+
+  <ion-fab style="margin-top: 35px;" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+    <ion-fab-button mini style="margin: 8px;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;">
+      <ion-icon name="language-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="changeLanguage(0)">
+        <img src="assets/spain.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(1)">
+        <img src="assets/english.png"/>
+      </ion-fab-button>
+      <ion-fab-button (click)="changeLanguage(2)">
+        <img src="assets/france.png"/>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>

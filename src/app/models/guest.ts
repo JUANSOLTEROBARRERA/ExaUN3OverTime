@@ -8,4 +8,5 @@ export class Guest {
     room: string;
     token: string;
     rol?: string;
+    accesscode?: number;
 }
