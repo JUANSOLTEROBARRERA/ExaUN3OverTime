@@ -17,17 +17,28 @@ export class NewReservationPage implements OnInit {
   public guest: Guest;
   public today: string;
   public tomorrow: string;
-  public rooms: Room [];
+  public rooms: Room[];
+  public rol: boolean;
 
   constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router) {
-      this.today =this.formatDate(new Date());
-      this.tomorrow =this.formatDate2(new Date());
-      this.rooms = this.guestService.getRooms();
-      console.log(this.rooms)
-      console.log(this.today)
-   }
+    let str1 = this.guestService.currentUser();
+    let str2 = "admin"
+    if (str1 !== str2) {
+      this.router.navigate(['/login']);
+    } else {
 
-   public padTo2Digits(num: number) {
+    }
+
+    this.today = this.formatDate(new Date());
+    this.tomorrow = this.formatDate2(new Date());
+    this.rooms = this.guestService.getRooms();
+    console.log(this.rooms)
+    console.log(this.today)
+
+
+  }
+
+  public padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
   }
 
@@ -37,7 +48,7 @@ export class NewReservationPage implements OnInit {
         date.getFullYear(),
         this.padTo2Digits(date.getMonth() + 1),
         this.padTo2Digits(date.getDate()),
-      ].join('-') 
+      ].join('-')
     );
   }
 
@@ -46,8 +57,8 @@ export class NewReservationPage implements OnInit {
       [
         date.getFullYear(),
         this.padTo2Digits(date.getMonth() + 1),
-        this.padTo2Digits(date.getDate()+1),
-      ].join('-') 
+        this.padTo2Digits(date.getDate() + 1),
+      ].join('-')
     );
   }
 
@@ -56,7 +67,7 @@ export class NewReservationPage implements OnInit {
       {
         name: ["", Validators.compose([Validators.required])],
         phone: ["", Validators.compose([Validators.required, Validators.minLength(11), Validators.pattern('^[\+][(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')])],
-        room:["", Validators.compose([Validators.required])]
+        room: ["", Validators.compose([Validators.required])]
       }
     );
 
@@ -70,7 +81,7 @@ export class NewReservationPage implements OnInit {
         { type: 'pattern', message: "EL teléfono está mal formado" }
       ],
       room: [
-        { type: 'required', message: "La habitación es obligatoria."}
+        { type: 'required', message: "La habitación es obligatoria." }
       ]
     }
   }

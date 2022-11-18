@@ -11,21 +11,16 @@ import { AlertController } from "@ionic/angular";
 })
 export class ReservationsPage implements OnInit {
 
-  public reservations: Guest [];
+  public reservations: Guest[];
   public message: string;
   public rol: boolean;
 
   constructor(private guestService: GuestService, private router: Router, private alertController: AlertController) {
-    if(this.guestService.currentUser()==='admin'){
-      this.rol = true;
-    }else{
-      this.rol = false;
-    }
     let str1 = this.guestService.currentUser();
     let str2 = "admin"
-    if(str1 !== str2){
+    if (str1 !== str2) {
       this.router.navigate(['/login']);
-    }else{
+    } else {
 
     }
 
@@ -33,13 +28,13 @@ export class ReservationsPage implements OnInit {
   }
 
 
-  public addReservation():void{
+  public addReservation(): void {
     this.router.navigate(['/new-reservation']);
   }
 
-  public getPhone(pos:number):string{
+  public getPhone(pos: number): string {
     let replace: string;
-    replace = this.reservations[pos].telephone.replaceAll("-","").replaceAll(" ","").replaceAll("+","");
+    replace = this.reservations[pos].telephone.replaceAll("-", "").replaceAll(" ", "").replaceAll("+", "");
     this.message = `https://wa.me/${replace}?text=Su%20Token%20es%3A%20${this.reservations[pos].token}`
     return this.message;
   }
@@ -59,14 +54,14 @@ export class ReservationsPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: ()=> {
-            
+          handler: () => {
+
           }
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: ()=> {
+          handler: () => {
             this.reservations = this.guestService.removeGuest(pos);
           }
         }
@@ -78,7 +73,7 @@ export class ReservationsPage implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
 }
