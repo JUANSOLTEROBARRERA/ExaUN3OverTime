@@ -21,6 +21,7 @@ export class Tab1Page {
     private guestService: GuestService,
     private modalController: ModalController
   ) {
+    this.setOpen(true)
     this.currentLanguage = this.guestService.getLanguage();
     this.tittle = [
       'Acerca del Hotel',
@@ -37,7 +38,7 @@ export class Tab1Page {
       'Wake up with a fascinating view of the Caribbean Sea, our iconic coves, emerald river or protected areas of the Mayan jungle. From here on out, let the personalized service, handmade craftsmanship, and interior design be the perfect setting for unbeatable rest. All the decorative elements of our 900 suites are created by local talent from vulnerable communities, acquired with a vision of fair trade and commitment to the social development of our country.',
       "Réveillez-vous avec une vue fascinante sur la mer des Caraïbes, nos criques emblématiques, la rivière émeraude ou les zones protégées de la jungle maya. À partir de maintenant, laissez le service personnalisé, l'artisanat fait à la main et la décoration intérieure être le cadre idéal pour un repos imbattable. Tous les éléments décoratifs de nos 900 suites sont créés par des talents locaux issus de communautés vulnérables, acquis avec une vision de commerce équitable et d'engagement pour le développement social de notre pays.",
     ];
-    this.languageSelection();
+    //this.languageSelection();
   }
   public changeLanguage(ln: number) {
     this.guestService.selectLanguage(ln);
@@ -54,5 +55,15 @@ export class Tab1Page {
       if (res.data) this.changeLanguage(res.data.seleccion);
     });
     return modal.present();
+  }
+
+  public open: Boolean;
+  isModalOpen = false;
+
+  setOpen(isOpen: boolean) {
+    if(!isOpen){
+      this.open = false;
+    }
+    this.isModalOpen = true;
   }
 }
