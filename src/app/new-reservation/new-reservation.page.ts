@@ -19,6 +19,7 @@ export class NewReservationPage implements OnInit {
   public tomorrow: string;
   public rooms: Room[];
   public rol: boolean;
+  public myDate;
   
   //Datos para mandar nuevo guest
   public name: string;
@@ -27,6 +28,9 @@ export class NewReservationPage implements OnInit {
   //public fecha2: Date = new Date();
 
   constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router) {
+
+    
+
     let str1 = this.guestService.currentUser();
     let str2 = "admin"
     if (str1 !== str2) {
@@ -44,6 +48,12 @@ export class NewReservationPage implements OnInit {
 
   }
 
+  
+
+  showdate(){
+    console.log(this.myForm.get('fecha2').value);
+  }
+
   public padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
   }
@@ -51,7 +61,8 @@ export class NewReservationPage implements OnInit {
   public newGuest():void{
     //console.log(this.name = this.myForm.get('name').value);
     //console.log(this.phone = this.myForm.get('phone').value);
-    console.log(this.formatDate(this.name = this.myForm.get('fecha2').value));
+    //console.log(this.name = this.myForm.get('fecha2').value);
+    
   }
 
   public formatDate(date: Date) {
@@ -97,6 +108,8 @@ export class NewReservationPage implements OnInit {
         { type: 'required', message: "La habitación es obligatoria." }
       ],
     }
+
+    this.myForm.controls.fecha2.setValue('2021-05-13T22:29:00-06:00');
   }
 
 }

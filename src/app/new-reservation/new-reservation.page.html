@@ -55,7 +55,7 @@
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime formControlName="fecha2" id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
+              <ion-datetime  (ionChange)="showdate()" display-format="DD/MM/YYYY" formControlName="fecha2" id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
                 [showDefaultButtons]="true" presentation="date">
               </ion-datetime>
 
@@ -63,6 +63,15 @@
           </ion-modal>
         </ion-col>
       </ion-row>
+
+      <!--<ion-row>
+        <ion-col>
+          <ion-datetime display-format="DD/MM/YYYY" id="dat" formControlName="fecha2" (ionChange)="showdate()"></ion-datetime>
+        </ion-col>
+      </ion-row>-->
+
+
+
 
       <ion-row>
         <ion-col>
@@ -108,7 +117,6 @@
 
     </form>
   </ion-grid>
-
 
   <ion-button size="default" shape="round" (click)="newGuest()">
     Guardar
