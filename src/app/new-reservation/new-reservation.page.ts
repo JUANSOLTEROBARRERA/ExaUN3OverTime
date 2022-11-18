@@ -4,6 +4,7 @@ import { Guest } from '../models/guest';
 import { Router } from '@angular/router';
 import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
+import {AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class NewReservationPage implements OnInit {
   public f_leave2: string;
   public rooom2: string;
   public token: string;
-  constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router) {
+  constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router, private alertController: AlertController) {
 
     
 
@@ -62,23 +63,30 @@ export class NewReservationPage implements OnInit {
   }
 
   public newGuest():void{
-    this.name = this.myForm.get('name').value;
-    this.phone = this.myForm.get('phone').value;
-    this.f_arrival2 = this.myForm.get('fecha2').value;
-    this.f_leave2 = this.myForm.get('fecha3').value;
-    this.rooom2 = this.myForm.get('room').value
-    this.token = this.myForm.get('phone').value.replace(" ", "").substring(this.myForm.get('phone').value.length-4, this.myForm.get('phone').value.length);
-    this.guest = {
-      token: this.token,
-      name: this.name, 
-      telephone: this.phone,
-      f_arrival2: this.f_arrival2,
-      f_leave2: this.f_leave2, 
-      room: this.rooom2
+    if(this.validarfechas() === false){
+          this.name = this.myForm.get('name').value;
+          this.phone = this.myForm.get('phone').value;
+          this.f_arrival2 = this.myForm.get('fecha2').value;
+          this.f_leave2 = this.myForm.get('fecha3').value;
+          this.rooom2 = this.myForm.get('room').value
+          this.token = this.myForm.get('phone').value.replace(" ", "").substring(this.myForm.get('phone').value.length-4, this.myForm.get('phone').value.length);
+          this.guest = {
+            token: this.token,
+            name: this.name, 
+            telephone: this.phone,
+            f_arrival2: this.f_arrival2,
+            f_leave2: this.f_leave2, 
+            room: this.rooom2
+          }
+
+          this.guestService.newGuest(this.guest);
+          this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
+    }else{
+        console.log("pos no carnal");
+        this.alerta();
+        this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
     }
 
-    this.guestService.newGuest(this.guest);
-    this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
   }
 
   public formatDate(date: Date) {
@@ -91,6 +99,31 @@ export class NewReservationPage implements OnInit {
     );
   }
 
+  public async alerta() {
+    const alert = await this.alertController.create({
+      header: 'Precaución',
+      subHeader: 'no puede ser mayor la fecha de ingreso que la de salida',
+      message: 'Esto es una advertencia',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ()=> {
+          }
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: ()=> {
+            
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+
   public formatDate2(date: Date) {
     return (
       [
@@ -101,11 +134,21 @@ export class NewReservationPage implements OnInit {
     );
   }
 
-  public validarfechas(){
+  public validarfechas():boolean{
    // if(this.myForm.get('fecha2').value)
    // return false;
     let cadena = this.myForm.get('fecha2').value.split("-");
-    console.log(cadena[0], cadena[1], cadena[2]);
+    console.log(parseInt(cadena[0]), parseInt(cadena[1]), parseInt(cadena[2]));
+    let cadena2 = this.myForm.get('fecha3').value.split("-");
+    console.log(parseInt(cadena2[0]), parseInt(cadena2[1]), parseInt(cadena2[2]));
+    if(parseInt(cadena[0])>parseInt(cadena2[0])){
+        return true;
+    }else if(parseInt(cadena[1])>parseInt(cadena2[1])){
+        return true;
+    }else if(parseInt(cadena[2])>parseInt(cadena2[2])){
+      return true;
+    }
+    return false;
   }
 
   ngOnInit() {
