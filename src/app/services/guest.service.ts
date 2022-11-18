@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Guest } from '../models/guest';
 import { Room } from '../models/room';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class GuestService {
   private rooms: Room[];
   private loggedAs: string;
 
-  constructor() {
+  constructor(private router:Router) {
     this.rooms = [
       {
         room: "A101"
@@ -117,7 +118,14 @@ export class GuestService {
     ]
    }
 
-   
+   public newGuest(guest:Guest):void{
+    this.guests.push(guest);
+    console.log(this.guests);
+
+  this.router.navigate(
+    ['/reservations']
+    );
+}
 
    public getRooms():Room[]{
     return this.rooms;

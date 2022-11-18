@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
 
+
 @Component({
   selector: 'app-new-reservation',
   templateUrl: './new-reservation.page.html',
@@ -25,8 +26,9 @@ export class NewReservationPage implements OnInit {
   public name: string;
   public phone: string;
   public f_arrival2: string;
-  //public fecha2: Date = new Date();
-
+  public f_leave2: string;
+  public rooom2: string;
+  public token: string;
   constructor(private guestService: GuestService, private fb: FormBuilder, private router: Router) {
 
     
@@ -52,6 +54,7 @@ export class NewReservationPage implements OnInit {
 
   showdate(){
     console.log(this.myForm.get('fecha2').value);
+    console.log(this.myForm.get('fecha3').value);
   }
 
   public padTo2Digits(num: number) {
@@ -59,10 +62,23 @@ export class NewReservationPage implements OnInit {
   }
 
   public newGuest():void{
-    //console.log(this.name = this.myForm.get('name').value);
-    //console.log(this.phone = this.myForm.get('phone').value);
-    //console.log(this.name = this.myForm.get('fecha2').value);
-    
+    this.name = this.myForm.get('name').value;
+    this.phone = this.myForm.get('phone').value;
+    this.f_arrival2 = this.myForm.get('fecha2').value;
+    this.f_leave2 = this.myForm.get('fecha3').value;
+    this.rooom2 = this.myForm.get('room').value
+    this.token = this.myForm.get('phone').value.replace(" ", "").substring(this.myForm.get('phone').value.length-4, this.myForm.get('phone').value.length);
+    this.guest = {
+      token: this.token,
+      name: this.name, 
+      telephone: this.phone,
+      f_arrival2: this.f_arrival2,
+      f_leave2: this.f_leave2, 
+      room: this.rooom2
+    }
+
+    this.guestService.newGuest(this.guest);
+    this.myForm.setValue({name: '', phone: '', fecha2: this.today, fecha3: this.tomorrow, room: ''});
   }
 
   public formatDate(date: Date) {
@@ -85,13 +101,21 @@ export class NewReservationPage implements OnInit {
     );
   }
 
+  public validarfechas(){
+   // if(this.myForm.get('fecha2').value)
+   // return false;
+    let cadena = this.myForm.get('fecha2').value.split("-");
+    console.log(cadena[0], cadena[1], cadena[2]);
+  }
+
   ngOnInit() {
     this.myForm = this.fb.group(
       {
         name: ["", Validators.compose([Validators.required])],
         phone: ["", Validators.compose([Validators.required, Validators.minLength(11), Validators.pattern('^[\+][(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')])],
         room: ["", Validators.compose([Validators.required])],
-        fecha2: ["", Validators.compose([Validators.required])]
+        fecha2: ["", Validators.compose([Validators.required])],
+        fecha3: ["", Validators.compose([Validators.required])]
       }
     );
 
@@ -109,7 +133,8 @@ export class NewReservationPage implements OnInit {
       ],
     }
 
-    this.myForm.controls.fecha2.setValue('2021-05-13T22:29:00-06:00');
+    this.myForm.controls.fecha2.setValue(this.today);
+    this.myForm.controls.fecha3.setValue(this.tomorrow);
   }
 
 }

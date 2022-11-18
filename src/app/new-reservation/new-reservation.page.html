@@ -71,21 +71,18 @@
       </ion-row>-->
 
 
-
-
       <ion-row>
         <ion-col>
           <div style="float: left;">Fecha de salida:&nbsp;&nbsp;</div>
-          <div style="float: left">
-            <ion-datetime-button datetime="datetime2"></ion-datetime-button>
+          <div style="float: left;">
+            <ion-datetime-button datetime="datetime2" ></ion-datetime-button>
           </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime id="datetime2" [value]="tomorrow" [min]="tomorrow" [showDefaultTitle]="true" locale="es-ES"
+              <ion-datetime  (ionChange)="showdate()" display-format="DD/MM/YYYY" formControlName="fecha3" id="datetime2" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
                 [showDefaultButtons]="true" presentation="date">
               </ion-datetime>
-
 
             </ng-template>
           </ion-modal>
