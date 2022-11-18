@@ -7,12 +7,13 @@ import { Guest } from '../models/guest';
 export class GuestService {
 
   private guests: Guest[];
+  private loggedAs: string;
 
   constructor() {
     
     this.guests = [
       {
-        token: "A1111",
+        token: "11111",
         name: "admin",
         telephone: "+52 311-111-11-11",
         f_arrival: "",
@@ -21,7 +22,7 @@ export class GuestService {
         rol: "admin"
       },
       {
-        token: "B1111",
+        token: "21111",
         name: "Juan Antonio Soltero Barrera",
         telephone: " +52 311-118-32-72",
         f_arrival: "18/11/22",
@@ -29,7 +30,7 @@ export class GuestService {
         room: "B301"
       },
       {
-        token: "C1111",
+        token: "31111",
         name: "Axel Lopez Renteria",
         telephone: "+52 311-340-39-43",
         f_arrival: "19/11/22",
@@ -37,7 +38,7 @@ export class GuestService {
         room: "A101"
       },
       {
-        token: "D1111",
+        token: "41111",
         name: "Yazmin Elizabeth Ochoa Benitez",
         telephone: "+52 311-300-19-17",
         f_arrival: "19/11/22",
@@ -46,6 +47,14 @@ export class GuestService {
       }
     ]
    }
+
+   public logged(user: string){
+    this.loggedAs = user;
+   }
+   public currentUser():string{
+    return this.loggedAs;
+   }
+
    public getGuest(): Guest[]{
     return this.guests;
   }

@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.myForm = this.fb.group(
       {
-        token: ["", Validators.compose([Validators.required, Validators.minLength(5), Validators.pattern('[A-Z][0-9][0-9][0-9][0-9]+')])],
+        token: ["", Validators.compose([Validators.required, Validators.minLength(5), Validators.pattern('[0-9][0-9][0-9][0-9][0-9]+')])],
       }
     );
 
@@ -62,6 +62,7 @@ export class LoginPage implements OnInit {
     var f = this.myForm.get('token').value;
     if(this.guestService.searchToken(f, 'admin')===true){
       console.log('ingresado');
+      this.guestService.logged("admin")
       this.router.navigate(['/reservations'])
       this.myForm.setValue({token: ''});
     }else if(this.guestService.searchTokenExisting(f)===true){

@@ -8,11 +8,14 @@ import { NewReservationPageRoutingModule } from './new-reservation-routing.modul
 
 import { NewReservationPage } from './new-reservation.page';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     NewReservationPageRoutingModule
   ],
   declarations: [NewReservationPage]

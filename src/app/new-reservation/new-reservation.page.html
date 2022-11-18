@@ -5,5 +5,121 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid>
+    <form [formGroup]="myForm">
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input formControlName="name"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['name']">
+              <div class="errormessage" *ngIf="(myForm.get('name').dirty 
+              || myForm.get('name').touched)
+              &&myForm.get('name').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Teléfono</ion-label>
+            <ion-input formControlName="phone"></ion-input>
+          </ion-item>
+          <div>
+            <ng-container *ngFor="let item of validationMessages['phone']">
+              <div class="errormessage" *ngIf="(myForm.get('phone').dirty 
+              || myForm.get('phone').touched)
+              &&myForm.get('phone').hasError(item.type)">
+                {{item.message}}
+              </div>
+            </ng-container>
+          </div>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row>
+        <ion-col>
+          <div style="float: left;">Fecha de llegada:&nbsp;&nbsp;</div>
+          <div style="float: left"><ion-datetime-button datetime="datetime"></ion-datetime-button></div>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES" [showDefaultButtons]="true" presentation="date">
+              </ion-datetime>
+
+
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <div style="float: left;">Fecha de salida:&nbsp;&nbsp;</div>
+          <div style="float: left"><ion-datetime-button datetime="datetime2"></ion-datetime-button></div>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime2" [value]="tomorrow" [min]="tomorrow" [showDefaultTitle]="true" locale="es-ES" [showDefaultButtons]="true" presentation="date">
+              </ion-datetime>
+
+
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-list>
+        <ion-item>
+          <ion-select formControlName="room" interface="popover" placeholder="Selecciona Carrera">
+            <ion-select-option value="ISC">A101</ion-select-option>
+            <ion-select-option value="IQ">A102</ion-select-option>
+            <ion-select-option value="IBQ">A103</ion-select-option>
+            <ion-select-option value="ARQ">A105</ion-select-option>
+            <ion-select-option value="IE">A201</ion-select-option>
+            <ion-select-option value="IM">A202</ion-select-option>
+            <ion-select-option value="II">A203</ion-select-option>
+            <ion-select-option value="IBQ">A204</ion-select-option>
+            <ion-select-option value="ARQ">A205</ion-select-option>
+            <ion-select-option value="ISC">B101</ion-select-option>
+            <ion-select-option value="IQ">B102</ion-select-option>
+            <ion-select-option value="IBQ">B103</ion-select-option>
+            <ion-select-option value="ARQ">B105</ion-select-option>
+            <ion-select-option value="IE">B201</ion-select-option>
+            <ion-select-option value="IM">B202</ion-select-option>
+            <ion-select-option value="II">B203</ion-select-option>
+            <ion-select-option value="IBQ">B204</ion-select-option>
+            <ion-select-option value="ARQ">B205</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div>
+          <ng-container *ngFor="let item of validationMessages['room']">
+            <div class="errormessage" *ngIf="(myForm.get('room').dirty 
+            || myForm.get('room').touched)
+            &&myForm.get('room').hasError(item.type)">
+              {{item.message}}
+            </div>
+          </ng-container>
+        </div>
+      </ion-list>
+
+
+    </form>
+  </ion-grid>
+
+
+  <ion-button size="default" shape="round">
+    Guardar
+  </ion-button>
 
 </ion-content>
