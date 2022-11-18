@@ -12,6 +12,7 @@ export class Tab2Page implements OnInit{
   public guest: Guest;
   public guests: Guest[];
   public token: string;
+  public accesscode: number;
 
  constructor(private guestService: GuestService) {
    this.guests = this.guestService.getGuest();
@@ -25,6 +26,7 @@ export class Tab2Page implements OnInit{
       }
     );
     console.log(item.accesscode);
+    this.accesscode = item.accesscode;
   }
 
 
