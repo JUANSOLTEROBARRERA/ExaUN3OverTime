@@ -7,7 +7,6 @@
 <ion-content>
   <ion-grid>
     <form [formGroup]="myForm">
-
       <ion-row>
         <ion-col>
           <ion-item>
@@ -16,16 +15,18 @@
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['name']">
-              <div class="errormessage" *ngIf="(myForm.get('name').dirty 
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('name').dirty
               || myForm.get('name').touched)
-              &&myForm.get('name').hasError(item.type)">
+              &&myForm.get('name').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
           </div>
         </ion-col>
       </ion-row>
-
 
       <ion-row>
         <ion-col>
@@ -35,9 +36,12 @@
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['phone']">
-              <div class="errormessage" *ngIf="(myForm.get('phone').dirty 
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('phone').dirty
               || myForm.get('phone').touched)
-              &&myForm.get('phone').hasError(item.type)">
+              &&myForm.get('phone').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
@@ -45,20 +49,28 @@
         </ion-col>
       </ion-row>
 
-
       <ion-row>
         <ion-col>
-          <div style="float: left;">Fecha de llegada:&nbsp;&nbsp;</div>
-          <div style="float: left;">
-            <ion-datetime-button datetime="datetime" ></ion-datetime-button>
+          <div style="float: left">Fecha de llegada:&nbsp;&nbsp;</div>
+          <div style="float: left">
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
           </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime  (ionChange)="showdate()" display-format="DD/MM/YYYY" formControlName="fecha2" id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                [showDefaultButtons]="true" presentation="date">
+              <ion-datetime
+                (ionChange)="showdate()"
+                display-format="DD/MM/YYYY"
+                formControlName="fecha2"
+                id="datetime"
+                [value]="today"
+                [min]="today"
+                [showDefaultTitle]="true"
+                locale="es-ES"
+                [showDefaultButtons]="true"
+                presentation="date"
+              >
               </ion-datetime>
-
             </ng-template>
           </ion-modal>
         </ion-col>
@@ -70,53 +82,66 @@
         </ion-col>
       </ion-row>-->
 
-
       <ion-row>
         <ion-col>
-          <div style="float: left;">Fecha de salida:&nbsp;&nbsp;</div>
-          <div style="float: left;">
-            <ion-datetime-button datetime="datetime2" ></ion-datetime-button>
+          <div style="float: left">Fecha de salida:&nbsp;&nbsp;</div>
+          <div style="float: left">
+            <ion-datetime-button datetime="datetime2"></ion-datetime-button>
           </div>
 
           <ion-modal [keepContentsMounted]="true">
             <ng-template>
-              <ion-datetime  (ionChange)="showdate()" display-format="DD/MM/YYYY" formControlName="fecha3" id="datetime2" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                [showDefaultButtons]="true" presentation="date">
+              <ion-datetime
+                (ionChange)="showdate()"
+                display-format="DD/MM/YYYY"
+                formControlName="fecha3"
+                id="datetime2"
+                [value]="today"
+                [min]="today"
+                [showDefaultTitle]="true"
+                locale="es-ES"
+                [showDefaultButtons]="true"
+                presentation="date"
+              >
               </ion-datetime>
-
             </ng-template>
           </ion-modal>
         </ion-col>
       </ion-row>
 
-
       <ion-list>
         <ion-item>
-          <ion-select formControlName="room" interface="popover" placeholder="Selecciona Habitación">
+          <ion-select
+            formControlName="room"
+            interface="popover"
+            placeholder="Selecciona Habitación"
+          >
             <div *ngFor="let item of rooms; let i = index">
               <div>
-                <ion-select-option [value]="item.name">{{item.room}}</ion-select-option>
+                <ion-select-option [value]="item.room"
+                  >{{item.room}}</ion-select-option
+                >
               </div>
             </div>
           </ion-select>
         </ion-item>
         <div>
           <ng-container *ngFor="let item of validationMessages['room']">
-            <div class="errormessage" *ngIf="(myForm.get('room').dirty 
+            <div
+              class="errormessage"
+              *ngIf="(myForm.get('room').dirty
             || myForm.get('room').touched)
-            &&myForm.get('room').hasError(item.type)">
+            &&myForm.get('room').hasError(item.type)"
+            >
               {{item.message}}
             </div>
           </ng-container>
         </div>
       </ion-list>
-
-
     </form>
   </ion-grid>
 
   <ion-button size="default" shape="round" (click)="newGuest()">
     Guardar
   </ion-button>
-
 </ion-content>
