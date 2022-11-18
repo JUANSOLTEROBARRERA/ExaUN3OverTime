@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Guest } from '../models/guest';
 import { Router } from '@angular/router';
 import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
-import {AlertController} from '@ionic/angular';
+import { IonInput, AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -22,6 +22,9 @@ export class NewReservationPage implements OnInit {
   public rooms: Room[];
   public rol: boolean;
   public myDate;
+
+  @ViewChild('inputname') inputname: IonInput;
+  @ViewChild('#inputphone') inputphone: IonInput;
   
   //Datos para mandar nuevo guest
   public name: string;
@@ -60,6 +63,9 @@ export class NewReservationPage implements OnInit {
   }
 
   public newGuest():void{
+
+    if (!this.validaciones()) return;
+
     if(this.validarfechas() === false){
           this.name = this.myForm.get('name').value;
           this.phone = this.myForm.get('phone').value;
@@ -88,6 +94,50 @@ export class NewReservationPage implements OnInit {
 
   }
 
+  public validaciones(): Boolean {
+    if (!this.myForm.get('name').value) {
+      this.presentAlert(this.inputname);
+      return false;
+    }
+    if (!this.myForm.get('phone').value) {
+      this.presentAlert(this.inputphone);
+      return false;
+    }
+    if (!this.myForm.get('room').value) {
+      this.alerta2();
+      return false;
+    }
+    return true;
+  }
+
+  async presentAlert(input: IonInput) {
+    let etiqueta = '';
+    switch (input) {
+      case this.inputname:
+        etiqueta = ' Nombre';
+        break;
+      case this.inputphone:
+        etiqueta = ' Telefono';
+        break;
+    }
+    const alert = await this.alertController.create({
+      header: 'Rellene:' + etiqueta,
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'OK',
+          cssClass: 'alert-button-confirm',
+        },
+      ],
+    });
+    alert.onDidDismiss().then(() => {
+      setTimeout(() => {
+        input.setFocus();
+      }, 100);
+    });
+    await alert.present();
+  }
+
   public formatDate(date: Date) {
     return (
       [
@@ -103,6 +153,28 @@ export class NewReservationPage implements OnInit {
       header: 'Precaución',
       subHeader: 'no puede ser mayor la fecha de ingreso que la de salida',
       message: 'Esto es una advertencia',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: ()=> {
+          }
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: ()=> {
+            
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  public async alerta2() {
+    const alert = await this.alertController.create({
+      subHeader: 'Seleccione una habitación',
       buttons: [
         {
           text: 'Cancelar',
