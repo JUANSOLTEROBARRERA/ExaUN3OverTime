@@ -28,6 +28,9 @@ export class NewReservationPage implements OnInit {
   public validfecha1: Boolean;
   public validfecha2: Boolean;
 
+  public fechaseleccionada1: string;
+  public fechaseleccionada2: string;
+
   @ViewChild('inputname') inputname: IonInput;
   @ViewChild('#inputphone') inputphone: IonInput;
 
@@ -46,6 +49,8 @@ export class NewReservationPage implements OnInit {
     private router: Router,
     private alertController: AlertController
   ) {
+    this.fechaseleccionada1 = ''
+    this.fechaseleccionada2 = ''
     this.validado = false;
     this.validfecha1 = true;
     this.validfecha2 = true;
@@ -168,13 +173,56 @@ export class NewReservationPage implements OnInit {
   }
 
   public newGuestBef(): void {
+
     if (!this.validaciones()) return;
+
+//VALIDAR FECHAS ENTREMEDIO
+
+    let cadenaa = this.myForm.get('fecha2').value.split('-');
+    let cadena22 = this.myForm.get('fecha3').value.split('-');
+
+    let cuantass = parseInt(cadena22[2]) - parseInt(cadenaa[2]);
+
+    let variable = parseInt(cadenaa[2]);
+
+    this.guestService.getPosition(this.myForm.get('room').value);
+
+    for (let i = 0; i < cuantass; i++) {
+
+      let variable = parseInt(cadenaa[2]) + i;
+      let dia: string;
+      dia = '' + variable;
+      let fec = {
+        years: cadenaa[0].toString(),
+        months: cadenaa[1].toString(),
+        date: dia.toString(),
+      };
+
+      
+      for(let j = 0; j < this.guestService.rooms[this.guestService.position].f_noDisp.length; j++){
+
+
+        if(fec.date === this.guestService.rooms[this.guestService.position].f_noDisp[j].date
+          && fec.months === this.guestService.rooms[this.guestService.position].f_noDisp[j].months
+          && fec.years === this.guestService.rooms[this.guestService.position].f_noDisp[j].years){ 
+          
+            this.alerta9();  
+            return;
+        }
+
+      }
+    }
+///////////////////////////
+
     if (this.validarfechas() === false) {
+
       this.validado = true;
       this.myForm.controls.name.disable();
       this.myForm.controls.phone.disable();
       //this.myForm.controls.fecha2.disable()
+      this.fechaseleccionada1 = this.myForm.controls.fecha2.value
       //this.myForm.controls.fecha3.disable()
+      this.fechaseleccionada2 = this.myForm.controls.fecha3.value
       this.myForm.controls.room.disable();
     } else {
       this.alerta();
@@ -268,6 +316,10 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.total.setValue('');
     this.myForm.controls.fecha2.setValue(this.today);
     this.myForm.controls.fecha3.setValue(this.tomorrow);
+
+    this.validado = false;
+    this.fechaseleccionada1 = ''
+    this.fechaseleccionada2 = ''
   }
 
   public validaciones(): Boolean {
@@ -430,7 +482,26 @@ export class NewReservationPage implements OnInit {
 
   public async alerta8() {
     const alert = await this.alertController.create({
-      subHeader: 'El anticipo no puede ser mayor que el total.',
+      subHeader: 'El anticipo no puede ser menor que el total.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta9() {
+    const alert = await this.alertController.create({
+      subHeader: 'Hay fechas no disponibles entre la llegada y la salida.',
       buttons: [
         {
           text: 'Cancelar',
