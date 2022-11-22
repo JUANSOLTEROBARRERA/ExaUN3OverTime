@@ -71,6 +71,11 @@ export class Tab2Page implements OnInit {
   public text20: string[];
   public text21: string[];
 
+  public text22: string[];
+  public text23: string[];
+
+  
+
   constructor(
     private guestService: GuestService,
     private modalController: ModalController,
@@ -168,6 +173,16 @@ export class Tab2Page implements OnInit {
       'Ningún pago pendiente.',
       'No pending payment.',
       'Aucun paiement en attente.',
+    ];
+    this.text22 = [
+      'Fecha Límite:',
+      'Deadline:',
+      'Date limite:',
+    ];
+    this.text23 = [
+      'día',
+      'day',
+      'jour',
     ];
     this.changeLanguage(this.currentLanguage);
 

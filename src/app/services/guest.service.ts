@@ -12,6 +12,7 @@ export class GuestService {
   private loggedAs: string;
   public language: number;
   public position: number;
+  
 
   constructor(private router: Router) {
     this.language = 1;
