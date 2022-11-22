@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { GuestService } from '../services/guest.service';
 import { ModalComponent } from './modal/modal.component';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -9,6 +10,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page {
+  public lenguaje: number;
   public currentLanguage: number;
   public tittle: string[];
   public currenttittle: string;
@@ -16,13 +18,33 @@ export class Tab1Page {
   public currenttext1: string;
   public text2: string[];
   public currenttext2: string;
+  public name: string;
+
+  public text3: string[];
+  public text4: string[];
+  public text5: string[];
 
   constructor(
     private guestService: GuestService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) {
-    this.setOpen(true)
+    this.lenguaje = this.guestService.language;
+
+    this.name = localStorage.getItem('name');
+    let auxi = this.name.split(' ');
+
+    this.name = auxi[0];
+
+    this.setOpen(true);
     this.currentLanguage = this.guestService.getLanguage();
+    (this.text3 = ['Hola', 'Hello', 'Salut']),
+      (this.text4 = [
+        'Pagos pendientes',
+        'pending payments',
+        'les paiements en suspens',
+      ]),
+      (this.text5 = ['Cerrar sesión', 'Log Out', 'Fermer la session']);
     this.tittle = [
       'Acerca del Hotel',
       'About the Hotel',
@@ -41,10 +63,17 @@ export class Tab1Page {
     //this.languageSelection();
   }
   public changeLanguage(ln: number) {
+    this.lenguaje = ln;
     this.guestService.selectLanguage(ln);
     this.currenttittle = this.tittle[ln];
     this.currenttext1 = this.text1[ln];
     this.currenttext2 = this.text2[ln];
+  }
+  public goLogin() {
+    this.router.navigate(['/login']);
+  }
+  public goPay() {
+    this.router.navigate(['/tabs/tab2']);
   }
 
   async languageSelection() {
@@ -61,7 +90,7 @@ export class Tab1Page {
   isModalOpen = false;
 
   setOpen(isOpen: boolean) {
-    if(!isOpen){
+    if (!isOpen) {
       this.open = false;
     }
     this.isModalOpen = true;

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { GuestService } from '../services/guest.service';
 import { ModalComponent } from './../tab1/modal/modal.component';
 import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab3',
@@ -10,6 +11,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./tab3.page.scss'],
 })
 export class Tab3Page implements OnInit {
+  public name: string;
   public currentLanguage: number;
   public titles: [string[], string[], string[]] = [
     ['Actividades', 'Recomendaciones', 'Historia', 'Números de emergencia'],
@@ -104,24 +106,26 @@ export class Tab3Page implements OnInit {
 
   constructor(
     private gestService: GuestService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private router: Router
   ) {
-    this.languageSelection();
+    this.currentLanguage = this.gestService.getLanguage();
+    this.name = localStorage.getItem('name');
+    let auxi = this.name.split(' ');
+
+    this.name = auxi[0];
+  }
+
+  public goPay() {
+    this.router.navigate(['/tabs/tab2']);
   }
 
   public changeLanguage(ln: number) {
     this.currentLanguage = ln;
   }
+  public goLogin() {
+    this.router.navigate(['/login']);
+  }
 
   ngOnInit() {}
-
-  async languageSelection() {
-    const modal = await this.modalController.create({
-      component: ModalComponent,
-    });
-    modal.onDidDismiss().then((res) => {
-      if (res.data) this.changeLanguage(res.data.seleccion);
-    });
-    return modal.present();
-  }
 }

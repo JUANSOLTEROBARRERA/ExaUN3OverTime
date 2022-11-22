@@ -84,28 +84,29 @@
     </ion-accordion>
   </ion-accordion-group>
 
-  <ion-fab
-    style="margin-bottom: 35px"
-    slot="fixed"
-    vertical="bottom"
-    horizontal="end"
-    [edge]="true"
-  >
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
     <ion-fab-button
       mini
       style="margin: 8px; width: 40px; height: 40px; line-height: 40px"
     >
-      <ion-icon name="language-outline"></ion-icon>
+      <ion-icon name="person-outline"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="changeLanguage(0)">
-        <img src="assets/spain.png" />
+      <h1 style="margin-left: 8%; font-size: 17px">Hola, {{name}}</h1>
+
+      <ion-fab-button
+        (click)="goLogin()"
+        color="danger"
+        data-desc="Cerrar Sesión"
+      >
+        <ion-icon name="log-out-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(1)">
-        <img src="assets/english.png" />
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(2)">
-        <img src="assets/france.png" />
+      <ion-fab-button
+        (click)="goPay()"
+        color="warning"
+        data-desc="Pagos Pendientes"
+      >
+        <ion-icon name="card-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

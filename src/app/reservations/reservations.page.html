@@ -1,59 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Reservaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Reservaciones</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-row>
-      <ion-col>
-        <ion-list>
+<ion-content>
+  <ion-row>
+    <ion-col>
+      <ion-list>
 
-          <div *ngFor="let item of reservations; let i = index">
-            <div *ngIf="item.rol != 'admin'">
-              <ion-item-sliding>
-                <!-- <ion-item href="/account/{{i}}" (click)="obtainStudent(i)"> -->
-                <ion-item>
-                  <ion-label (click)="getGuestByToken(item.token)">
-                    <div style="float: left"><a>Huésped: </a>{{item.name}}</div>
-                    <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
-                    <br>
-                    <ion-chip color="success" style="float: left">
-                      <ion-label (click)="getPhone(i)">
-                        <a [href]="message" target="_blank">
-                          Enviar Mensaje
-                        </a>
-                      </ion-label>
-                      <ion-icon name="logo-whatsapp" style="font-size: 20px;">
-                      </ion-icon>
-                    </ion-chip>
-                    <div style="margin-top: 2%;float: right"><a>Salida: </a>{{item.f_arrival2}}</div>
-                    <div style="margin: 2% auto; width: 100px;"><a>Entrada: </a>{{item.f_leave2}}</div>
-
-
-                  </ion-label>
-                </ion-item>
-
-                <ion-item-options side="end" (ionSwipe)="removeGuest(i)">
-                  <ion-item-option expandable color="danger">
-                    <ion-icon name="trash-outline"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
+        <div *ngFor="let item of reservations; let i = index">
+          <div *ngIf="item.rol != 'admin'">
+            <ion-item-sliding>
+              <!-- <ion-item href="/account/{{i}}" (click)="obtainStudent(i)"> -->
+              <ion-item>
+                <ion-label (click)="getGuestByToken(item.token)">
+                  <div style="float: left"><a>Huésped: </a>{{item.name}}</div>
+                  <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
+                  <br>
+                  <ion-chip color="success" style="float: left">
+                    <ion-label (click)="getPhone(i)">
+                      <a [href]="message" target="_blank">
+                        Enviar Mensaje
+                      </a>
+                    </ion-label>
+                    <ion-icon name="logo-whatsapp" style="font-size: 20px;">
+                    </ion-icon>
+                  </ion-chip>
+                  <div style="margin-top: 2%;float: right"><a>Salida: </a>{{item.f_arrival2}}</div>
+                  <div style="margin: 2% auto; width: 100px;"><a>Entrada: </a>{{item.f_leave2}}</div>
 
 
-              </ion-item-sliding>
-            </div>
+                </ion-label>
+              </ion-item>
+
+              <ion-item-options side="end" (ionSwipe)="removeGuest(i)">
+                <ion-item-option expandable color="danger">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+
+
+            </ion-item-sliding>
           </div>
+        </div>
 
-        </ion-list>
-      </ion-col>
-    </ion-row>
+      </ion-list>
+    </ion-col>
+  </ion-row>
 
-    <ion-fab (click)="addReservation()" slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button>
-        <ion-icon name="add"></ion-icon>
+  <ion-fab (click)="addReservation()" slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button mini style="margin: 8px;
+                                width: 40px;
+                                height: 40px;
+                                line-height: 40px;">
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <h1 style="margin-left:8%; font-size: 25px;">Hola, {{name}}</h1>
+      <ion-fab-button (click)="goLogin()" color="danger" data-desc="Cerrar Sesión">
+        <ion-icon name="log-out-outline"></ion-icon>
       </ion-fab-button>
-    </ion-fab>
-  
-  </ion-content>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

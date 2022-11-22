@@ -6,55 +6,183 @@
 
 <ion-content [fullscreen]="true">
 
-  <div *ngIf="mayor1 && mayor2; else elseBlock">
-    <ion-card>
+  <ion-card *ngIf="pendiente > 0" color="warning">
+    <ion-card-header>
+      <ion-icon size="large" name="cash-outline"></ion-icon>
+      <ion-card-title>{{text9[currentLanguage]}}</ion-card-title>
+      <ion-card-subtitle>{{text10[currentLanguage]}} ${{pendiente}} MXN.</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-button color="light" id="open-custom-dialog">{{text11[currentLanguage]}}</ion-button>
+    </ion-card-content>
+
+  </ion-card>
+
+  <div *ngIf="pendiente > 0">
+    <ion-card color="danger">
       <ion-card-header>
         <ion-icon size="large" name="key-outline"></ion-icon>
-        <ion-card-title>{{currenttext1}}</ion-card-title>
-        <ion-card-subtitle>{{currenttext2}}
+        <ion-card-title>{{text12[currentLanguage]}}</ion-card-title>
+        <ion-card-subtitle>{{text13[currentLanguage]}}
         </ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
-        <h2>{{currenttext3}} &nbsp;{{accesscode}}</h2>
+
       </ion-card-content>
 
     </ion-card>
   </div>
 
-  <ng-template #elseBlock>
-    <ion-card>
-      <ion-card-header>
-        <ion-icon size="large" name="key-outline"></ion-icon>
-        <ion-card-title>{{currenttext4}}</ion-card-title>
-        <ion-card-subtitle>{{currenttext5}} {{f_inicio[2]}} {{currenttext6}} {{f_inicio[1]}} {{currenttext7}} {{f_inicio[0]}}.</ion-card-subtitle>
-      </ion-card-header>
+  <div *ngIf="pendiente <= 0">
+    <div *ngIf="mayor1 && mayor2; else elseBlock">
+      <ion-card>
+        <ion-card-header>
+          <ion-icon size="large" name="key-outline"></ion-icon>
+          <ion-card-title>{{currenttext1}}</ion-card-title>
+          <ion-card-subtitle>{{currenttext2}}
+          </ion-card-subtitle>
+        </ion-card-header>
 
-      <ion-card-content>
+        <ion-card-content>
+          <h2>{{currenttext3}} &nbsp;{{accesscode}}</h2>
+        </ion-card-content>
 
-      </ion-card-content>
+      </ion-card>
+    </div>
 
-    </ion-card>
-  </ng-template>
+    <ng-template #elseBlock>
+      <ion-card>
+        <ion-card-header>
+          <ion-icon size="large" name="key-outline"></ion-icon>
+          <ion-card-title>{{currenttext4}}</ion-card-title>
+          <ion-card-subtitle>{{currenttext5}} {{f_inicio[2]}} {{currenttext6}} {{f_inicio[1]}} {{currenttext7}}
+            {{f_inicio[0]}}.</ion-card-subtitle>
+        </ion-card-header>
 
-  <ion-fab style="margin-top: 35px;" slot="fixed" vertical="top" horizontal="end" [edge]="true">
+        <ion-card-content>
+
+        </ion-card-content>
+
+      </ion-card>
+    </ng-template>
+  </div>
+
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
     <ion-fab-button mini style="margin: 8px;
                                 width: 40px;
                                 height: 40px;
                                 line-height: 40px;">
-      <ion-icon name="language-outline"></ion-icon>
+      <ion-icon name="person-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="bottom">
-      <ion-fab-button (click)="changeLanguage(0)">
-        <img src="assets/spain.png"/>
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(1)">
-        <img src="assets/english.png"/>
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(2)">
-        <img src="assets/france.png"/>
+    <ion-fab-list side="top">
+      <h1 style="margin-left:8%; font-size: 17px;">{{text8[currentLanguage]}}, {{name}}</h1>
+
+      <ion-fab-button (click)="goLogin()" color="danger">
+        <ion-icon name="log-out-outline"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
+
+
+
+
+
+
+
+
+
+
+
+
+  <ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+    <ng-template>
+      <div class="wrapper">
+        <div *ngIf="pendiente != 0">
+          <h1>{{text14[currentLanguage]}} ${{pendiente}} MXN</h1>
+
+          <ion-grid>
+            <form [formGroup]="myForm">
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+
+                    <ion-label position="fixed">{{text15[currentLanguage]}}</ion-label>
+
+                    <ion-input formControlName="card"></ion-input>
+
+                    <ion-icon size="small" item-right name="card-outline"></ion-icon>
+
+                  </ion-item>
+                  <div>
+                    <ng-container *ngFor="let item of validationMessages['card']">
+                      <div class="errormessage" *ngIf="(myForm.get('card').dirty
+                      || myForm.get('card').touched)
+                      &&myForm.get('card').hasError(item.type)">
+                        {{item.message[currentLanguage]}}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">{{text16[currentLanguage]}}</ion-label>
+
+                    <ion-input formControlName="cvv"></ion-input>
+                  </ion-item>
+                  <div>
+                    <ng-container *ngFor="let item of validationMessages['cvv']">
+                      <div class="errormessage" *ngIf="(myForm.get('cvv').dirty
+                      || myForm.get('cvv').touched)
+                      &&myForm.get('cvv').hasError(item.type)">
+                        {{item.message[currentLanguage]}}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+
+              <ion-row>
+                <ion-col>
+                  <ion-item>
+                    <ion-label position="floating">{{text17[currentLanguage]}}</ion-label>
+
+                    <ion-input formControlName="fecha"></ion-input>
+                  </ion-item>
+                  <div>
+                    <ng-container *ngFor="let item of validationMessages['fecha']">
+                      <div class="errormessage" *ngIf="(myForm.get('fecha').dirty
+                      || myForm.get('fecha').touched)
+                      &&myForm.get('fecha').hasError(item.type)">
+                        {{item.message[currentLanguage]}}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+
+
+            </form>
+          </ion-grid>
+
+          <ion-button style="margin-left: 37%;" color="warning" size="default" shape="round" (click)="pay()">
+            {{text18[currentLanguage]}}
+          </ion-button>
+        </div>
+        <div *ngIf="pendiente == 0">
+          <h1>{{text21[currentLanguage]}}</h1>
+        </div>
+      </div>
+    </ng-template>
+  </ion-modal>
+
 
 </ion-content>

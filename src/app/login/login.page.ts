@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { GuestService } from '../services/guest.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import {AlertController} from '@ionic/angular';
 import { Guest } from '../models/guest';
+import { GuestService } from '../services/guest.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -50,7 +51,7 @@ export class LoginPage implements OnInit {
           text: 'Aceptar',
           role: 'confirm',
           handler: ()=> {
-            
+
           }
         }
       ]
@@ -62,6 +63,7 @@ export class LoginPage implements OnInit {
     var f = this.myForm.get('token').value;
     if(this.guestService.searchToken(f, 'admin')===true){
       console.log('ingresado');
+      localStorage.setItem('name', 'Admin');
       this.guestService.logged("admin")
       this.router.navigate(['/reservations'])
       this.myForm.setValue({token: ''});

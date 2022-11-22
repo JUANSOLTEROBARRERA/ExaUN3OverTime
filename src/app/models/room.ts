@@ -1,5 +1,4 @@
 export class Room {
-    room: string;
-    f_arrival?: string[];
-    f_leave?: string[];
+  room: string;
+  f_noDisp?: any[];
 }

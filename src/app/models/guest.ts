@@ -9,4 +9,9 @@ export class Guest {
     token: string;
     rol?: string;
     accesscode?: number;
+
+     //ANTICIPO
+     n_days: number;
+     room_price: number;
+     advance: number;
 }

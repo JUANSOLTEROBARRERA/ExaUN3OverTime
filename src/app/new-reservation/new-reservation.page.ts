@@ -22,6 +22,11 @@ export class NewReservationPage implements OnInit {
   public filteredRooms: Room[] = [];
   public rol: boolean;
   public myDate;
+  public validado: Boolean;
+  public advance: number;
+
+  public validfecha1: Boolean;
+  public validfecha2: Boolean;
 
   @ViewChild('inputname') inputname: IonInput;
   @ViewChild('#inputphone') inputphone: IonInput;
@@ -34,12 +39,17 @@ export class NewReservationPage implements OnInit {
   public rooom2: string;
   public token: string;
   public codacceso: number;
+
   constructor(
     private guestService: GuestService,
     private fb: FormBuilder,
     private router: Router,
     private alertController: AlertController
   ) {
+    this.validado = false;
+    this.validfecha1 = true;
+    this.validfecha2 = true;
+
     let str1 = this.guestService.currentUser();
     let str2 = 'admin';
     if (str1 !== str2) {
@@ -49,28 +59,104 @@ export class NewReservationPage implements OnInit {
     this.today = this.formatDate(new Date());
     this.tomorrow = this.formatDate2(new Date());
     this.rooms = this.guestService.getRooms();
-   // this.filterRooms();
-    console.log(this.rooms);
-    console.log(this.today);
+    // this.filterRooms();
   }
 
-  showdate() {
-    //this.filterRooms();
+  public validarfecha1() {
+    this.validfecha1 = true;
+  }
+  public validarfecha2() {
+    this.validfecha2 = true;
   }
 
-  // filterRooms() {
-  //   this.filteredRooms = this.rooms.filter((room) => {
-  //     if (
-  //       room.f_arrival.reduce((f1, f2) =>
-  //         new Date(f1).getTime() > new Date(this.f_arrival2).getTime()
-  //           ? 'true'
-  //           : 'false'
-  //       ) === 'true' && room.f_leave.
-  //     ) {
-  //       return room;
-  //     }
-  //   });
-  // }
+  public contador: number;
+  public contador2: number;
+
+  public camposvalidados() {
+    this.validado = true;
+  }
+
+  public cambiar() {
+    this.guestService.getPosition(this.myForm.get('room').value);
+
+    console.log(this.guestService.rooms[this.guestService.position].f_noDisp);
+
+    let current_month_blockout_dates;
+
+    current_month_blockout_dates =
+      this.guestService.rooms[this.guestService.position].f_noDisp;
+    //current_month_blockout_dates = [{years:'2022', months:'11', date:'20'},{years:'2022', months:'11', date:'21'}];
+    this.isBlockedDate = (dateString: string) => {
+      const result = current_month_blockout_dates.some((date) => {
+        let interstitial_date = `${date.years}-${('0' + date.months).slice(
+          -2
+        )}-${date.date}`;
+        // eg. comparing 2022-08-21 with 2022-08-12
+        return dateString == interstitial_date;
+      });
+      if (result === true) {
+      }
+      return !result;
+    };
+
+    this.validfecha1 = true;
+    this.validfecha2 = true;
+
+    for (
+      let i = 0;
+      i < this.guestService.rooms[this.guestService.position].f_noDisp.length;
+      i++
+    ) {
+      let splitfecha = this.myForm.get('fecha2').value.split('-');
+
+      if (
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'years'
+        ] === splitfecha[0] &&
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'months'
+        ] === splitfecha[1] &&
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'date'
+        ] === splitfecha[2]
+      ) {
+        this.alerta3();
+        this.validfecha1 = false;
+      }
+
+      let splitfecha2 = this.myForm.get('fecha3').value.split('-');
+
+      if (
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'years'
+        ] === splitfecha2[0] &&
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'months'
+        ] === splitfecha2[1] &&
+        this.guestService.rooms[this.guestService.position].f_noDisp[i][
+          'date'
+        ] === splitfecha2[2]
+      ) {
+        this.alerta4();
+        this.validfecha2 = false;
+      }
+    }
+  }
+
+  current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
+
+  isBlockedDate = (dateString: string) => {
+    const result = this.current_month_blockout_dates.some((date) => {
+      let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${
+        date.date
+      }`;
+      // eg. comparing 2022-08-21 with 2022-08-12
+      return dateString == interstitial_date;
+    });
+    if (result === true) {
+    }
+    return !result;
+  };
 
   public padTo2Digits(num: number) {
     return num.toString().padStart(2, '0');
@@ -81,46 +167,107 @@ export class NewReservationPage implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  public newGuest(): void {
+  public newGuestBef(): void {
     if (!this.validaciones()) return;
-
     if (this.validarfechas() === false) {
-      this.name = this.myForm.get('name').value;
-      this.phone = this.myForm.get('phone').value;
-      this.f_arrival2 = this.myForm.get('fecha2').value;
-      this.f_leave2 = this.myForm.get('fecha3').value;
-      this.rooom2 = this.myForm.get('room').value;
-      this.token = this.myForm
-        .get('phone')
-        .value.replace(' ', '')
-        .substring(
-          this.myForm.get('phone').value.length - 4,
-          this.myForm.get('phone').value.length
-        );
-      this.codacceso = this.randomIntFromInterval(1000, 9999);
-      this.guest = {
-        token: this.token,
-        name: this.name,
-        telephone: this.phone,
-        f_arrival2: this.f_arrival2,
-        f_leave2: this.f_leave2,
-        room: this.rooom2,
-        accesscode: this.codacceso,
-      };
-
-      this.guestService.newGuest(this.guest);
-      this.myForm.setValue({
-        name: '',
-        phone: '',
-        fecha2: this.today,
-        fecha3: this.tomorrow,
-        room: '',
-      });
+      this.validado = true;
+      this.myForm.controls.name.disable();
+      this.myForm.controls.phone.disable();
+      //this.myForm.controls.fecha2.disable()
+      //this.myForm.controls.fecha3.disable()
+      this.myForm.controls.room.disable();
     } else {
       this.alerta();
-      this.myForm.controls.fecha2.setValue(this.today);
-      this.myForm.controls.fecha3.setValue(this.tomorrow);
     }
+
+    let cadena = this.myForm.get('fecha2').value.split('-');
+    let cadena2 = this.myForm.get('fecha3').value.split('-');
+
+    let cuantas = parseInt(cadena2[2]) - parseInt(cadena[2]);
+
+    this.myForm.controls.total.setValue('' + cuantas * 500);
+
+    this.myForm.controls.total.disable();
+  }
+
+  public newGuest(): void {
+    if (!this.myForm.controls.advance.valid) {
+      this.alerta7();
+      return;
+    }
+    if (
+      parseInt(this.myForm.get('advance').value) >
+      parseInt(this.myForm.get('total').value)
+    ) {
+      this.alerta8();
+      return;
+    }
+
+    this.name = this.myForm.get('name').value;
+    this.phone = this.myForm.get('phone').value;
+    this.f_arrival2 = this.myForm.get('fecha2').value;
+    this.f_leave2 = this.myForm.get('fecha3').value;
+    this.rooom2 = this.myForm.get('room').value;
+    this.advance = parseInt(this.myForm.get('advance').value);
+    this.token = this.myForm
+      .get('phone')
+      .value.replace(' ', '')
+      .substring(
+        this.myForm.get('phone').value.length - 4,
+        this.myForm.get('phone').value.length
+      );
+    this.codacceso = this.randomIntFromInterval(1000, 9999);
+
+    //////////////////////
+    let cadena = this.myForm.get('fecha2').value.split('-');
+    let cadena2 = this.myForm.get('fecha3').value.split('-');
+
+    let cuantas = parseInt(cadena2[2]) - parseInt(cadena[2]);
+    /////////////////////////////////////////
+
+    this.guest = {
+      token: this.token,
+      name: this.name,
+      telephone: this.phone,
+      f_arrival2: this.f_arrival2,
+      f_leave2: this.f_leave2,
+      room: this.rooom2,
+      accesscode: this.codacceso,
+      n_days: cuantas,
+      advance: this.advance,
+      room_price: 500 * cuantas - this.advance,
+    };
+
+    this.guestService.newGuest(this.guest);
+
+    //PARA GUARDAR LAS FECHAS NO DISPONIBLES
+
+    let variable = parseInt(cadena[2]);
+
+    this.guestService.getPosition(this.myForm.get('room').value);
+
+    for (let i = 0; i < cuantas; i++) {
+      let variable = parseInt(cadena[2]) + i;
+      let dia: string;
+      dia = '' + variable;
+      let fec = {
+        years: cadena[0].toString(),
+        months: cadena[1].toString(),
+        date: dia.toString(),
+      };
+
+      this.guestService.rooms[this.guestService.position].f_noDisp.push(fec);
+    }
+
+    //////////////////////////////////////////
+
+    this.myForm.controls.name.setValue('');
+    this.myForm.controls.phone.setValue('');
+    //this.myForm.controls.room.setValue('')
+    this.myForm.controls.advance.setValue('');
+    this.myForm.controls.total.setValue('');
+    this.myForm.controls.fecha2.setValue(this.today);
+    this.myForm.controls.fecha3.setValue(this.tomorrow);
   }
 
   public validaciones(): Boolean {
@@ -136,6 +283,15 @@ export class NewReservationPage implements OnInit {
       this.alerta2();
       return false;
     }
+    if (!this.validfecha1) {
+      this.alerta5();
+      return false;
+    }
+    if (!this.validfecha2) {
+      this.alerta6();
+      return false;
+    }
+
     return true;
   }
 
@@ -178,7 +334,7 @@ export class NewReservationPage implements OnInit {
   public async alerta() {
     const alert = await this.alertController.create({
       header: 'Precaución',
-      subHeader: 'no puede ser mayor la fecha de ingreso que la de salida',
+      subHeader: 'La fecha de salida debe ser mayor que la de la llegada.',
       message: 'Esto es una advertencia',
       buttons: [
         {
@@ -215,6 +371,120 @@ export class NewReservationPage implements OnInit {
     await alert.present();
   }
 
+  public async alerta5() {
+    const alert = await this.alertController.create({
+      subHeader: 'Seleccione otra fecha de llegada.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta6() {
+    const alert = await this.alertController.create({
+      subHeader: 'Seleccione otra fecha de salida.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta7() {
+    const alert = await this.alertController.create({
+      subHeader: 'Anticipo no valido.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta8() {
+    const alert = await this.alertController.create({
+      subHeader: 'El anticipo no puede ser mayor que el total.',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta3() {
+    const alert = await this.alertController.create({
+      subHeader: 'Fecha de llegada seleccionada no disponible, elija otra',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta4() {
+    const alert = await this.alertController.create({
+      subHeader: 'Fecha de salida seleccionada no disponible, elija otra',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {},
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {},
+        },
+      ],
+    });
+    await alert.present();
+  }
+
   public formatDate2(date: Date) {
     return [
       date.getFullYear(),
@@ -227,18 +497,13 @@ export class NewReservationPage implements OnInit {
     // if(this.myForm.get('fecha2').value)
     // return false;
     let cadena = this.myForm.get('fecha2').value.split('-');
-    console.log(parseInt(cadena[0]), parseInt(cadena[1]), parseInt(cadena[2]));
     let cadena2 = this.myForm.get('fecha3').value.split('-');
-    console.log(
-      parseInt(cadena2[0]),
-      parseInt(cadena2[1]),
-      parseInt(cadena2[2])
-    );
+
     if (parseInt(cadena[0]) > parseInt(cadena2[0])) {
       return true;
     } else if (parseInt(cadena[1]) > parseInt(cadena2[1])) {
       return true;
-    } else if (parseInt(cadena[2]) > parseInt(cadena2[2])) {
+    } else if (parseInt(cadena[2]) >= parseInt(cadena2[2])) {
       return true;
     }
     return false;
@@ -260,6 +525,14 @@ export class NewReservationPage implements OnInit {
       room: ['', Validators.compose([Validators.required])],
       fecha2: ['', Validators.compose([Validators.required])],
       fecha3: ['', Validators.compose([Validators.required])],
+      total: [''],
+      advance: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('[0-9]+([.][0-9]+)?'),
+        ]),
+      ],
     });
 
     this.validationMessages = {
@@ -270,6 +543,10 @@ export class NewReservationPage implements OnInit {
         { type: 'pattern', message: 'EL teléfono está mal formado' },
       ],
       room: [{ type: 'required', message: 'La habitación es obligatoria.' }],
+      advance: [
+        { type: 'required', message: 'El anticipo es obligatorio.' },
+        { type: 'pattern', message: 'Cantidad no valida' },
+      ],
     };
 
     this.myForm.controls.fecha2.setValue(this.today);

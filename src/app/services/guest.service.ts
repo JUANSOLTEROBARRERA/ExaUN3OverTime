@@ -1,147 +1,211 @@
-import { Injectable } from '@angular/core';
 import { Guest } from '../models/guest';
+import { Injectable } from '@angular/core';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GuestService {
-
   private guests: Guest[];
-  private rooms: Room[];
+  public rooms: Room[];
   private loggedAs: string;
   public language: number;
+  public position: number;
 
   constructor(private router: Router) {
     this.language = 1;
     this.rooms = [
       {
-        room: "A101"
+        room: 'A101',
+        f_noDisp: [
+          { years: '2022', months: '11', date: '20' },
+          { years: '2022', months: '11', date: '21' },
+        ],
       },
       {
-        room: "A102"
+        room: 'A102',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A103"
+        room: 'A103',
+        f_noDisp: [{ years: '2022', months: '11', date: '23' }],
       },
       {
-        room: "A104"
+        room: 'A104',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A105"
+        room: 'A105',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A201"
+        room: 'A201',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A202"
+        room: 'A202',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A203"
+        room: 'A203',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A204"
+        room: 'A204',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "A205"
+        room: 'A205',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B101"
+        room: 'B101',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B102"
+        room: 'B102',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B103"
+        room: 'B103',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B104"
+        room: 'B104',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B105"
+        room: 'B105',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B201"
+        room: 'B201',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B202"
+        room: 'B202',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B203"
+        room: 'B203',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B204"
+        room: 'B204',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
       },
       {
-        room: "B205"
-      }
-    ]
+        room: 'B205',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }],
+      },
+    ];
     this.guests = [
       {
-        token: "11111",
-        name: "admin",
-        telephone: "+52 311-111-11-11",
+        token: '11111',
+        name: 'admin',
+        telephone: '+52 311-111-11-11',
         f_arrival: null,
         f_leave: null,
-        room: "A203",
-        rol: "admin",
-        accesscode: 9998
+        room: 'A203',
+        rol: 'admin',
+        accesscode: 9998,
+        n_days: 3,
+        advance: 100,
+        room_price: 500,
       },
       {
-        token: "21111",
-        name: "Juan Antonio Soltero Barrera",
-        telephone: " +52 311-118-32-72",
+        token: '21111',
+        name: 'Magdalena Morfin',
+        telephone: ' +52 311-118-32-72',
         f_arrival: new Date(11 / 18 / 2022),
-        f_arrival2: "2022-11-20",
+        f_arrival2: '2022-11-22',
         f_leave: new Date(11 / 19 / 2022),
-        f_leave2: "2022-11-21",
-        room: "B201",
-        accesscode: 1421
+        f_leave2: '2022-11-23',
+        room: 'B201',
+        accesscode: 1421,
+        n_days: 1,
+        advance: 100,
+        room_price: 400,
       },
       {
-        token: "31111",
-        name: "Axel Lopez Renteria",
-        telephone: "+52 311-340-39-43",
+        token: '31111',
+        name: 'Axel Lopez Renteria',
+        telephone: '+52 311-340-39-43',
         f_arrival: new Date(11 / 19 / 2022),
-        f_arrival2: "2022-11-18",
+        f_arrival2: '2022-11-21',
         f_leave: new Date(11 / 20 / 2022),
-        f_leave2: "2022-11-20",
-        room: "A101",
-        accesscode: 1234
+        f_leave2: '2022-11-23',
+        room: 'A101',
+        accesscode: 1234,
+        n_days: 2,
+        advance: 100,
+        room_price: 900,
       },
       {
-        token: "41111",
-        name: "Yazmin Elizabeth Ochoa Benitez",
-        telephone: "+52 311-300-19-17",
+        token: '41111',
+        name: 'Yazmin Elizabeth Ochoa Benitez',
+        telephone: '+52 311-300-19-17',
         f_arrival: new Date(11 / 18 / 2022),
-        f_arrival2: "2022-11-18",
+        f_arrival2: '2022-11-27',
         f_leave: new Date(11 / 19 / 2022),
-        f_leave2: "2022-11-19",
-        room: "B101",
-        accesscode: 6854
-      }
-    ]
+        f_leave2: '2022-11-28',
+        room: 'B101',
+        accesscode: 6854,
+        n_days: 1,
+        advance: 100,
+        room_price: 0,
+      },
+    ];
   }
 
   public newGuest(guest: Guest): void {
     this.guests.push(guest);
     console.log(this.guests);
 
-    this.router.navigate(
-      ['/reservations']
-    );
+    this.router.navigate(['/reservations']);
   }
 
-  public getToken(): string{
-      return this.loggedAs;
+  public updateReservation(pos: number) {
+    this.guests[pos].room_price = 0;
+  }
+  public getPositionRes(cn: string): boolean {
+    let flag = false;
+    for (let i = 0; i <= this.guests.length - 1; i++) {
+      if (cn === this.guests[i].token) {
+        flag = true;
+        this.position = i;
+        return flag;
+      } else {
+        flag = false;
+      }
+    }
+    return flag;
+  }
+
+  public getPosition(cn: string): boolean {
+    let flag = false;
+    for (let i = 0; i <= this.rooms.length - 1; i++) {
+      if (cn === this.rooms[i].room) {
+        flag = true;
+        this.position = i;
+        return flag;
+      } else {
+        flag = false;
+      }
+    }
+    return flag;
+  }
+
+  public getToken(): string {
+    return this.loggedAs;
   }
 
   public selectLanguage(ln: number) {
     this.language = ln;
   }
 
-  public getLanguage():number{
+  public getLanguage(): number {
     return this.language;
   }
 
@@ -178,6 +242,7 @@ export class GuestService {
     for (let i = 0; i <= this.guests.length - 1; i++) {
       if (token === this.guests[i].token) {
         bandera = true;
+        localStorage.setItem('name', this.guests[i].name);
         return bandera;
       } else {
         bandera = false;
@@ -197,5 +262,4 @@ export class GuestService {
     this.guests.splice(pos, 1);
     return this.guests;
   }
-
 }

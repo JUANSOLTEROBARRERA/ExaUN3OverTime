@@ -5,56 +5,99 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <h1 style="margin-left:5%">{{currenttittle}}</h1>
+  <h1 style="margin-left: 5%">{{currenttittle}}</h1>
 
-  <div style="margin: 10%; text-align: justify; text-justify: inter-word;">{{currenttext1}}</div>
+  <div style="margin: 10%; text-align: justify; text-justify: inter-word">
+    {{currenttext1}}
+  </div>
 
-  <div style="width: 43%; margin-left: 10%;float: left; text-align: justify; text-justify: inter-word;">{{currenttext2}}</div>
+  <div
+    style="
+      width: 43%;
+      margin-left: 10%;
+      float: left;
+      text-align: justify;
+      text-justify: inter-word;
+    "
+  >
+    {{currenttext2}}
+  </div>
 
-  <img style="margin-right: 10%; float: right ;height: 150px" src="assets/suites.png"/>
+  <img
+    style="margin-right: 10%; float: right; height: 150px"
+    src="assets/suites.png"
+  />
 
-  <ion-fab style="margin-top: 35px;" slot="fixed" vertical="top" horizontal="end" [edge]="true">
-    <ion-fab-button mini style="margin: 8px;
-                                width: 40px;
-                                height: 40px;
-                                line-height: 40px;">
-      <ion-icon name="language-outline"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="bottom">
-      <ion-fab-button (click)="changeLanguage(0)">
-        <img src="assets/spain.png"/>
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(1)">
-        <img src="assets/english.png"/>
-      </ion-fab-button>
-      <ion-fab-button (click)="changeLanguage(2)">
-        <img src="assets/france.png"/>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
-
-
-  <ion-modal [isOpen]="isModalOpen" id="example-modal" #modal trigger="open-custom-dialog">
+  <ion-modal
+    [isOpen]="isModalOpen"
+    id="example-modal"
+    #modal
+    trigger="open-custom-dialog"
+  >
     <ng-template>
       <div class="wrapper">
-        <h1>Dialog header</h1>
+        <h1>Select a Language</h1>
 
         <ion-list lines="none">
-          <ion-item button="true" detail="false" (click)="modal.dismiss()">
-            <ion-icon name="person-circle"></ion-icon>
-            <ion-label>Item 1</ion-label>
+          <ion-item
+            (click)="changeLanguage(0)"
+            button="true"
+            detail="false"
+            (click)="modal.dismiss()"
+          >
+            <img
+              style="margin-right: 10px; margin-left: 4px; width: 40px"
+              src="assets/spain.png"
+            />
+            <ion-label>Spanish</ion-label>
           </ion-item>
-          <ion-item button="true" detail="false" (click)="modal.dismiss()">
-            <ion-icon name="person-circle"></ion-icon>
-            <ion-label>Item 2</ion-label>
+          <ion-item
+            (click)="changeLanguage(1)"
+            button="true"
+            detail="false"
+            (click)="modal.dismiss()"
+          >
+            <img
+              style="margin-right: 10px; margin-left: 4px; width: 40px"
+              src="assets/english.png"
+            />
+            <ion-label>English</ion-label>
           </ion-item>
-          <ion-item button="true" detail="false" (click)="modal.dismiss()">
-            <ion-icon name="person-circle"></ion-icon>
-            <ion-label>Item 3</ion-label>
+          <ion-item
+            (click)="changeLanguage(2)"
+            button="true"
+            detail="false"
+            (click)="modal.dismiss()"
+          >
+            <img
+              style="margin-right: 10px; margin-left: 4px; width: 40px"
+              src="assets/france.png"
+            />
+            <ion-label>French</ion-label>
           </ion-item>
         </ion-list>
       </div>
     </ng-template>
   </ion-modal>
 
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start">
+    <ion-fab-button
+      mini
+      style="margin: 8px; width: 40px; height: 40px; line-height: 40px"
+    >
+      <ion-icon name="person-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <h1 style="margin-left: 8%; font-size: 17px">
+        {{text3[lenguaje]}}, {{name}}
+      </h1>
+
+      <ion-fab-button (click)="goLogin()" color="danger">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="goPay()" color="warning">
+        <ion-icon name="card-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
