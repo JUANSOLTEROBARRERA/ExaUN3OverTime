@@ -320,6 +320,10 @@ export class NewReservationPage implements OnInit {
     this.validado = false;
     this.fechaseleccionada1 = ''
     this.fechaseleccionada2 = ''
+
+    this.myForm.controls.name.enable();
+    this.myForm.controls.phone.enable();
+    this.myForm.controls.room.enable();
   }
 
   public validaciones(): Boolean {
@@ -482,7 +486,7 @@ export class NewReservationPage implements OnInit {
 
   public async alerta8() {
     const alert = await this.alertController.create({
-      subHeader: 'El anticipo no puede ser menor que el total.',
+      subHeader: 'El anticipo no puede ser mayor que el total.',
       buttons: [
         {
           text: 'Cancelar',
