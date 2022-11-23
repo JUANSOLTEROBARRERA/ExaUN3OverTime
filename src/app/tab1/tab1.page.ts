@@ -61,7 +61,9 @@ export class Tab1Page {
       "Réveillez-vous avec une vue fascinante sur la mer des Caraïbes, nos criques emblématiques, la rivière émeraude ou les zones protégées de la jungle maya. À partir de maintenant, laissez le service personnalisé, l'artisanat fait à la main et la décoration intérieure être le cadre idéal pour un repos imbattable. Tous les éléments décoratifs de nos 900 suites sont créés par des talents locaux issus de communautés vulnérables, acquis avec une vision de commerce équitable et d'engagement pour le développement social de notre pays.",
     ];
     //this.languageSelection();
+    this.changeLanguage(1);
   }
+
   public changeLanguage(ln: number) {
     this.lenguaje = ln;
     this.guestService.selectLanguage(ln);

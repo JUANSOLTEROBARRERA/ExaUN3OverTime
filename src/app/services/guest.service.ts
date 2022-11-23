@@ -15,71 +15,89 @@ export class GuestService {
   
 
   constructor(private router: Router) {
+    
     this.language = 1;
     this.rooms = [
       {
         room: 'A101',
-        f_noDisp: [{ years: '2022', months: '11', date: '21' },
-                  { years: '2022', months: '11', date: '22' }]
+        f_noDisp: [{ years: '2022', months: '11', date: '27' },
+                  { years: '2022', months: '11', date: '28' }]
       },
       {
-        room: 'A102'
+        room: 'A102',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A103'
+        room: 'A103',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A104'
+        room: 'A104',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A105'
+        room: 'A105',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A201'
+        room: 'A201',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A202'
+        room: 'A202',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A203'
+        room: 'A203',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A204'
+        room: 'A204',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'A205'
+        room: 'A205',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
         room: 'B101',
-        f_noDisp: [{ years: '2022', months: '11', date: '27' }]
+        f_noDisp: [{ years: '2022', months: '11', date: '23' }]
       },
       {
-        room: 'B102'
+        room: 'B102',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B103'
+        room: 'B103',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B104'
+        room: 'B104',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B105'
+        room: 'B105',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
         room: 'B201',
-        f_noDisp: [{ years: '2022', months: '11', date: '22' }]
+        f_noDisp: [{ years: '2022', months: '11', date: '23' }]
       },
       {
-        room: 'B202'
+        room: 'B202',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B203'
+        room: 'B203',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B204'
+        room: 'B204',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
       {
-        room: 'B205'
+        room: 'B205',
+        f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
     ];
     this.guests = [
@@ -101,9 +119,9 @@ export class GuestService {
         name: 'Magdalena Morfin',
         telephone: ' +52 311-118-32-72',
         f_arrival: new Date(11 / 25 / 2022),
-        f_arrival2: '2022-11-22',
+        f_arrival2: '2022-11-23',
         f_leave: new Date(11 / 26 / 2022),
-        f_leave2: '2022-11-23',
+        f_leave2: '2022-11-24',
         room: 'B201',
         accesscode: 1421,
         n_days: 1,
@@ -115,9 +133,9 @@ export class GuestService {
         name: 'Axel Lopez Renteria',
         telephone: '+52 311-340-39-43',
         f_arrival: new Date(11 / 19 / 2022),
-        f_arrival2: '2022-11-21',
+        f_arrival2: '2022-11-27',
         f_leave: new Date(11 / 20 / 2022),
-        f_leave2: '2022-11-23',
+        f_leave2: '2022-11-29',
         room: 'A101',
         accesscode: 1234,
         n_days: 2,
@@ -129,9 +147,9 @@ export class GuestService {
         name: 'Juan Antonio Soltero Barrera',
         telephone: '+52 311-300-19-17',
         f_arrival: new Date(11 / 18 / 2022),
-        f_arrival2: '2022-11-27',
+        f_arrival2: '2022-11-23',
         f_leave: new Date(11 / 19 / 2022),
-        f_leave2: '2022-11-28',
+        f_leave2: '2022-11-24',
         room: 'B101',
         accesscode: 6854,
         n_days: 1,

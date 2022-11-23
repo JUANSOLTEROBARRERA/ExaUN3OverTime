@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {AlertController} from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Guest } from '../models/guest';
 import { GuestService } from '../services/guest.service';
 import { Router } from '@angular/router';
@@ -22,14 +22,14 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.myForm = this.fb.group(
       {
-        token: ["", Validators.compose([Validators.required, Validators.minLength(5), Validators.pattern('[0-9][0-9][0-9][0-9][0-9]+')])],
+        token: ["", Validators.compose([Validators.required, Validators.minLength(4), Validators.pattern('[0-9][0-9][0-9][0-9]+')])],
       }
     );
 
     this.validationMessages = {
       token: [
         { type: 'required', message: "Token es obligatorio." },
-        { type: 'minlength', message: "El Token debe ser de 5 o más dígitos." },
+        { type: 'minlength', message: "El Token debe ser de 4 o más dígitos." },
         { type: 'pattern', message: "EL Token está mal formado" }
       ]
     }
@@ -44,13 +44,13 @@ export class LoginPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: ()=> {
+          handler: () => {
           }
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: ()=> {
+          handler: () => {
 
           }
         }
@@ -59,20 +59,22 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
-  ingresar(){
-    var f = this.myForm.get('token').value;
-    if(this.guestService.searchToken(f, 'admin')===true){
-      console.log('ingresado');
-      localStorage.setItem('name', 'Admin');
-      this.guestService.logged("admin")
-      this.router.navigate(['/reservations'])
-      this.myForm.setValue({token: ''});
-    }else if(this.guestService.searchTokenExisting(f)===true){
-      this.router.navigate(['/tabs']);
-      this.guestService.logged(this.myForm.get('token').value);
-      this.myForm.setValue({token: ''});
-    }else{
-      this.alerta();
+  ingresar() {
+    if (this.myForm.controls.token.valid) {
+      var f = this.myForm.get('token').value;
+      if (this.guestService.searchToken(f, 'admin') === true) {
+        console.log('ingresado');
+        localStorage.setItem('name', 'Admin');
+        this.guestService.logged("admin")
+        this.router.navigate(['/reservations'])
+        this.myForm.setValue({ token: '' });
+      } else if (this.guestService.searchTokenExisting(f) === true) {
+        this.router.navigate(['/tabs']);
+        this.guestService.logged(this.myForm.get('token').value);
+        this.myForm.setValue({ token: '' });
+      } else {
+        this.alerta();
+      }
     }
   }
 }

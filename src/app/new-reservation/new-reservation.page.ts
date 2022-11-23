@@ -351,6 +351,7 @@ export class NewReservationPage implements OnInit {
     return true;
   }
 
+  
   async presentAlert(input: IonInput) {
     let etiqueta = '';
     switch (input) {
@@ -582,6 +583,28 @@ export class NewReservationPage implements OnInit {
       return true;
     }
     return false;
+  }
+
+  public cancelar(){
+    this.myForm.controls.name.setValue('');
+    this.myForm.controls.phone.setValue('');
+    //this.myForm.controls.room.setValue('')
+    this.myForm.controls.advance.setValue('');
+    this.myForm.controls.total.setValue('');
+    this.myForm.controls.fecha2.setValue(this.today);
+    this.myForm.controls.fecha3.setValue(this.tomorrow);
+
+    this.validado = false;
+    this.fechaseleccionada1 = ''
+    this.fechaseleccionada2 = ''
+
+    this.myForm.controls.name.enable();
+    this.myForm.controls.phone.enable();
+    this.myForm.controls.room.enable();
+
+    this.router.navigate(['/reservations']);
+   
+    this.myForm.controls.room.setValue('')
   }
 
   ngOnInit() {
