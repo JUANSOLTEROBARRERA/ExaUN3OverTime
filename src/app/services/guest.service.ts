@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
 
+import { map } from 'rxjs/operators';
+import { AngularFirestore } from '@angular/fire/compat/firestore' 
+import { Observable } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +18,7 @@ export class GuestService {
   public position: number;
   
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private firestore: AngularFirestore) {
     
     this.language = 1;
     this.rooms = [
@@ -105,8 +109,6 @@ export class GuestService {
         token: '11111',
         name: 'admin',
         telephone: '+52 311-111-11-11',
-        f_arrival: null,
-        f_leave: null,
         room: 'A203',
         rol: 'admin',
         accesscode: 9998,
@@ -118,9 +120,7 @@ export class GuestService {
         token: '21111',
         name: 'Magdalena Morfin',
         telephone: ' +52 311-118-32-72',
-        f_arrival: new Date(11 / 25 / 2022),
         f_arrival2: '2022-11-23',
-        f_leave: new Date(11 / 26 / 2022),
         f_leave2: '2022-11-24',
         room: 'B201',
         accesscode: 1421,
@@ -132,9 +132,7 @@ export class GuestService {
         token: '31111',
         name: 'Axel Lopez Renteria',
         telephone: '+52 311-340-39-43',
-        f_arrival: new Date(11 / 19 / 2022),
         f_arrival2: '2022-11-27',
-        f_leave: new Date(11 / 20 / 2022),
         f_leave2: '2022-11-29',
         room: 'A101',
         accesscode: 1234,
@@ -146,9 +144,7 @@ export class GuestService {
         token: '41111',
         name: 'Juan Antonio Soltero Barrera',
         telephone: '+52 311-300-19-17',
-        f_arrival: new Date(11 / 18 / 2022),
         f_arrival2: '2022-11-23',
-        f_leave: new Date(11 / 19 / 2022),
         f_leave2: '2022-11-24',
         room: 'B101',
         accesscode: 6854,
@@ -222,6 +218,18 @@ export class GuestService {
 
   public getGuest(): Guest[] {
     return this.guests;
+  }
+
+  public getGuest2(): Observable<Guest[]> {
+    return this.firestore.collection('guests').snapshotChanges().pipe(
+      map(actions => {
+        return actions.map (a=>{
+            const data = a.payload.doc.data() as Guest;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+        });
+      })
+    );
   }
 
   public searchToken(token: string, admin: string): boolean {

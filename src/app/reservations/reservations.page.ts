@@ -34,7 +34,12 @@ export class ReservationsPage implements OnInit {
     } else {
     }
 
-    this.reservations = this.guestService.getGuest();
+    //this.reservations = this.guestService.getGuest();
+
+    this.guestService.getGuest2().subscribe(res => {
+      this.reservations = res;
+      console.log(this.reservations);
+    });
   }
 
   public addReservation(): void {
