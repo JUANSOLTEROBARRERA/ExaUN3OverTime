@@ -116,7 +116,7 @@
                 (ionChange)="cambiar()">
                 <div *ngFor="let item of rooms; let i = index">
                   <div>
-                    <ion-select-option [value]="item.room">{{item.room}}</ion-select-option>
+                    <ion-select-option value="{{item.id + ' ' + item.room}}" >{{item.room}}</ion-select-option>
                   </div>
                 </div>
               </ion-select>

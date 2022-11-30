@@ -1,11 +1,13 @@
 import { AlertController, IonInput } from '@ionic/angular';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, ActivationEnd } from '@angular/router';
 
 import { Guest } from '../models/guest';
 import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 @Component({
   selector: 'app-new-reservation',
@@ -19,6 +21,7 @@ export class NewReservationPage implements OnInit {
   public today: string;
   public tomorrow: string;
   public rooms: Room[];
+  public rooms2: Room[];
   public filteredRooms: Room[] = [];
   public rol: boolean;
   public myDate;
@@ -30,6 +33,8 @@ export class NewReservationPage implements OnInit {
 
   public fechaseleccionada1: string;
   public fechaseleccionada2: string;
+
+  public currId: string;
 
   @ViewChild('inputname') inputname: IonInput;
   @ViewChild('#inputphone') inputphone: IonInput;
@@ -47,7 +52,8 @@ export class NewReservationPage implements OnInit {
     private guestService: GuestService,
     private fb: FormBuilder,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private activatedRoute: ActivatedRoute
   ) {
     this.fechaseleccionada1 = ''
     this.fechaseleccionada2 = ''
@@ -63,9 +69,27 @@ export class NewReservationPage implements OnInit {
     }
     this.today = this.formatDate(new Date());
     this.tomorrow = this.formatDate2(new Date());
-    this.rooms = this.guestService.getRooms();
+
+
+
+    this.guestService.getRooms().subscribe(res => {
+      this.rooms = res;
+      //this.convertir()
+    });
+
+
     // this.filterRooms();
   }
+
+  public convertir() {
+    //for(let i=0; i<this.rooms.length; i++){
+    //  for(let j=0; j<this.rooms[i].f_noDisp.length; j++){
+    //    this.rooms2[i].f_noDisp[j] = new Date(this.rooms[i].f_noDisp[j]['seconds'] * 1000 + this.rooms[i].f_noDisp[j]['nanoseconds']/1000000)
+    //    console.log(this.rooms2[i].f_noDisp[j])
+    //  }
+    //}
+  }
+
 
   public validarfecha1() {
     this.validfecha1 = true;
@@ -81,15 +105,48 @@ export class NewReservationPage implements OnInit {
     this.validado = true;
   }
 
-  public cambiar() {
-    this.guestService.getPosition(this.myForm.get('room').value);
+  public guardarCuarto(room: Room) {
+    // var timeStamp= this.currRoom.f_noDisp
+    //console.log(room.f_noDisp)
 
-    console.log(this.guestService.rooms[this.guestService.position].f_noDisp);
+    //for(let i = 0; i<timeStamp.length; i++){
+    //  timeStamp[i] = new Date(timeStamp[i]);
+    //}
+    //console.log(timeStamp[0])
+
+    //var timeStamp2 = timeStamp[0]
+    //var dateFormat = new Date(timeStamp2);
+    //console.log(dateFormat)
+  }
+
+  public currRoom: Room;
+
+  public cambiar() {
+    console.log(this.myForm.get('room').value)
+    //this.guestService.getPosition(this.myForm.get('room').value);
+
+    //console.log(this.guestService.rooms[this.guestService.position].f_noDisp);
 
     let current_month_blockout_dates;
 
-    current_month_blockout_dates =
-      this.guestService.rooms[this.guestService.position].f_noDisp;
+    //PONER LAS FECHAS NO DISPONIBLES DEL ROOM.VALUE
+
+    //current_month_blockout_dates =
+    //  this.guestService.rooms[this.guestService.position].f_noDisp;
+
+    //  current_month_blockout_dates = this.guestService.getFNoDispById(this.myForm.get('room').value);
+
+    //this.guestService.getFNoDispById(this.myForm.get('room').value).subscribe(item => {
+    //console.log(item);
+    //  this.currRoom = item as Room;
+    //  this.guardarCuarto(this.currRoom);
+    //});
+    //console.log(this.currRoom)
+    //console.log(this.currRoom.f_noDisp)
+    return;
+
+    ////////////////////////////////////////////////
+
     //current_month_blockout_dates = [{years:'2022', months:'11', date:'20'},{years:'2022', months:'11', date:'21'}];
     this.isBlockedDate = (dateString: string) => {
       const result = current_month_blockout_dates.some((date) => {
@@ -116,13 +173,13 @@ export class NewReservationPage implements OnInit {
 
       if (
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'years'
+        'years'
         ] === splitfecha[0] &&
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'months'
+        'months'
         ] === splitfecha[1] &&
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'date'
+        'date'
         ] === splitfecha[2]
       ) {
         this.alerta3();
@@ -133,13 +190,13 @@ export class NewReservationPage implements OnInit {
 
       if (
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'years'
+        'years'
         ] === splitfecha2[0] &&
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'months'
+        'months'
         ] === splitfecha2[1] &&
         this.guestService.rooms[this.guestService.position].f_noDisp[i][
-          'date'
+        'date'
         ] === splitfecha2[2]
       ) {
         this.alerta4();
@@ -152,9 +209,8 @@ export class NewReservationPage implements OnInit {
 
   isBlockedDate = (dateString: string) => {
     const result = this.current_month_blockout_dates.some((date) => {
-      let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${
-        date.date
-      }`;
+      let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${date.date
+        }`;
       // eg. comparing 2022-08-21 with 2022-08-12
       return dateString == interstitial_date;
     });
@@ -172,11 +228,12 @@ export class NewReservationPage implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  public newGuestBef(): void {
+  public newGuestBef(id: string): void {
 
     if (!this.validaciones()) return;
 
-//VALIDAR FECHAS ENTREMEDIO
+
+    //VALIDAR FECHAS ENTREMEDIO
 
     let cadenaa = this.myForm.get('fecha2').value.split('-');
     let cadena22 = this.myForm.get('fecha3').value.split('-');
@@ -185,34 +242,34 @@ export class NewReservationPage implements OnInit {
 
     let variable = parseInt(cadenaa[2]);
 
-    this.guestService.getPosition(this.myForm.get('room').value);
+    //this.guestService.getPosition(this.myForm.get('room').value);
 
-    for (let i = 0; i < cuantass; i++) {
+    //for (let i = 0; i < cuantass; i++) {
 
-      let variable = parseInt(cadenaa[2]) + i;
-      let dia: string;
-      dia = '' + variable;
-      let fec = {
-        years: cadenaa[0].toString(),
-        months: cadenaa[1].toString(),
-        date: dia.toString(),
-      };
-
-      
-      for(let j = 0; j < this.guestService.rooms[this.guestService.position].f_noDisp.length; j++){
+    //let variable = parseInt(cadenaa[2]) + i;
+    //let dia: string;
+    //dia = '' + variable;
+    //let fec = {
+    //years: cadenaa[0].toString(),
+    //months: cadenaa[1].toString(),
+    //date: dia.toString(),
+    //};
 
 
-        if(fec.date === this.guestService.rooms[this.guestService.position].f_noDisp[j].date
-          && fec.months === this.guestService.rooms[this.guestService.position].f_noDisp[j].months
-          && fec.years === this.guestService.rooms[this.guestService.position].f_noDisp[j].years){ 
-          
-            this.alerta9();  
-            return;
-        }
+    //for(let j = 0; j < this.guestService.rooms[this.guestService.position].f_noDisp.length; j++){
 
-      }
-    }
-///////////////////////////
+
+    //  if(fec.date === this.guestService.rooms[this.guestService.position].f_noDisp[j].date
+    //     && fec.months === this.guestService.rooms[this.guestService.position].f_noDisp[j].months
+    //    && fec.years === this.guestService.rooms[this.guestService.position].f_noDisp[j].years){ 
+
+    //      this.alerta9();  
+    //      return;
+    //  }
+
+    //}
+    //}
+    ///////////////////////////
 
     if (this.validarfechas() === false) {
 
@@ -236,7 +293,21 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.total.setValue('' + cuantas * 500);
 
     this.myForm.controls.total.disable();
+
+
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      let arrroom = this.myForm.get('room').value.split(' ');
+      this.guestService.getRoomById(arrroom[0]).subscribe(item => {
+        //console.log(item);
+        this.currRoom = item as Room;
+
+
+      });
+    });
+
   }
+
 
   public newGuest(): void {
     if (!this.myForm.controls.advance.valid) {
@@ -255,7 +326,8 @@ export class NewReservationPage implements OnInit {
     this.phone = this.myForm.get('phone').value;
     this.f_arrival2 = this.myForm.get('fecha2').value;
     this.f_leave2 = this.myForm.get('fecha3').value;
-    this.rooom2 = this.myForm.get('room').value;
+    let arrroom = this.myForm.get('room').value.split(' ');
+    this.rooom2 = arrroom[1];
     this.advance = parseInt(this.myForm.get('advance').value);
     this.token = this.myForm
       .get('phone')
@@ -271,6 +343,39 @@ export class NewReservationPage implements OnInit {
     let cadena2 = this.myForm.get('fecha3').value.split('-');
 
     let cuantas = parseInt(cadena2[2]) - parseInt(cadena[2]);
+
+
+    console.log("La fecha 1 es: " + this.myForm.get('fecha2').value)
+    console.log("La fecha 2 es: " + this.myForm.get('fecha3').value)
+
+
+
+
+    let auxfecha1 = this.myForm.get('fecha2').value.split('-');
+    let auxfecha2 = this.myForm.get('fecha3').value.split('-');
+    //0: YEAR; 
+    //1: MONTH; 
+    //2: DAY;
+
+    let dayfecha1 = parseInt(auxfecha1[2]);
+
+    let dayfecha2 = parseInt(auxfecha2[2]);
+
+    let arrfechas:string[]= [];
+    let actual:string; 
+
+    for (let i = 0; i < dayfecha2 - dayfecha1; i++) {
+
+      console.log(auxfecha1[0] + "-" + auxfecha1[1] + "-" + (dayfecha1 + i))
+
+      actual = auxfecha1[0] + "-" + auxfecha1[1] + "-" + (dayfecha1 + i);
+
+      arrfechas.push(actual)
+    }
+
+    this.guestService.bloquearFechas(arrfechas, arrroom[0]);
+
+
     /////////////////////////////////////////
 
     this.guest = {
@@ -292,7 +397,8 @@ export class NewReservationPage implements OnInit {
 
     let variable = parseInt(cadena[2]);
 
-    this.guestService.getPosition(this.myForm.get('room').value);
+    //this.guestService.getPosition(this.myForm.get('room').value);
+
 
     for (let i = 0; i < cuantas; i++) {
       let variable = parseInt(cadena[2]) + i;
@@ -304,10 +410,18 @@ export class NewReservationPage implements OnInit {
         date: dia.toString(),
       };
 
-      this.guestService.rooms[this.guestService.position].f_noDisp.push(fec);
+      //this.guestService.rooms[this.guestService.position].f_noDisp.push(fec);
+      //this.guestService.blockedDates(this.guestService.getPosition(this.myForm.get('room').value), fec);
+      //this.guestService.blockedDates(this.IdRoom);
+      
+      this.guestService.actualizarfecha = 1;
+      //this.guestService.cuantas = (dayfecha2 - dayfecha1)
     }
 
     //////////////////////////////////////////
+
+
+
 
     this.myForm.controls.name.setValue('');
     this.myForm.controls.phone.setValue('');
@@ -324,6 +438,9 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.name.enable();
     this.myForm.controls.phone.enable();
     this.myForm.controls.room.enable();
+
+
+
   }
 
   public validaciones(): Boolean {
@@ -351,7 +468,7 @@ export class NewReservationPage implements OnInit {
     return true;
   }
 
-  
+
   async presentAlert(input: IonInput) {
     let etiqueta = '';
     switch (input) {
@@ -397,12 +514,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -416,12 +533,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -435,12 +552,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -454,12 +571,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -473,12 +590,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -492,12 +609,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -511,12 +628,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -530,12 +647,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -549,12 +666,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => {},
+          handler: () => { },
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => {},
+          handler: () => { },
         },
       ],
     });
@@ -585,7 +702,7 @@ export class NewReservationPage implements OnInit {
     return false;
   }
 
-  public cancelar(){
+  public cancelar() {
     this.myForm.controls.name.setValue('');
     this.myForm.controls.phone.setValue('');
     //this.myForm.controls.room.setValue('')
@@ -603,7 +720,7 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.room.enable();
 
     this.router.navigate(['/reservations']);
-   
+
     this.myForm.controls.room.setValue('')
   }
 

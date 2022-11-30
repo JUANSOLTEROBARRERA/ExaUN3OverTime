@@ -12,4 +12,5 @@ export class Guest {
      n_days: number;
      room_price: number;
      advance: number;
+     id?: string;
 }

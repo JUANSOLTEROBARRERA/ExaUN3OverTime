@@ -38,7 +38,7 @@ export class ReservationsPage implements OnInit {
 
     this.guestService.getGuest2().subscribe(res => {
       this.reservations = res;
-      console.log(this.reservations);
+      //console.log(this.reservations);
     });
   }
 
@@ -90,6 +90,6 @@ export class ReservationsPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.guestService.currentUser());
+    //console.log(this.guestService.currentUser());
   }
 }
