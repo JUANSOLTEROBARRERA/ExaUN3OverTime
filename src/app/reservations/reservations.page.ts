@@ -59,10 +59,11 @@ export class ReservationsPage implements OnInit {
     return this.message;
   }
 
-  public getGuestByToken(token: string): void {
+  public getGuestByToken(id: string): void {
     this.router.navigate(['/view-reservation'], {
-      queryParams: { token: token },
+      queryParams: { id: id },
     });
+
   }
 
   public async removeGuest(pos: number) {

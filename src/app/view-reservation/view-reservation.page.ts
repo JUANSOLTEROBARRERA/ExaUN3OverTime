@@ -10,13 +10,31 @@ import { Guest } from '../models/guest';
 })
 export class ViewReservationPage implements OnInit {
 
-  public guest: Guest
+  public guest: Guest;
 
-  constructor(private activatedRoute: ActivatedRoute, private guestService: GuestService) { }
+  constructor(private activatedRoute: ActivatedRoute, private guestService: GuestService) {
+    this.guest = {
+      name: "",
+      telephone: "",
+      f_arrival2: "",
+      f_leave2: "",
+      room: "",
+      token: "",
+      rol: "",
+      accesscode: 0,
+      n_days: 0,
+      room_price: 0,
+      advance: 0,
+      id: ""
+    };
+  }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.guest = this.guestService.getGuestByToken(params.token);
+      this.guestService.getGuestById(params.id).subscribe(item => {
+        console.log(item);
+        this.guest = item as Guest;
+      });
     });
   }
 

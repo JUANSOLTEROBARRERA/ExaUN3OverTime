@@ -209,6 +209,11 @@ export class GuestService {
     return result;
   }
 
+  public getGuestById(id: string) {
+    let result = this.firestore.collection('guests').doc(id).valueChanges();
+    return result;
+  }
+
   public newGuest(guest: Guest): void {
     //this.guests.push(guest);
     //console.log(this.guests);
