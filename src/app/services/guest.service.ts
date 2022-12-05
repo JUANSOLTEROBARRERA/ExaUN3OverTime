@@ -107,55 +107,11 @@ export class GuestService {
         f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
     ];
-    this.guests = [
-      {
-        token: '11111',
-        name: 'admin',
-        telephone: '+52 311-111-11-11',
-        room: 'A203',
-        rol: 'admin',
-        accesscode: 9998,
-        n_days: 3,
-        advance: 100,
-        room_price: 500,
-      },
-      {
-        token: '21111',
-        name: 'Magdalena Morfin',
-        telephone: ' +52 311-118-32-72',
-        f_arrival2: '2022-11-23',
-        f_leave2: '2022-11-24',
-        room: 'B201',
-        accesscode: 1421,
-        n_days: 1,
-        advance: 100,
-        room_price: 400,
-      },
-      {
-        token: '31111',
-        name: 'Axel Lopez Renteria',
-        telephone: '+52 311-340-39-43',
-        f_arrival2: '2022-11-27',
-        f_leave2: '2022-11-29',
-        room: 'A101',
-        accesscode: 1234,
-        n_days: 2,
-        advance: 100,
-        room_price: 900,
-      },
-      {
-        token: '41111',
-        name: 'Juan Antonio Soltero Barrera',
-        telephone: '+52 311-300-19-17',
-        f_arrival2: '2022-11-23',
-        f_leave2: '2022-11-24',
-        room: 'B101',
-        accesscode: 6854,
-        n_days: 1,
-        advance: 500,
-        room_price: 0,
-      },
-    ];
+    
+    this.getGuest2().subscribe(res => {
+      this.guests = res;
+    });
+
   }
 
   public actualizarfecha = 0;
@@ -291,6 +247,7 @@ export class GuestService {
 
   public logged(user: string) {
     this.loggedAs = user;
+    console.log(user);
   }
   public currentUser(): string {
     return this.loggedAs;
@@ -314,6 +271,8 @@ export class GuestService {
 
   public searchToken(token: string, admin: string): boolean {
     let bandera = false;
+    console.log(this.guests)
+    console.log(this.guests.length)
     for (let i = 0; i <= this.guests.length - 1; i++) {
       if (token === this.guests[i].token && admin === this.guests[i].rol) {
         bandera = true;

@@ -60,6 +60,7 @@ export class LoginPage implements OnInit {
   }
 
   ingresar() {
+
     if (this.myForm.controls.token.valid) {
       var f = this.myForm.get('token').value;
       if (this.guestService.searchToken(f, 'admin') === true) {
@@ -69,6 +70,7 @@ export class LoginPage implements OnInit {
         this.router.navigate(['/reservations'])
         this.myForm.setValue({ token: '' });
       } else if (this.guestService.searchTokenExisting(f) === true) {
+        
         this.router.navigate(['/tabs']);
         this.guestService.logged(this.myForm.get('token').value);
         this.myForm.setValue({ token: '' });
