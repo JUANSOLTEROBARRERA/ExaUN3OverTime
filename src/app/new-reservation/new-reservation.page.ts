@@ -1,5 +1,5 @@
 import { AlertController, IonInput } from '@ionic/angular';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TestabilityRegistry, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivationEnd } from '@angular/router';
 
@@ -35,6 +35,7 @@ export class NewReservationPage implements OnInit {
   public fechaseleccionada2: string;
 
   public currId: string;
+
 
   @ViewChild('inputname') inputname: IonInput;
   @ViewChild('#inputphone') inputphone: IonInput;
@@ -74,7 +75,6 @@ export class NewReservationPage implements OnInit {
 
     this.guestService.getRooms().subscribe(res => {
       this.rooms = res;
-      //this.convertir()
     });
 
 
@@ -122,90 +122,43 @@ export class NewReservationPage implements OnInit {
   public currRoom: Room;
 
   public cambiar() {
+    let idseleccionado = this.myForm.controls.room.value.split(" ")
+    let cuartoactual = idseleccionado[1]
+
+    let item: Room;
+    item = this.rooms.find(
+      (Room) => {
+        return Room.room==cuartoactual;
+      }
+    );
+
+    console.log("El item es:"+item.f_noDisp);
+
     console.log(this.myForm.get('room').value)
-    //this.guestService.getPosition(this.myForm.get('room').value);
 
-    //console.log(this.guestService.rooms[this.guestService.position].f_noDisp);
+    this.current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
 
-    let current_month_blockout_dates;
+    //let fechasparabloquear: string[]
+    for(let i=0; i<item.f_noDisp.length; i++){
+      let separado = item.f_noDisp[i].split("-")
+      this.current_month_blockout_dates.push({ years: separado[0], months: separado[1], date: separado[2] })
+    }
 
-    //PONER LAS FECHAS NO DISPONIBLES DEL ROOM.VALUE
 
-    //current_month_blockout_dates =
-    //  this.guestService.rooms[this.guestService.position].f_noDisp;
-
-    //  current_month_blockout_dates = this.guestService.getFNoDispById(this.myForm.get('room').value);
-
-    //this.guestService.getFNoDispById(this.myForm.get('room').value).subscribe(item => {
-    //console.log(item);
-    //  this.currRoom = item as Room;
-    //  this.guardarCuarto(this.currRoom);
-    //});
-    //console.log(this.currRoom)
-    //console.log(this.currRoom.f_noDisp)
-    return;
-
-    ////////////////////////////////////////////////
-
-    //current_month_blockout_dates = [{years:'2022', months:'11', date:'20'},{years:'2022', months:'11', date:'21'}];
     this.isBlockedDate = (dateString: string) => {
-      const result = current_month_blockout_dates.some((date) => {
-        let interstitial_date = `${date.years}-${('0' + date.months).slice(
-          -2
-        )}-${date.date}`;
-        // eg. comparing 2022-08-21 with 2022-08-12
+      const result = this.current_month_blockout_dates.some((date) => {
+        let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${date.date
+          }`;
         return dateString == interstitial_date;
       });
       if (result === true) {
       }
       return !result;
     };
-
-    this.validfecha1 = true;
-    this.validfecha2 = true;
-
-    for (
-      let i = 0;
-      i < this.guestService.rooms[this.guestService.position].f_noDisp.length;
-      i++
-    ) {
-      let splitfecha = this.myForm.get('fecha2').value.split('-');
-
-      if (
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'years'
-        ] === splitfecha[0] &&
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'months'
-        ] === splitfecha[1] &&
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'date'
-        ] === splitfecha[2]
-      ) {
-        this.alerta3();
-        this.validfecha1 = false;
-      }
-
-      let splitfecha2 = this.myForm.get('fecha3').value.split('-');
-
-      if (
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'years'
-        ] === splitfecha2[0] &&
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'months'
-        ] === splitfecha2[1] &&
-        this.guestService.rooms[this.guestService.position].f_noDisp[i][
-        'date'
-        ] === splitfecha2[2]
-      ) {
-        this.alerta4();
-        this.validfecha2 = false;
-      }
-    }
   }
 
   current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
+
 
   isBlockedDate = (dateString: string) => {
     const result = this.current_month_blockout_dates.some((date) => {
