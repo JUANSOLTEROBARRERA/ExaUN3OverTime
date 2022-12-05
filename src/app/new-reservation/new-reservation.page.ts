@@ -106,17 +106,7 @@ export class NewReservationPage implements OnInit {
   }
 
   public guardarCuarto(room: Room) {
-    // var timeStamp= this.currRoom.f_noDisp
-    //console.log(room.f_noDisp)
 
-    //for(let i = 0; i<timeStamp.length; i++){
-    //  timeStamp[i] = new Date(timeStamp[i]);
-    //}
-    //console.log(timeStamp[0])
-
-    //var timeStamp2 = timeStamp[0]
-    //var dateFormat = new Date(timeStamp2);
-    //console.log(dateFormat)
   }
 
   public currRoom: Room;
@@ -128,18 +118,18 @@ export class NewReservationPage implements OnInit {
     let item: Room;
     item = this.rooms.find(
       (Room) => {
-        return Room.room==cuartoactual;
+        return Room.room == cuartoactual;
       }
     );
 
-    console.log("El item es:"+item.f_noDisp);
+    console.log("El item es:" + item.f_noDisp);
 
     console.log(this.myForm.get('room').value)
 
     this.current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
 
     //let fechasparabloquear: string[]
-    for(let i=0; i<item.f_noDisp.length; i++){
+    for (let i = 0; i < item.f_noDisp.length; i++) {
       let separado = item.f_noDisp[i].split("-")
       this.current_month_blockout_dates.push({ years: separado[0], months: separado[1], date: separado[2] })
     }
@@ -185,6 +175,44 @@ export class NewReservationPage implements OnInit {
 
     if (!this.validaciones()) return;
 
+    let idseleccionado = this.myForm.controls.room.value.split(" ")
+    let cuartoactual = idseleccionado[1]
+
+    let item: Room;
+    item = this.rooms.find(
+      (Room) => {
+        return Room.room == cuartoactual;
+      }
+    );
+
+    let compara1 = item.f_noDisp
+
+    let fechas1 = this.myForm.controls.fecha2.value
+    let fechas2 = this.myForm.controls.fecha3.value
+
+    let fecaux1 = fechas1.split("-")
+    let fecaux2 = fechas2.split("-")
+
+    let dia1 = fecaux1[2];
+    let dia2 = fecaux2[2];
+
+    let cuantos = parseInt(dia2) - parseInt(dia1)
+
+    let auxiliar = parseInt(dia1)
+
+    for (let i = 0; i < item.f_noDisp.length; i++) {
+      for (let j = 0; j < cuantos; j++) {
+        let suma: number;
+        suma = auxiliar + j;
+        console.log(item.f_noDisp[i] + " VS " + fecaux1[0] + "-" + fecaux1[1] + "-" + suma);
+        if (item.f_noDisp[i] === fecaux1[0] + "-" + fecaux1[1] + "-" + suma) {
+
+          this.alerta10();
+          return
+
+        }
+      }
+    }
 
     //VALIDAR FECHAS ENTREMEDIO
 
@@ -195,43 +223,12 @@ export class NewReservationPage implements OnInit {
 
     let variable = parseInt(cadenaa[2]);
 
-    //this.guestService.getPosition(this.myForm.get('room').value);
-
-    //for (let i = 0; i < cuantass; i++) {
-
-    //let variable = parseInt(cadenaa[2]) + i;
-    //let dia: string;
-    //dia = '' + variable;
-    //let fec = {
-    //years: cadenaa[0].toString(),
-    //months: cadenaa[1].toString(),
-    //date: dia.toString(),
-    //};
-
-
-    //for(let j = 0; j < this.guestService.rooms[this.guestService.position].f_noDisp.length; j++){
-
-
-    //  if(fec.date === this.guestService.rooms[this.guestService.position].f_noDisp[j].date
-    //     && fec.months === this.guestService.rooms[this.guestService.position].f_noDisp[j].months
-    //    && fec.years === this.guestService.rooms[this.guestService.position].f_noDisp[j].years){ 
-
-    //      this.alerta9();  
-    //      return;
-    //  }
-
-    //}
-    //}
-    ///////////////////////////
-
     if (this.validarfechas() === false) {
 
       this.validado = true;
       this.myForm.controls.name.disable();
       this.myForm.controls.phone.disable();
-      //this.myForm.controls.fecha2.disable()
       this.fechaseleccionada1 = this.myForm.controls.fecha2.value
-      //this.myForm.controls.fecha3.disable()
       this.fechaseleccionada2 = this.myForm.controls.fecha3.value
       this.myForm.controls.room.disable();
     } else {
@@ -247,8 +244,6 @@ export class NewReservationPage implements OnInit {
 
     this.myForm.controls.total.disable();
 
-
-
     this.activatedRoute.queryParams.subscribe((params) => {
       let arrroom = this.myForm.get('room').value.split(' ');
       this.guestService.getRoomById(arrroom[0]).subscribe(item => {
@@ -260,7 +255,6 @@ export class NewReservationPage implements OnInit {
     });
 
   }
-
 
   public newGuest(): void {
     if (!this.myForm.controls.advance.valid) {
@@ -314,8 +308,8 @@ export class NewReservationPage implements OnInit {
 
     let dayfecha2 = parseInt(auxfecha2[2]);
 
-    let arrfechas:string[]= [];
-    let actual:string; 
+    let arrfechas: string[] = [];
+    let actual: string;
 
     for (let i = 0; i < dayfecha2 - dayfecha1; i++) {
 
@@ -346,11 +340,8 @@ export class NewReservationPage implements OnInit {
 
     this.guestService.newGuest(this.guest);
 
-    //PARA GUARDAR LAS FECHAS NO DISPONIBLES
 
     let variable = parseInt(cadena[2]);
-
-    //this.guestService.getPosition(this.myForm.get('room').value);
 
 
     for (let i = 0; i < cuantas; i++) {
@@ -362,13 +353,7 @@ export class NewReservationPage implements OnInit {
         months: cadena[1].toString(),
         date: dia.toString(),
       };
-
-      //this.guestService.rooms[this.guestService.position].f_noDisp.push(fec);
-      //this.guestService.blockedDates(this.guestService.getPosition(this.myForm.get('room').value), fec);
-      //this.guestService.blockedDates(this.IdRoom);
-      
       this.guestService.actualizarfecha = 1;
-      //this.guestService.cuantas = (dayfecha2 - dayfecha1)
     }
 
     //////////////////////////////////////////
@@ -615,6 +600,25 @@ export class NewReservationPage implements OnInit {
   public async alerta4() {
     const alert = await this.alertController.create({
       subHeader: 'Fecha de salida seleccionada no disponible, elija otra',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => { },
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => { },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  public async alerta10() {
+    const alert = await this.alertController.create({
+      subHeader: 'Hay fechas no disponibles entre la entrada y la llegada',
       buttons: [
         {
           text: 'Cancelar',

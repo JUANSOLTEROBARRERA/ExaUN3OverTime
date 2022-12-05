@@ -3,9 +3,8 @@
     "",
     "\\src",
     "\\src\\app",
-    "\\src\\app\\login",
-    "\\src\\app\\services"
+    "\\src\\app\\services",
+    "\\src\\app\\view-reservation"
   ],
-  "SelectedNode": "\\src\\app\\services\\guest.service.ts",
   "PreviewInSolutionExplorer": false
 }
