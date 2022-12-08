@@ -273,6 +273,10 @@ export class NewReservationPage implements OnInit {
 
 
   public newGuest(): void {
+    if(this.imageUploads.length!=1){
+      this.alerta11();
+      return
+    }
     if (!this.myForm.controls.advance.valid) {
       this.alerta7();
       return;
@@ -646,6 +650,24 @@ export class NewReservationPage implements OnInit {
   public async alerta10() {
     const alert = await this.alertController.create({
       subHeader: 'Hay fechas no disponibles entre la entrada y la llegada',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => { },
+        },
+        {
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => { },
+        },
+      ],
+    });
+    await alert.present();
+  }
+  public async alerta11() {
+    const alert = await this.alertController.create({
+      subHeader: 'No has agregado una fotografía.',
       buttons: [
         {
           text: 'Cancelar',
