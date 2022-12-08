@@ -1,0 +1,12 @@
+#photoPreview{
+    margin-top:10px;
+    display: flex;
+    div{
+        margin: 5px 5px;
+    }
+    img{
+        object-fit: cover;
+        width: 200px;
+        height: 200px;
+    }
+}

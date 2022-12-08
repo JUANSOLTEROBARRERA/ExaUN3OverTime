@@ -352,6 +352,7 @@ export class NewReservationPage implements OnInit {
       n_days: cuantas,
       advance: this.advance,
       room_price: 500 * cuantas - this.advance,
+      photo: this.imageUploads[0]
     };
 
     this.guestService.newGuest(this.guest);
@@ -401,9 +402,10 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.name.enable();
     this.myForm.controls.phone.enable();
     this.myForm.controls.room.enable();
+    this.myForm.controls.imagen.enable();
 
-
-
+    this.myForm.controls.imagen.setValue('')
+    this.imageUploads.pop()
   }
 
   public validaciones(): Boolean {
@@ -700,10 +702,13 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.name.enable();
     this.myForm.controls.phone.enable();
     this.myForm.controls.room.enable();
+    this.myForm.controls.imagen.enable();
 
     this.router.navigate(['/reservations']);
 
     this.myForm.controls.room.setValue('')
+    this.myForm.controls.imagen.setValue('')
+    this.imageUploads.pop()
   }
 
   ngOnInit() {
@@ -730,7 +735,7 @@ export class NewReservationPage implements OnInit {
           Validators.pattern('[0-9]+([.][0-9]+)?'),
         ]),
       ],
-      imagen: ['']
+      imagen: [''],
     });
 
     this.validationMessages = {
@@ -745,6 +750,9 @@ export class NewReservationPage implements OnInit {
         { type: 'required', message: 'El anticipo es obligatorio.' },
         { type: 'pattern', message: 'Cantidad no valida' },
       ],
+      imagen: [
+        { type: 'required', message: 'La foto es obligatoria.' },
+      ]
     };
 
     this.myForm.controls.fecha2.setValue(this.today);
@@ -757,6 +765,7 @@ export class NewReservationPage implements OnInit {
   imageUploads = [];
 
   uploadPhoto(event) {
+    this.myForm.controls.imagen.disable();
     this.barStatus = true;
     this.guestService.storeImage(event.target.files[0]).then(
       (res: any) => {

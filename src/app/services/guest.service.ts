@@ -292,6 +292,7 @@ export class GuestService {
       if (token === this.guests[i].token) {
         bandera = true;
         localStorage.setItem('name', this.guests[i].name);
+        localStorage.setItem('photo', this.guests[i].photo);
         return bandera;
       } else {
         bandera = false;

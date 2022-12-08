@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class Tab3Page implements OnInit {
   public name: string;
+  public foto: string;
   public currentLanguage: number;
   public titles: [string[], string[], string[]] = [
     ['Actividades', 'Recomendaciones', 'Historia', 'Números de emergencia'],
@@ -109,6 +110,7 @@ export class Tab3Page implements OnInit {
     private modalController: ModalController,
     private router: Router
   ) {
+    this.foto = localStorage.getItem('photo');
     this.currentLanguage = this.gestService.getLanguage();
     this.name = localStorage.getItem('name');
     let auxi = this.name.split(' ');

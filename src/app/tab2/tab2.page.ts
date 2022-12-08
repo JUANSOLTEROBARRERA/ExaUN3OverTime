@@ -74,7 +74,7 @@ export class Tab2Page implements OnInit {
   public text22: string[];
   public text23: string[];
 
-  
+  public foto: string;
 
   constructor(
     private guestService: GuestService,
@@ -83,6 +83,7 @@ export class Tab2Page implements OnInit {
     private fb: FormBuilder,
     private toastController: ToastController
   ) {
+    this.foto = localStorage.getItem('photo');
     this.name = localStorage.getItem('name');
     let auxi = this.name.split(' ');
 

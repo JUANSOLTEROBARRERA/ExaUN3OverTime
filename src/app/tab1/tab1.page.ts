@@ -24,6 +24,8 @@ export class Tab1Page {
   public text4: string[];
   public text5: string[];
 
+  public foto: string;
+
   constructor(
     private guestService: GuestService,
     private modalController: ModalController,
@@ -32,6 +34,8 @@ export class Tab1Page {
     this.lenguaje = this.guestService.language;
 
     this.name = localStorage.getItem('name');
+    this.foto = localStorage.getItem('photo');
+
     let auxi = this.name.split(' ');
 
     this.name = auxi[0];
