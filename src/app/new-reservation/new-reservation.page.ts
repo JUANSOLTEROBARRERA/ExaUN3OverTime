@@ -1,5 +1,5 @@
 import { AlertController, IonInput } from '@ionic/angular';
-import { Component, OnInit, TestabilityRegistry, ViewChild } from '@angular/core';
+import { Component, OnInit, TestabilityRegistry, ViewChild, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ActivationEnd } from '@angular/router';
 
@@ -8,6 +8,7 @@ import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
+
 
 @Component({
   selector: 'app-new-reservation',
@@ -106,7 +107,17 @@ export class NewReservationPage implements OnInit {
   }
 
   public guardarCuarto(room: Room) {
+    // var timeStamp= this.currRoom.f_noDisp
+    //console.log(room.f_noDisp)
 
+    //for(let i = 0; i<timeStamp.length; i++){
+    //  timeStamp[i] = new Date(timeStamp[i]);
+    //}
+    //console.log(timeStamp[0])
+
+    //var timeStamp2 = timeStamp[0]
+    //var dateFormat = new Date(timeStamp2);
+    //console.log(dateFormat)
   }
 
   public currRoom: Room;
@@ -228,7 +239,9 @@ export class NewReservationPage implements OnInit {
       this.validado = true;
       this.myForm.controls.name.disable();
       this.myForm.controls.phone.disable();
+      //this.myForm.controls.fecha2.disable()
       this.fechaseleccionada1 = this.myForm.controls.fecha2.value
+      //this.myForm.controls.fecha3.disable()
       this.fechaseleccionada2 = this.myForm.controls.fecha3.value
       this.myForm.controls.room.disable();
     } else {
@@ -244,6 +257,8 @@ export class NewReservationPage implements OnInit {
 
     this.myForm.controls.total.disable();
 
+
+
     this.activatedRoute.queryParams.subscribe((params) => {
       let arrroom = this.myForm.get('room').value.split(' ');
       this.guestService.getRoomById(arrroom[0]).subscribe(item => {
@@ -255,6 +270,7 @@ export class NewReservationPage implements OnInit {
     });
 
   }
+
 
   public newGuest(): void {
     if (!this.myForm.controls.advance.valid) {
@@ -340,8 +356,11 @@ export class NewReservationPage implements OnInit {
 
     this.guestService.newGuest(this.guest);
 
+    //PARA GUARDAR LAS FECHAS NO DISPONIBLES
 
     let variable = parseInt(cadena[2]);
+
+    //this.guestService.getPosition(this.myForm.get('room').value);
 
 
     for (let i = 0; i < cuantas; i++) {
@@ -353,7 +372,13 @@ export class NewReservationPage implements OnInit {
         months: cadena[1].toString(),
         date: dia.toString(),
       };
+
+      //this.guestService.rooms[this.guestService.position].f_noDisp.push(fec);
+      //this.guestService.blockedDates(this.guestService.getPosition(this.myForm.get('room').value), fec);
+      //this.guestService.blockedDates(this.IdRoom);
+
       this.guestService.actualizarfecha = 1;
+      //this.guestService.cuantas = (dayfecha2 - dayfecha1)
     }
 
     //////////////////////////////////////////
@@ -705,6 +730,7 @@ export class NewReservationPage implements OnInit {
           Validators.pattern('[0-9]+([.][0-9]+)?'),
         ]),
       ],
+      imagen: ['']
     });
 
     this.validationMessages = {
@@ -723,5 +749,27 @@ export class NewReservationPage implements OnInit {
 
     this.myForm.controls.fecha2.setValue(this.today);
     this.myForm.controls.fecha3.setValue(this.tomorrow);
+  }
+
+  //CARGAR IMAGEN
+
+  barStatus = false;
+  imageUploads = [];
+
+  uploadPhoto(event) {
+    this.barStatus = true;
+    this.guestService.storeImage(event.target.files[0]).then(
+      (res: any) => {
+        if (res) {
+          console.log(res);
+          this.imageUploads.unshift(res);
+          this.barStatus = false;
+        }
+      },
+      (error: any) => {
+        //this.errorMessage = 'File size exceeded. Maximum file size 1 MB'
+        this.barStatus = false;
+      }
+    );
   }
 }

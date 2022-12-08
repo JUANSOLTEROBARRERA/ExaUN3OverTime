@@ -13,4 +13,5 @@ export class Guest {
      room_price: number;
      advance: number;
      id?: string;
+     photo?: string;
 }

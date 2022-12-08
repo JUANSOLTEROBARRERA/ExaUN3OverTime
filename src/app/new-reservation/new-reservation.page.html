@@ -63,9 +63,9 @@
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime (ionChange)="validarfecha1()" display-format="DD/MM/YYYY" formControlName="fecha2"
-                  id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                  [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
-                  [isDateEnabled]="isBlockedDate">
+                              id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
+                              [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
+                              [isDateEnabled]="isBlockedDate">
                 </ion-datetime>
               </ng-template>
             </ion-modal>
@@ -98,9 +98,9 @@
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
                 <ion-datetime (ionChange)="validarfecha2()" display-format="DD/MM/YYYY" formControlName="fecha3"
-                  id="datetime2" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                  [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
-                  [isDateEnabled]="isBlockedDate">
+                              id="datetime2" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
+                              [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
+                              [isDateEnabled]="isBlockedDate">
                 </ion-datetime>
               </ng-template>
             </ion-modal>
@@ -113,10 +113,10 @@
           <ion-list>
             <ion-item>
               <ion-select formControlName="room" interface="popover" placeholder="Selecciona Habitación"
-                (ionChange)="cambiar()">
+                          (ionChange)="cambiar()">
                 <div *ngFor="let item of rooms; let i = index">
                   <div>
-                    <ion-select-option value="{{item.id + ' ' + item.room}}" >{{item.room}}</ion-select-option>
+                    <ion-select-option value="{{item.id + ' ' + item.room}}">{{item.room}}</ion-select-option>
                   </div>
                 </div>
               </ion-select>
@@ -160,8 +160,32 @@
           </div>
         </ion-col>
       </ion-row>
+
+      <ion-row *ngIf="!validado">
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked">Selecciona imagen</ion-label>
+            <div *ngIf="barStatus">
+              <br>
+              <ion-label position="stacked">Uploading...</ion-label>
+            </div>
+            <br>
+            <br>
+            <ion-input accept=".png,.jpg" (change)="uploadPhoto($event)" formControlName="imagen" type="file"></ion-input>
+            <br>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </form>
   </ion-grid>
+
+
+  <div *ngFor="let image of imageUploads; let i = index">
+    <ion-item>
+      <img loading="lazy" [src]="image" class="preview" />
+    </ion-item>
+  </div>
+
   <ion-button *ngIf="!validado" size="default" shape="round" (click)="newGuestBef()">
     Reservar
   </ion-button>

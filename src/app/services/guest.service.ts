@@ -4,10 +4,12 @@ import { Room } from '../models/room';
 import { Router } from '@angular/router';
 
 import { map } from 'rxjs/operators';
-import { AngularFirestore } from '@angular/fire/compat/firestore' 
+import { AngularFirestore } from '@angular/fire/compat/firestore'
 import { Observable } from 'rxjs';
 import { ActivatedRoute, ActivationEnd } from '@angular/router';
 import { createMockUserToken } from '@firebase/util';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { resolve } from 'dns';
 
 
 @Injectable({
@@ -19,16 +21,16 @@ export class GuestService {
   private loggedAs: string;
   public language: number;
   public position: number;
-  
 
-  constructor(private activatedRoute:ActivatedRoute ,private router: Router,private firestore: AngularFirestore) {
-    
+
+  constructor(private angularFireStorage: AngularFireStorage, private activatedRoute: ActivatedRoute, private router: Router, private firestore: AngularFirestore) {
+
     this.language = 1;
     this.rooms = [
       {
         room: 'A101',
         f_noDisp: [{ years: '2022', months: '11', date: '27' },
-                  { years: '2022', months: '11', date: '28' }]
+        { years: '2022', months: '11', date: '28' }]
       },
       {
         room: 'A102',
@@ -107,7 +109,7 @@ export class GuestService {
         f_noDisp: [{ years: '2022', months: '11', date: '17' }]
       },
     ];
-    
+
     this.getGuest2().subscribe(res => {
       this.guests = res;
     });
@@ -117,7 +119,7 @@ export class GuestService {
   public actualizarfecha = 0;
   public cuantas = 0;
 
-  public bloquearFechas(a: string[], id:string){
+  public bloquearFechas(a: string[], id: string) {
 
     //console.log("ID:"+id)
 
@@ -128,24 +130,24 @@ export class GuestService {
         //console.log(item);
         cuarto = item as Room;
 
-        if(this.actualizarfecha == 1){
+        if (this.actualizarfecha == 1) {
           //console.log("tengo: "+ cuarto.f_noDisp)
           //console.log("total: "+ cuarto.f_noDisp.length+" fechas.")
           let tengofechas = cuarto.f_noDisp
 
-          for(let i=0; i<a.length; i++){
+          for (let i = 0; i < a.length; i++) {
             tengofechas.push(a[i])
           }
-          
+
           //console.log("Y ahora: "+tengofechas)
 
           this.firestore
-          .collection('rooms')
-          .doc(id)
-          .set(
-            { room: cuarto.room, f_noDisp: tengofechas }
-          )
-          this.actualizarfecha=0;
+            .collection('rooms')
+            .doc(id)
+            .set(
+              { room: cuarto.room, f_noDisp: tengofechas }
+            )
+          this.actualizarfecha = 0;
           this.cuantas--;
         }
 
@@ -154,13 +156,13 @@ export class GuestService {
 
   }
 
-  public blockedDates(id:string){
+  public blockedDates(id: string) {
     //let collection = this.firestore.collection('rooms');
-    
+
     //console.log(this.getRoomById(id));
   }
 
-  public getRoomById(id:string){
+  public getRoomById(id: string) {
     let result = this.firestore.collection('rooms').doc(id).valueChanges();
     return result;
   }
@@ -227,7 +229,7 @@ export class GuestService {
     return this.language;
   }
 
-  public getFNoDispById(id:string){
+  public getFNoDispById(id: string) {
     let result = this.firestore.collection('rooms').doc(id).valueChanges();
     return result;
   }
@@ -236,10 +238,10 @@ export class GuestService {
     //return this.rooms;
     return this.firestore.collection('rooms').snapshotChanges().pipe(
       map(actions => {
-        return actions.map (a=>{
-            const data = a.payload.doc.data() as Guest;
-            const id = a.payload.doc.id;
-            return { id, ...data };
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Guest;
+          const id = a.payload.doc.id;
+          return { id, ...data };
         });
       })
     );
@@ -260,10 +262,10 @@ export class GuestService {
   public getGuest2(): Observable<Guest[]> {
     return this.firestore.collection('guests').snapshotChanges().pipe(
       map(actions => {
-        return actions.map (a=>{
-            const data = a.payload.doc.data() as Guest;
-            const id = a.payload.doc.id;
-            return { id, ...data };
+        return actions.map(a => {
+          const data = a.payload.doc.data() as Guest;
+          const id = a.payload.doc.id;
+          return { id, ...data };
         });
       })
     );
@@ -308,5 +310,38 @@ export class GuestService {
   public removeGuest(pos: number): Guest[] {
     this.guests.splice(pos, 1);
     return this.guests;
+  }
+
+
+  //GUARDAR IMAGENES EN STORAGE DE FIREBASE
+
+  public location = 'uploads/'
+
+  imageName() {
+    let newTime = Math.floor(Date.now() / 1000);
+    return Math.floor(Math.random() * 20) + newTime;
+  }
+
+  async storeImage(imageData: any) {
+    try {
+      const imageName = this.imageName();
+      return new Promise((resolve, reject) => {
+
+        const pictureRef = this.angularFireStorage.ref(this.location + imageName)
+
+        pictureRef
+          .put(imageData)
+          .then(function () {
+            pictureRef.getDownloadURL().subscribe((url: any) => {
+              resolve(url);
+            });
+          }).catch((error) => {
+            reject(error);
+          });
+
+      });
+    } catch (e) {
+
+    }
   }
 }
