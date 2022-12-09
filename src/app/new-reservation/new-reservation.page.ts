@@ -68,7 +68,6 @@ export class NewReservationPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private camera: Camera
   ) {
-
     this.fechaseleccionada1 = ''
     this.fechaseleccionada2 = ''
     this.validado = false;
@@ -827,6 +826,7 @@ export class NewReservationPage implements OnInit {
     }
     ).then((res) => {
       this.imgURL = res;
+      this.myForm.controls.name.setValue(this.imgURL)
 
     }).catch(e=>{
       console.log(e);

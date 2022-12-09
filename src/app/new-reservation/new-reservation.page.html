@@ -210,12 +210,9 @@
   </ion-button>
 
   <br>
-    <img src="{{imgURL}}" height="200" width="200"/>
+    <img [src]="imgURL" height="200" width="200"/>
     <ion-button (click)="getCamera()">From Camera</ion-button>
     <ion-button (click)="getGallery()">From Gallery</ion-button>
 
-  <img [src]="imgURL">
-
   <ion-input accept=".png,.jpg" (change)="imprimirevento($event)" type="file"></ion-input>
-
 </ion-content>
