@@ -819,6 +819,11 @@ export class NewReservationPage implements OnInit {
   //TOMAR FOTO
   securepath: any = window;
 
+  imageName() {
+    let newTime = Math.floor(Date.now() / 1000);
+    return Math.floor(Math.random() * 20) + newTime;
+  }
+
   public getCamera(){
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
@@ -826,8 +831,15 @@ export class NewReservationPage implements OnInit {
     }
     ).then((res) => {
       this.imgURL = res;
-      this.myForm.controls.name.setValue(this.imgURL)
+      //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
+      let dividir = this.imgURL.split('///');
+      let dividir2 = dividir[1].split('/');
+      let dividir3 = dividir2[5].split('.');
+      // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
+      let fileObject = new File([this.imgURL], dividir2[5]+"", { type: "image/"+dividir3[1] });
+      this.myForm.controls.name.setValue("URL:"+this.imgURL+"NOMBRE:"+dividir2[5],"TIPO:"+"image/"+dividir3[1])
+      //this.guestService.storeImage2(fileObject)
     }).catch(e=>{
       console.log(e);
     });
