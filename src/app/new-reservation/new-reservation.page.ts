@@ -824,8 +824,8 @@ export class NewReservationPage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL
     }).then((res) => {
       this.imgURL = 'data:image/jpeg;base64,' + res;
-      let decodedUrl:string = window.atob(this.imgURL);
-      this.uploadPhoto(decodedUrl);
+      //let decodedUrl:string = window.atob(this.imgURL);
+      this.uploadPhoto(this.imgURL);
       //console.log('data:image/jpeg;base64,' + res)
     }).catch(e=>{
       console.log(e);
