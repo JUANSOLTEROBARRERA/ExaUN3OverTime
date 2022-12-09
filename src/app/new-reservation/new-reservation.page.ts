@@ -770,6 +770,7 @@ export class NewReservationPage implements OnInit {
         ]),
       ],
       imagen: [''],
+      imgpreview: [''],
     });
 
     this.validationMessages = {
@@ -852,6 +853,7 @@ export class NewReservationPage implements OnInit {
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)
       
+      this.myForm.controls.name.setValue(this.myForm.controls.imgpreview.get('src'));
       //this.subir2()
 
     }).catch(e=>{
