@@ -832,7 +832,7 @@ export class NewReservationPage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL
     }
     ).then((res) => {
-      this.imgURL = 'data:image/jpg;base64,' + res;
+      this.imgURL = 'data:image/jpeg;base64,' + res;
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
       let dividir = this.imgURL.split('///');
       let dividir2 = dividir[1].split('/');
