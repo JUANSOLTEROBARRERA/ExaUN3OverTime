@@ -801,6 +801,7 @@ export class NewReservationPage implements OnInit {
   uploadPhoto(event) {
     this.myForm.controls.imagen.disable();
     this.barStatus = true;
+    //console.log("Imagen cargada manual:"+event.target.files[0])
     this.guestService.storeImage(event.target.files[0]).then(
       (res: any) => {
         if (res) {
@@ -823,6 +824,9 @@ export class NewReservationPage implements OnInit {
       destinationType: this.camera.DestinationType.DATA_URL
     }).then((res) => {
       this.imgURL = 'data:image/jpeg;base64,' + res;
+      let decodedUrl:string = window.atob(this.imgURL);
+      this.uploadPhoto(decodedUrl);
+      //console.log('data:image/jpeg;base64,' + res)
     }).catch(e=>{
       console.log(e);
     });
