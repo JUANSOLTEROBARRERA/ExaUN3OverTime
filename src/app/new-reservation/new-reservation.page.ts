@@ -823,10 +823,10 @@ export class NewReservationPage implements OnInit {
   public getCamera(){
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.FILE_URI
+      destinationType: this.camera.DestinationType.DATA_URL
     }
     ).then((res) => {
-      this.imgURL = res;
+      this.imgURL = 'data:image/jpeg;base64,' + res;
     }).catch(e=>{
       console.log(e);
     });
