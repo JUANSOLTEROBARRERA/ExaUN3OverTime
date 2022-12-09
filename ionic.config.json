@@ -1,7 +1,8 @@
 {
   "name": "eje03",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
