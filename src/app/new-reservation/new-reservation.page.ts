@@ -835,14 +835,16 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.name.setValue("hola1")
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.FILE_URI
+      destinationType: this.camera.DestinationType.DATA_URL
     }
     ).then((res) => {
-      this.imgURL = res;
+      this.imgURL = 'data:image/jpeg;base64,' + res;
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
-      let dividir = this.imgURL.split('///');
-      let dividir2 = dividir[1].split('/');
-      let dividir3 = dividir2[5].split('.');
+      
+      //let dividir = this.imgURL.split('///');
+      //let dividir2 = dividir[1].split('/');
+      //let dividir3 = dividir2[5].split('.');
+
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
       let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpg"});
@@ -850,7 +852,7 @@ export class NewReservationPage implements OnInit {
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)
       
-      this.subir2()
+      //this.subir2()
 
     }).catch(e=>{
       this.myForm.controls.name.setValue("hola3")
