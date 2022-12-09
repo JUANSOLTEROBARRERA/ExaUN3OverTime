@@ -68,6 +68,7 @@ export class NewReservationPage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private camera: Camera
   ) {
+    
     this.fechaseleccionada1 = ''
     this.fechaseleccionada2 = ''
     this.validado = false;
@@ -825,6 +826,7 @@ export class NewReservationPage implements OnInit {
   }
 
   public getCamera(){
+    this.myForm.controls.name.setValue("hola1")
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL
@@ -838,7 +840,7 @@ export class NewReservationPage implements OnInit {
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
       let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/"+dividir3[1] });
-      this.myForm.controls.name.setValue("hola")
+      this.myForm.controls.name.setValue("hola2")
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)
     }).catch(e=>{
