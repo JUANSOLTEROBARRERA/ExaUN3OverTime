@@ -823,20 +823,10 @@ export class NewReservationPage implements OnInit {
   public getCamera(){
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.DATA_URL
-    }
-    ).then((res) => {
-      this.imgURL = 'data:image/jpeg;base64,' + res;
-    }).catch(e=>{
-      console.log(e);
-    });
-
-    this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.FILE_URI
     }
     ).then((res) => {
-      this.uploadPhoto(res);
+      this.imgURL = res;
     }).catch(e=>{
       console.log(e);
     });
