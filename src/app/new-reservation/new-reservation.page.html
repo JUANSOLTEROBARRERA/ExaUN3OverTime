@@ -214,8 +214,8 @@
     <ion-button (click)="getCamera()">From Camera</ion-button>
     <ion-button (click)="getGallery()">From Gallery</ion-button>
 
-  <img [src]="'data:image/jpeg;base64,' + imageData">
+  <img [src]="imgURL">
 
-  <ion-input accept=".png,.jpg" [value]="'data:image/jpeg;base64,' + imageData" (change)="imprimirevento($event)" type="file"></ion-input>
+  <ion-input accept=".png,.jpg" (change)="imprimirevento($event)" type="file"></ion-input>
 
 </ion-content>

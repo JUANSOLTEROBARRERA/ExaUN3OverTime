@@ -345,4 +345,28 @@ export class GuestService {
 
     }
   }
+
+  //SUBIR IMAGEN TOMADA CON LA CAMARA
+  async storeImage2(imageData: any) {
+    try {
+      const imageName = this.imageName();
+      return new Promise((resolve, reject) => {
+
+        const pictureRef = this.angularFireStorage.ref(this.location + imageName)
+
+        pictureRef
+          .put(imageData)
+          .then(function () {
+            pictureRef.getDownloadURL().subscribe((url: any) => {
+              resolve(url);
+            });
+          }).catch((error) => {
+            reject(error);
+          });
+
+      });
+    } catch (e) {
+
+    }
+  }
 }
