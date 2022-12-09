@@ -825,6 +825,12 @@ export class NewReservationPage implements OnInit {
     return Math.floor(Math.random() * 20) + newTime;
   }
 
+  public async subir2(){
+    let blob = await fetch(this.imgURL).then(response => response.blob());
+    let file = new File([blob], this.imageName()+"", { type: 'image/jpg' });
+    this.guestService.storeImage2(file)
+  }
+
   public getCamera(){
     this.myForm.controls.name.setValue("hola1")
     this.camera.getPicture({
@@ -839,10 +845,12 @@ export class NewReservationPage implements OnInit {
       let dividir3 = dividir2[5].split('.');
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
-      let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
+      let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpg"});
       this.myForm.controls.name.setValue("hola2")
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)
+      
+
     }).catch(e=>{
       this.myForm.controls.name.setValue("hola3")
       console.log(e);
