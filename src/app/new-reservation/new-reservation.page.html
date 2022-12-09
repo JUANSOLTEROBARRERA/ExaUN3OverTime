@@ -216,6 +216,6 @@
 
   <img [src]="'data:image/jpeg;base64,' + imageData">
 
-  <ion-input accept=".png,.jpg" [src]="'data:image/jpeg;base64,' + imageData" (change)="imprimirevento($event)" type="file"></ion-input>
+  <ion-input accept=".png,.jpg" [value]="'data:image/jpeg;base64,' + imageData" (change)="imprimirevento($event)" type="file"></ion-input>
 
 </ion-content>
