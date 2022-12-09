@@ -850,6 +850,7 @@ export class NewReservationPage implements OnInit {
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)
       
+      this.subir2()
 
     }).catch(e=>{
       this.myForm.controls.name.setValue("hola3")
