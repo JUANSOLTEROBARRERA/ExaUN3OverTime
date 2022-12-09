@@ -818,26 +818,25 @@ export class NewReservationPage implements OnInit {
   }
 
   //TOMAR FOTO
+  securepath: any = window;
 
   public getCamera(){
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL
-    }).then((res) => {
+    }
+    ).then((res) => {
       this.imgURL = 'data:image/jpeg;base64,' + res;
+    }).catch(e=>{
+      console.log(e);
+    });
 
-      let body =  this.imgURL
-      //Intento de subir foto
-      body = body.split(',')[1]
-      const blob = new Blob([atob(body)], {
-        type: 'image/jpg'
-      });
-      let file = new File([blob], "Grandma on bycle")
-
-
-      //let decodedUrl:string = window.atob(this.imgURL);
-      this.uploadPhoto(file);
-      //console.log('data:image/jpeg;base64,' + res)
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI
+    }
+    ).then((res) => {
+      this.uploadPhoto(res);
     }).catch(e=>{
       console.log(e);
     });
