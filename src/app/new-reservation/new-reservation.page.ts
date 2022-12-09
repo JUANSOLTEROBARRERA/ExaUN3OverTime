@@ -838,8 +838,8 @@ export class NewReservationPage implements OnInit {
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
       let fileObject = new File([this.imgURL], dividir2[5]+"", { type: "image/"+dividir3[1] });
-      this.myForm.controls.name.setValue("URL:"+this.imgURL+"NOMBRE:"+dividir2[5],"TIPO:"+"image/"+dividir3[1])
-      //this.guestService.storeImage2(fileObject)
+      //this.myForm.controls.name.setValue("URL:"+this.imgURL+"NOMBRE:"+dividir2[5]+"TIPO:"+"image/"+dividir3[1])
+      this.guestService.storeImage2(fileObject)
     }).catch(e=>{
       console.log(e);
     });

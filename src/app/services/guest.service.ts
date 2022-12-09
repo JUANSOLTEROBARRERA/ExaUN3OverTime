@@ -347,9 +347,13 @@ export class GuestService {
   }
 
   //SUBIR IMAGEN TOMADA CON LA CAMARA
-  async storeImage2(imageData: any) {
+  async storeImage2(imageData: File) {
     try {
-      const imageName = this.imageName();
+      //const imageName = this.imageName();
+      let imageName1:string = imageData.name;
+      let dividir = imageName1.split('.');
+      let imageName = dividir[0];
+      
       return new Promise((resolve, reject) => {
 
         const pictureRef = this.angularFireStorage.ref(this.location + imageName)
