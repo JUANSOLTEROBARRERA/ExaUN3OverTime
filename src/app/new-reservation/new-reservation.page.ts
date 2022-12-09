@@ -9,6 +9,8 @@ import { Room } from '../models/room';
 import { Router } from '@angular/router';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+
 
 @Component({
   selector: 'app-new-reservation',
@@ -49,14 +51,24 @@ export class NewReservationPage implements OnInit {
   public rooom2: string;
   public token: string;
   public codacceso: number;
+  public imgURL;
+
+  public options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
 
   constructor(
     private guestService: GuestService,
     private fb: FormBuilder,
     private router: Router,
     private alertController: AlertController,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private camera: Camera
   ) {
+
     this.fechaseleccionada1 = ''
     this.fechaseleccionada2 = ''
     this.validado = false;
@@ -802,5 +814,35 @@ export class NewReservationPage implements OnInit {
         this.barStatus = false;
       }
     );
+  }
+  //TOMAR FOTO
+
+  public takePicture(){ 
+    this.camera.getPicture(this.options).then((imageData) => {
+      // imageData is a base64-encoded string of the photo
+    }, (err) => {
+      // Handle error
+    });
+  }
+
+  public getCamera(){
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI
+    }).then((res) => {
+      this.imgURL = res;
+    }).catch(e=>{
+      console.log(e);
+    });
+  }
+  public getGallery(){
+    this.camera.getPicture({
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.DATA_URL
+    }).then((res) => {
+      this.imgURL = 'data:image/jpeg;base64,' + res;
+    }).catch(e=>{
+      console.log(e);
+    });
   }
 }

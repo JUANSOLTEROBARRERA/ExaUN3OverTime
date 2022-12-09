@@ -208,4 +208,12 @@
   <ion-button color="danger" size="default" shape="round" (click)="cancelar()">
     Cancelar
   </ion-button>
+
+  <br>
+    <img src="{{imgURL}}" height="200" width="200"/>
+    <ion-button (click)="getCamera()">From Camera</ion-button>
+    <ion-button (click)="getGallery()">From Gallery</ion-button>
+
+  <img [src]="'data:image/jpeg;base64,' + imageData">
+
 </ion-content>
