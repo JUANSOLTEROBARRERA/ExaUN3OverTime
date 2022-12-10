@@ -843,7 +843,7 @@ export class NewReservationPage implements OnInit {
     }
     ).then((res) => {
       //this.imgURL = res;
-      this.imgURL = this.WebView.convertFileSrc(res);
+      this.imgURL = this.WebView.convertFileSrc('data:image/jpeg;base64,' + res);
       this.myForm.controls.name.setValue(this.imgURL)
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
       //let dividir = this.imgURL.split('///');
