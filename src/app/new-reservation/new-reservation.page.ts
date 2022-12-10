@@ -827,15 +827,10 @@ export class NewReservationPage implements OnInit {
     return Math.floor(Math.random() * 20) + newTime;
   }
 
-  public async subir2(){
-    let blob = await fetch(this.imgURL).then(response => response.blob());
-    let file = new File([blob], this.imageName()+"", { type: 'image/jpg' });
-    this.guestService.storeImage2(file)
-  }
-
   public image;
+  public file:File;
   public getCamera(){
-    this.myForm.controls.name.setValue("hola1")
+    //this.myForm.controls.name.setValue("hola1")
 
     let options: CameraOptions = {
       quality: 100,
@@ -866,6 +861,9 @@ export class NewReservationPage implements OnInit {
 
         this.image = this.WebView.convertFileSrc(res);
         this.imgURL = this.image;
+        
+        this.file = new File([this.image], this.imageName()+"", { type: 'image/jpeg' });
+        this.guestService.storeImage(this.file)
     }).catch(e=>{
       //this.myForm.controls.name.setValue("hola3")
       console.log(e);
