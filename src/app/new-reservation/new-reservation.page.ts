@@ -1,16 +1,17 @@
 import { AlertController, IonInput } from '@ionic/angular';
-import { Component, OnInit, TestabilityRegistry, ViewChild, Input } from '@angular/core';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ActivationEnd } from '@angular/router';
 
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FotoService } from './../services/foto.service';
 import { Guest } from '../models/guest';
 import { GuestService } from '../services/guest.service';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+
 //import { Camera } from '@ionic-native/camera/ngx';
 
 @Component({
@@ -40,7 +41,6 @@ export class NewReservationPage implements OnInit {
 
   public currId: string;
 
-
   @ViewChild('inputname') inputname: IonInput;
   @ViewChild('#inputphone') inputphone: IonInput;
 
@@ -58,8 +58,8 @@ export class NewReservationPage implements OnInit {
     quality: 100,
     destinationType: this.camera.DestinationType.FILE_URI,
     encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE
-  }
+    mediaType: this.camera.MediaType.PICTURE,
+  };
 
   constructor(
     private guestService: GuestService,
@@ -68,11 +68,12 @@ export class NewReservationPage implements OnInit {
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
     private camera: Camera,
-    private WebView: WebView
+    private WebView: WebView,
+    private fotoService: FotoService,
+    private sanitizer: DomSanitizer
   ) {
-    
-    this.fechaseleccionada1 = ''
-    this.fechaseleccionada2 = ''
+    this.fechaseleccionada1 = '';
+    this.fechaseleccionada2 = '';
     this.validado = false;
     this.validfecha1 = true;
     this.validfecha2 = true;
@@ -86,12 +87,9 @@ export class NewReservationPage implements OnInit {
     this.today = this.formatDate(new Date());
     this.tomorrow = this.formatDate2(new Date());
 
-
-
-    this.guestService.getRooms().subscribe(res => {
+    this.guestService.getRooms().subscribe((res) => {
       this.rooms = res;
     });
-
 
     // this.filterRooms();
   }
@@ -104,7 +102,6 @@ export class NewReservationPage implements OnInit {
     //  }
     //}
   }
-
 
   public validarfecha1() {
     this.validfecha1 = true;
@@ -123,12 +120,10 @@ export class NewReservationPage implements OnInit {
   public guardarCuarto(room: Room) {
     // var timeStamp= this.currRoom.f_noDisp
     //console.log(room.f_noDisp)
-
     //for(let i = 0; i<timeStamp.length; i++){
     //  timeStamp[i] = new Date(timeStamp[i]);
     //}
     //console.log(timeStamp[0])
-
     //var timeStamp2 = timeStamp[0]
     //var dateFormat = new Date(timeStamp2);
     //console.log(dateFormat)
@@ -137,33 +132,37 @@ export class NewReservationPage implements OnInit {
   public currRoom: Room;
 
   public cambiar() {
-    let idseleccionado = this.myForm.controls.room.value.split(" ")
-    let cuartoactual = idseleccionado[1]
+    let idseleccionado = this.myForm.controls.room.value.split(' ');
+    let cuartoactual = idseleccionado[1];
 
     let item: Room;
-    item = this.rooms.find(
-      (Room) => {
-        return Room.room == cuartoactual;
-      }
-    );
+    item = this.rooms.find((Room) => {
+      return Room.room == cuartoactual;
+    });
 
-    console.log("El item es:" + item.f_noDisp);
+    console.log('El item es:' + item.f_noDisp);
 
-    console.log(this.myForm.get('room').value)
+    console.log(this.myForm.get('room').value);
 
-    this.current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
+    this.current_month_blockout_dates = [
+      { years: '2022', months: '11', date: '17' },
+    ];
 
     //let fechasparabloquear: string[]
     for (let i = 0; i < item.f_noDisp.length; i++) {
-      let separado = item.f_noDisp[i].split("-")
-      this.current_month_blockout_dates.push({ years: separado[0], months: separado[1], date: separado[2] })
+      let separado = item.f_noDisp[i].split('-');
+      this.current_month_blockout_dates.push({
+        years: separado[0],
+        months: separado[1],
+        date: separado[2],
+      });
     }
-
 
     this.isBlockedDate = (dateString: string) => {
       const result = this.current_month_blockout_dates.some((date) => {
-        let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${date.date
-          }`;
+        let interstitial_date = `${date.years}-${('0' + date.months).slice(
+          -2
+        )}-${date.date}`;
         return dateString == interstitial_date;
       });
       if (result === true) {
@@ -174,11 +173,11 @@ export class NewReservationPage implements OnInit {
 
   current_month_blockout_dates = [{ years: '2022', months: '11', date: '17' }];
 
-
   isBlockedDate = (dateString: string) => {
     const result = this.current_month_blockout_dates.some((date) => {
-      let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${date.date
-        }`;
+      let interstitial_date = `${date.years}-${('0' + date.months).slice(-2)}-${
+        date.date
+      }`;
       // eg. comparing 2022-08-21 with 2022-08-12
       return dateString == interstitial_date;
     });
@@ -196,45 +195,42 @@ export class NewReservationPage implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  public newGuestBef(id: string): void {
-
+  public newGuestBef(): void {
     if (!this.validaciones()) return;
 
-    let idseleccionado = this.myForm.controls.room.value.split(" ")
-    let cuartoactual = idseleccionado[1]
+    let idseleccionado = this.myForm.controls.room.value.split(' ');
+    let cuartoactual = idseleccionado[1];
 
     let item: Room;
-    item = this.rooms.find(
-      (Room) => {
-        return Room.room == cuartoactual;
-      }
-    );
+    item = this.rooms.find((Room) => {
+      return Room.room == cuartoactual;
+    });
 
-    let compara1 = item.f_noDisp
+    let compara1 = item.f_noDisp;
 
-    let fechas1 = this.myForm.controls.fecha2.value
-    let fechas2 = this.myForm.controls.fecha3.value
+    let fechas1 = this.myForm.controls.fecha2.value;
+    let fechas2 = this.myForm.controls.fecha3.value;
 
-    let fecaux1 = fechas1.split("-")
-    let fecaux2 = fechas2.split("-")
+    let fecaux1 = fechas1.split('-');
+    let fecaux2 = fechas2.split('-');
 
     let dia1 = fecaux1[2];
     let dia2 = fecaux2[2];
 
-    let cuantos = parseInt(dia2) - parseInt(dia1)
+    let cuantos = parseInt(dia2) - parseInt(dia1);
 
-    let auxiliar = parseInt(dia1)
+    let auxiliar = parseInt(dia1);
 
     for (let i = 0; i < item.f_noDisp.length; i++) {
       for (let j = 0; j < cuantos; j++) {
         let suma: number;
         suma = auxiliar + j;
-        console.log(item.f_noDisp[i] + " VS " + fecaux1[0] + "-" + fecaux1[1] + "-" + suma);
-        if (item.f_noDisp[i] === fecaux1[0] + "-" + fecaux1[1] + "-" + suma) {
-
+        console.log(
+          item.f_noDisp[i] + ' VS ' + fecaux1[0] + '-' + fecaux1[1] + '-' + suma
+        );
+        if (item.f_noDisp[i] === fecaux1[0] + '-' + fecaux1[1] + '-' + suma) {
           this.alerta10();
-          return
-
+          return;
         }
       }
     }
@@ -249,14 +245,13 @@ export class NewReservationPage implements OnInit {
     let variable = parseInt(cadenaa[2]);
 
     if (this.validarfechas() === false) {
-
       this.validado = true;
       this.myForm.controls.name.disable();
       this.myForm.controls.phone.disable();
       //this.myForm.controls.fecha2.disable()
-      this.fechaseleccionada1 = this.myForm.controls.fecha2.value
+      this.fechaseleccionada1 = this.myForm.controls.fecha2.value;
       //this.myForm.controls.fecha3.disable()
-      this.fechaseleccionada2 = this.myForm.controls.fecha3.value
+      this.fechaseleccionada2 = this.myForm.controls.fecha3.value;
       this.myForm.controls.room.disable();
     } else {
       this.alerta();
@@ -271,25 +266,19 @@ export class NewReservationPage implements OnInit {
 
     this.myForm.controls.total.disable();
 
-
-
     this.activatedRoute.queryParams.subscribe((params) => {
       let arrroom = this.myForm.get('room').value.split(' ');
-      this.guestService.getRoomById(arrroom[0]).subscribe(item => {
+      this.guestService.getRoomById(arrroom[0]).subscribe((item) => {
         //console.log(item);
         this.currRoom = item as Room;
-
-
       });
     });
-
   }
 
-
   public newGuest(): void {
-    if(this.imageUploads.length!=1){
+    if (this.imageUploads.length != 1) {
       this.alerta11();
-      return
+      return;
     }
     if (!this.myForm.controls.advance.valid) {
       this.alerta7();
@@ -325,17 +314,13 @@ export class NewReservationPage implements OnInit {
 
     let cuantas = parseInt(cadena2[2]) - parseInt(cadena[2]);
 
-
-    console.log("La fecha 1 es: " + this.myForm.get('fecha2').value)
-    console.log("La fecha 2 es: " + this.myForm.get('fecha3').value)
-
-
-
+    console.log('La fecha 1 es: ' + this.myForm.get('fecha2').value);
+    console.log('La fecha 2 es: ' + this.myForm.get('fecha3').value);
 
     let auxfecha1 = this.myForm.get('fecha2').value.split('-');
     let auxfecha2 = this.myForm.get('fecha3').value.split('-');
-    //0: YEAR; 
-    //1: MONTH; 
+    //0: YEAR;
+    //1: MONTH;
     //2: DAY;
 
     let dayfecha1 = parseInt(auxfecha1[2]);
@@ -346,16 +331,14 @@ export class NewReservationPage implements OnInit {
     let actual: string;
 
     for (let i = 0; i < dayfecha2 - dayfecha1; i++) {
+      console.log(auxfecha1[0] + '-' + auxfecha1[1] + '-' + (dayfecha1 + i));
 
-      console.log(auxfecha1[0] + "-" + auxfecha1[1] + "-" + (dayfecha1 + i))
+      actual = auxfecha1[0] + '-' + auxfecha1[1] + '-' + (dayfecha1 + i);
 
-      actual = auxfecha1[0] + "-" + auxfecha1[1] + "-" + (dayfecha1 + i);
-
-      arrfechas.push(actual)
+      arrfechas.push(actual);
     }
 
     this.guestService.bloquearFechas(arrfechas, arrroom[0]);
-
 
     /////////////////////////////////////////
 
@@ -370,7 +353,7 @@ export class NewReservationPage implements OnInit {
       n_days: cuantas,
       advance: this.advance,
       room_price: 500 * cuantas - this.advance,
-      photo: this.imageUploads[0]
+      photo: this.imageUploads[0],
     };
 
     this.guestService.newGuest(this.guest);
@@ -380,7 +363,6 @@ export class NewReservationPage implements OnInit {
     let variable = parseInt(cadena[2]);
 
     //this.guestService.getPosition(this.myForm.get('room').value);
-
 
     for (let i = 0; i < cuantas; i++) {
       let variable = parseInt(cadena[2]) + i;
@@ -402,9 +384,6 @@ export class NewReservationPage implements OnInit {
 
     //////////////////////////////////////////
 
-
-
-
     this.myForm.controls.name.setValue('');
     this.myForm.controls.phone.setValue('');
     //this.myForm.controls.room.setValue('')
@@ -414,16 +393,16 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.fecha3.setValue(this.tomorrow);
 
     this.validado = false;
-    this.fechaseleccionada1 = ''
-    this.fechaseleccionada2 = ''
+    this.fechaseleccionada1 = '';
+    this.fechaseleccionada2 = '';
 
     this.myForm.controls.name.enable();
     this.myForm.controls.phone.enable();
     this.myForm.controls.room.enable();
     this.myForm.controls.imagen.enable();
 
-    this.myForm.controls.imagen.setValue('')
-    this.imageUploads.pop()
+    this.myForm.controls.imagen.setValue('');
+    this.imageUploads.pop();
   }
 
   public validaciones(): Boolean {
@@ -450,7 +429,6 @@ export class NewReservationPage implements OnInit {
 
     return true;
   }
-
 
   async presentAlert(input: IonInput) {
     let etiqueta = '';
@@ -497,12 +475,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -516,12 +494,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -535,12 +513,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -554,12 +532,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -573,12 +551,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -592,12 +570,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -611,12 +589,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -630,12 +608,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -649,12 +627,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -668,12 +646,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -686,12 +664,12 @@ export class NewReservationPage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: () => { },
+          handler: () => {},
         },
         {
           text: 'Aceptar',
           role: 'confirm',
-          handler: () => { },
+          handler: () => {},
         },
       ],
     });
@@ -732,8 +710,8 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.fecha3.setValue(this.tomorrow);
 
     this.validado = false;
-    this.fechaseleccionada1 = ''
-    this.fechaseleccionada2 = ''
+    this.fechaseleccionada1 = '';
+    this.fechaseleccionada2 = '';
 
     this.myForm.controls.name.enable();
     this.myForm.controls.phone.enable();
@@ -742,9 +720,9 @@ export class NewReservationPage implements OnInit {
 
     this.router.navigate(['/reservations']);
 
-    this.myForm.controls.room.setValue('')
-    this.myForm.controls.imagen.setValue('')
-    this.imageUploads.pop()
+    this.myForm.controls.room.setValue('');
+    this.myForm.controls.imagen.setValue('');
+    this.imageUploads.pop();
   }
 
   ngOnInit() {
@@ -771,7 +749,7 @@ export class NewReservationPage implements OnInit {
           Validators.pattern('[0-9]+([.][0-9]+)?'),
         ]),
       ],
-      imagen: ['']
+      imagen: [''],
     });
 
     this.validationMessages = {
@@ -786,9 +764,7 @@ export class NewReservationPage implements OnInit {
         { type: 'required', message: 'El anticipo es obligatorio.' },
         { type: 'pattern', message: 'Cantidad no valida' },
       ],
-      imagen: [
-        { type: 'required', message: 'La foto es obligatoria.' },
-      ]
+      imagen: [{ type: 'required', message: 'La foto es obligatoria.' }],
     };
 
     this.myForm.controls.fecha2.setValue(this.today);
@@ -800,24 +776,24 @@ export class NewReservationPage implements OnInit {
   barStatus = false;
   imageUploads = [];
 
-  uploadPhoto(event) {
-    this.myForm.controls.imagen.disable();
-    this.barStatus = true;
-    console.log(event.target.files[0])
-    this.guestService.storeImage(event.target.files[0]).then(
-      (res: any) => {
-        if (res) {
-          console.log(res);
-          this.imageUploads.unshift(res);
-          this.barStatus = false;
-        }
-      },
-      (error: any) => {
-        //this.errorMessage = 'File size exceeded. Maximum file size 1 MB'
-        this.barStatus = false;
-      }
-    );
-  }
+  // uploadPhoto(event) {
+  //   this.myForm.controls.imagen.disable();
+  //   this.barStatus = true;
+  //   console.log(event.target.files[0]);
+  //   this.guestService.storeImage(event.target.files[0]).then(
+  //     (res: any) => {
+  //       if (res) {
+  //         console.log(res);
+  //         this.imageUploads.unshift(res);
+  //         this.barStatus = false;
+  //       }
+  //     },
+  //     (error: any) => {
+  //       //this.errorMessage = 'File size exceeded. Maximum file size 1 MB'
+  //       this.barStatus = false;
+  //     }
+  //   );
+  // }
 
   //TOMAR FOTO
   securepath: any = window;
@@ -828,8 +804,15 @@ export class NewReservationPage implements OnInit {
   }
 
   public image;
-  public file:File;
-  public getCamera(){
+  public file: File;
+  public takePhoto() {
+    this.fotoService.tomarFoto().then((foto) => {
+      this.imageUploads = [foto.webPath];
+      this.imgURL = this.sanitizer.bypassSecurityTrustResourceUrl(foto.webPath);
+      console.log(foto.webPath);
+    });
+  }
+  public getCamera() {
     //this.myForm.controls.name.setValue("hola1")
 
     let options: CameraOptions = {
@@ -837,50 +820,56 @@ export class NewReservationPage implements OnInit {
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    }
+      sourceType: this.camera.PictureSourceType.CAMERA,
+    };
 
-    this.camera.getPicture(
-      options
-    ).then((res) => {
-      //this.imgURL = res;
-      //this.imgURL = this.WebView.convertFileSrc('data:image/jpeg;base64,' + res);
-      //this.myForm.controls.name.setValue(this.imgURL)
-      //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
-      //let dividir = this.imgURL.split('///');
-      //let dividir2 = dividir[1].split('/');
-      //let dividir3 = dividir2[5].split('.');
-      // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
+    this.camera
+      .getPicture(options)
+      .then((res) => {
+        //this.imgURL = res;
+        //this.imgURL = this.WebView.convertFileSrc('data:image/jpeg;base64,' + res);
+        //this.myForm.controls.name.setValue(this.imgURL)
+        //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
+        //let dividir = this.imgURL.split('///');
+        //let dividir2 = dividir[1].split('/');
+        //let dividir3 = dividir2[5].split('.');
+        // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
-      //let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
-      //this.myForm.controls.name.setValue("hola2")
-      //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
-      //this.guestService.storeImage(fileObject)
-      
-      //this.subir2()
+        //let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
+        //this.myForm.controls.name.setValue("hola2")
+        //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
+        //this.guestService.storeImage(fileObject)
 
-        this.image = this.WebView.convertFileSrc(res);
-        this.imgURL = this.image;
-        
-        this.file = new File([this.image], this.imageName()+"", { type: 'image/jpeg' });
-        this.guestService.storeImage(this.file)
-    }).catch(e=>{
-      //this.myForm.controls.name.setValue("hola3")
-      console.log(e);
-    });
+        //this.subir2()
+
+        //this.image = this.WebView.convertFileSrc(res);
+        //this.imgURL = this.image;
+        console.log(res);
+
+        // this.file = new File([this.image], this.imageName() + '', {
+        //   type: 'image/jpeg',
+        // });
+        // this.guestService.storeImage(this.file);
+      })
+      .catch((e) => {
+        //this.myForm.controls.name.setValue("hola3")
+        console.log(e);
+      });
   }
 
-  public getGallery(){
-    this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL
-    }).then((res) => {
-      this.imgURL = 'data:image/jpeg;base64,' + res;
-    }).catch(e=>{
-      console.log(e);
-    });
+  public getGallery() {
+    this.camera
+      .getPicture({
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: this.camera.DestinationType.DATA_URL,
+      })
+      .then((res) => {
+        this.imgURL = 'data:image/jpeg;base64,' + res;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   public datos = new FormData();
-
 }

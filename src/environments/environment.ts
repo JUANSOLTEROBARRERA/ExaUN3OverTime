@@ -5,13 +5,14 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "AIzaSyBGsvcqDiykh2ARhRnl485ZWY7li_6jKpU",
-    authDomain: "dahreservacionesovertime.firebaseapp.com",
-    projectId: "dahreservacionesovertime",
-    storageBucket: "dahreservacionesovertime.appspot.com",
-    messagingSenderId: "338739755625",
-    appId: "1:338739755625:web:9e12e77dac0c967cb8c0f8"
-  }
+    apiKey: 'AIzaSyBYxZ3VAhb6A3NkbFEp3cpSebiyNv_cNgY',
+    authDomain: 'examen-u4-b72cb.firebaseapp.com',
+    projectId: 'examen-u4-b72cb',
+    storageBucket: 'examen-u4-b72cb.appspot.com',
+    messagingSenderId: '965940859602',
+    appId: '1:965940859602:web:ca5a33af116961784d930b',
+    measurementId: 'G-JRVSD0KJ63',
+  },
 };
 
 /*

@@ -15,9 +15,12 @@
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['name']">
-              <div class="errormessage" *ngIf="(myForm.get('name').dirty
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('name').dirty
               || myForm.get('name').touched)
-              &&myForm.get('name').hasError(item.type)">
+              &&myForm.get('name').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
@@ -33,9 +36,12 @@
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['phone']">
-              <div class="errormessage" *ngIf="(myForm.get('phone').dirty
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('phone').dirty
               || myForm.get('phone').touched)
-              &&myForm.get('phone').hasError(item.type)">
+              &&myForm.get('phone').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
@@ -55,17 +61,31 @@
                 <ion-datetime-button datetime="datetime"></ion-datetime-button>
               </div>
               <div *ngIf="!validfecha1">
-                <ion-datetime-button style="background-color: brown" datetime="datetime"></ion-datetime-button>
+                <ion-datetime-button
+                  style="background-color: brown"
+                  datetime="datetime"
+                ></ion-datetime-button>
               </div>
             </div>
             <br />
 
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime (ionChange)="validarfecha1()" display-format="DD/MM/YYYY" formControlName="fecha2"
-                  id="datetime" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                  [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
-                  [isDateEnabled]="isBlockedDate">
+                <ion-datetime
+                  (ionChange)="validarfecha1()"
+                  display-format="DD/MM/YYYY"
+                  formControlName="fecha2"
+                  id="datetime"
+                  [value]="today"
+                  [min]="today"
+                  [showDefaultTitle]="true"
+                  locale="es-ES"
+                  [showDefaultButtons]="true"
+                  doneText="Seleccionar"
+                  cancelText="Cancelar"
+                  presentation="date"
+                  [isDateEnabled]="isBlockedDate"
+                >
                 </ion-datetime>
               </ng-template>
             </ion-modal>
@@ -91,16 +111,30 @@
                 <ion-datetime-button datetime="datetime2"></ion-datetime-button>
               </div>
               <div *ngIf="!validfecha2">
-                <ion-datetime-button style="background-color: brown" datetime="datetime2"></ion-datetime-button>
+                <ion-datetime-button
+                  style="background-color: brown"
+                  datetime="datetime2"
+                ></ion-datetime-button>
               </div>
             </div>
 
             <ion-modal [keepContentsMounted]="true">
               <ng-template>
-                <ion-datetime (ionChange)="validarfecha2()" display-format="DD/MM/YYYY" formControlName="fecha3"
-                  id="datetime2" [value]="today" [min]="today" [showDefaultTitle]="true" locale="es-ES"
-                  [showDefaultButtons]="true" doneText="Seleccionar" cancelText="Cancelar" presentation="date"
-                  [isDateEnabled]="isBlockedDate">
+                <ion-datetime
+                  (ionChange)="validarfecha2()"
+                  display-format="DD/MM/YYYY"
+                  formControlName="fecha3"
+                  id="datetime2"
+                  [value]="today"
+                  [min]="today"
+                  [showDefaultTitle]="true"
+                  locale="es-ES"
+                  [showDefaultButtons]="true"
+                  doneText="Seleccionar"
+                  cancelText="Cancelar"
+                  presentation="date"
+                  [isDateEnabled]="isBlockedDate"
+                >
                 </ion-datetime>
               </ng-template>
             </ion-modal>
@@ -112,20 +146,29 @@
         <ion-col>
           <ion-list>
             <ion-item>
-              <ion-select formControlName="room" interface="popover" placeholder="Selecciona Habitación"
-                (ionChange)="cambiar()">
+              <ion-select
+                formControlName="room"
+                interface="popover"
+                placeholder="Selecciona Habitación"
+                (ionChange)="cambiar()"
+              >
                 <div *ngFor="let item of rooms; let i = index">
                   <div>
-                    <ion-select-option value="{{item.id + ' ' + item.room}}">{{item.room}}</ion-select-option>
+                    <ion-select-option value="{{item.id + ' ' + item.room}}"
+                      >{{item.room}}</ion-select-option
+                    >
                   </div>
                 </div>
               </ion-select>
             </ion-item>
             <div>
               <ng-container *ngFor="let item of validationMessages['room']">
-                <div class="errormessage" *ngIf="(myForm.get('room').dirty
+                <div
+                  class="errormessage"
+                  *ngIf="(myForm.get('room').dirty
             || myForm.get('room').touched)
-            &&myForm.get('room').hasError(item.type)">
+            &&myForm.get('room').hasError(item.type)"
+                >
                   {{item.message}}
                 </div>
               </ng-container>
@@ -151,9 +194,12 @@
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['advance']">
-              <div class="errormessage" *ngIf="(myForm.get('advance').dirty
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('advance').dirty
               || myForm.get('advance').touched)
-              &&myForm.get('advance').hasError(item.type)">
+              &&myForm.get('advance').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
@@ -164,46 +210,60 @@
       <ion-row *ngIf="validado">
         <ion-col>
           <ion-item>
-            <ion-label style="font-size: 1.3em;" position="stacked">Selecciona imagen</ion-label>
+            <ion-label style="font-size: 1.3em" position="stacked"
+              >Selecciona imagen</ion-label
+            >
             <div *ngIf="barStatus">
-              <br>
-              <ion-label style="font-size: 1.3em;" position="stacked">Uploading...</ion-label>
+              <br />
+              <ion-label style="font-size: 1.3em" position="stacked"
+                >Uploading...</ion-label
+              >
             </div>
-            <br>
-            <br>
+            <br />
+            <br />
             <div>
-              <ion-input accept=".png,.jpg" (change)="uploadPhoto($event)" formControlName="imagen"
-                type="file"></ion-input>
+              <ion-button (click)="takePhoto()">Tomar Foto</ion-button>
             </div>
-            <br>
+            <br />
             <div id="photoPreview">
               <div *ngFor="let image of imageUploads; let i = index">
                 <img loading="lazy" [src]="image" />
               </div>
             </div>
-            <br>
+            <br />
           </ion-item>
           <div>
             <ng-container *ngFor="let item of validationMessages['imagen']">
-              <div class="errormessage" *ngIf="(myForm.get('imagen').dirty
+              <div
+                class="errormessage"
+                *ngIf="(myForm.get('imagen').dirty
           || myForm.get('imagen').touched)
-          &&myForm.get('imagen').hasError(item.type)">
+          &&myForm.get('imagen').hasError(item.type)"
+              >
                 {{item.message}}
               </div>
             </ng-container>
           </div>
         </ion-col>
       </ion-row>
-
-      
     </form>
   </ion-grid>
 
-
-  <ion-button *ngIf="!validado" size="default" shape="round" (click)="newGuestBef()">
+  <ion-button
+    *ngIf="!validado"
+    size="default"
+    shape="round"
+    (click)="newGuestBef()"
+  >
     Reservar
   </ion-button>
-  <ion-button *ngIf="validado" color="warning" size="default" shape="round" (click)="newGuest()">
+  <ion-button
+    *ngIf="validado"
+    color="warning"
+    size="default"
+    shape="round"
+    (click)="newGuest()"
+  >
     Pagar
   </ion-button>
 
@@ -211,8 +271,8 @@
     Cancelar
   </ion-button>
 
-  <br>
-  <img [src]="imgURL" height="200" width="200"/>
-    <ion-button (click)="getCamera()">From Camera</ion-button>
-    <ion-button (click)="getGallery()">From Gallery</ion-button>
+  <br />
+  <img src="{{imgURL}}" height="200" width="200" />
+  <ion-button (click)="getCamera()">From Camera</ion-button>
+  <ion-button (click)="getGallery()">From Gallery</ion-button>
 </ion-content>
