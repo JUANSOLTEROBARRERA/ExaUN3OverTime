@@ -806,10 +806,20 @@ export class NewReservationPage implements OnInit {
   public image;
   public file: File;
   public takePhoto() {
-    this.fotoService.tomarFoto().then((foto) => {
-      const url = this.sanitizer.bypassSecurityTrustUrl(foto.webPath);
-      this.imageUploads = [url];
-      this.imgURL = url;
+    this.fotoService.tomarFoto().then((photo) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const imgBlob = new Blob([reader.result], {
+          type: `image/${photo.format}`,
+        });
+        this.guestService.storeImage3(imgBlob).then((res) => {
+          this.imgURL = res;
+          this.imageUploads.push(res);
+        });
+      };
+      fetch(photo.webPath).then((v) =>
+        v.blob().then((imagen) => reader.readAsArrayBuffer(imagen))
+      );
     });
   }
   public getCamera() {

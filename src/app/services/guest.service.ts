@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Room } from '../models/room';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { uuidv4 } from '@firebase/util';
 
 @Injectable({
   providedIn: 'root',
@@ -368,5 +369,21 @@ export class GuestService {
           });
       });
     } catch (e) {}
+  }
+
+  storeImage3(image: Blob) {
+    return new Promise((resolve, reject) => {
+      const id = uuidv4();
+
+      this.angularFireStorage
+        .upload(`${this.location}${id}`, image)
+        .then((res) => {
+          res.ref
+            .getDownloadURL()
+            .then((url) => resolve(url))
+            .catch((e) => reject(e));
+        })
+        .catch((e) => reject(e));
+    });
   }
 }
