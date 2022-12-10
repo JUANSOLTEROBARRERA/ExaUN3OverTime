@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+//import { Camera } from '@ionic-native/camera/ngx';
 
 @Component({
   selector: 'app-new-reservation',
@@ -65,7 +67,8 @@ export class NewReservationPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
-    private camera: Camera
+    private camera: Camera,
+    private WebView: WebView
   ) {
     
     this.fechaseleccionada1 = ''
@@ -834,17 +837,21 @@ export class NewReservationPage implements OnInit {
     this.myForm.controls.name.setValue("hola1")
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.FILE_URI
+      destinationType: this.camera.DestinationType.FILE_URI,
+      mediaType: this.camera.MediaType.PICTURE,
+      encodingType: this.camera.EncodingType.JPEG
     }
     ).then((res) => {
-      this.imgURL = res;
+      //this.imgURL = res;
+      this.imgURL = this.WebView.convertFileSrc(res);
+
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
       let dividir = this.imgURL.split('///');
       let dividir2 = dividir[1].split('/');
       let dividir3 = dividir2[5].split('.');
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
-      let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpg"});
+      let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
       this.myForm.controls.name.setValue("hola2")
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
       this.guestService.storeImage2(fileObject)

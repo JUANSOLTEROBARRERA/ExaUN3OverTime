@@ -15,12 +15,14 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage'
 
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule, AngularFireStorageModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Camera, AngularFirestore],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Camera, AngularFirestore, WebView],
   bootstrap: [AppComponent]
 })
 
