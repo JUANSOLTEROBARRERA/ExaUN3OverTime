@@ -807,9 +807,9 @@ export class NewReservationPage implements OnInit {
   public file: File;
   public takePhoto() {
     this.fotoService.tomarFoto().then((foto) => {
-      this.imageUploads = [foto.webPath];
-      this.imgURL = this.sanitizer.bypassSecurityTrustResourceUrl(foto.webPath);
-      console.log(foto.webPath);
+      const url = this.sanitizer.bypassSecurityTrustUrl(foto.webPath);
+      this.imageUploads = [url];
+      this.imgURL = url;
     });
   }
   public getCamera() {
