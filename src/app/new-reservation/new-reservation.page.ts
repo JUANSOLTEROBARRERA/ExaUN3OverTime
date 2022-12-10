@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { FotoService } from '../services/foto.service';
 
 @Component({
   selector: 'app-new-reservation',
@@ -66,8 +65,7 @@ export class NewReservationPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private activatedRoute: ActivatedRoute,
-    private camera: Camera,
-    private fotoService: FotoService
+    private camera: Camera
   ) {
     
     this.fechaseleccionada1 = ''
@@ -858,7 +856,7 @@ export class NewReservationPage implements OnInit {
       console.log(e);
     });
   }
-  
+
   public getGallery(){
     this.camera.getPicture({
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
