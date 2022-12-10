@@ -833,33 +833,41 @@ export class NewReservationPage implements OnInit {
     this.guestService.storeImage2(file)
   }
 
+  public image;
   public getCamera(){
     this.myForm.controls.name.setValue("hola1")
-    this.camera.getPicture({
-      sourceType: this.camera.PictureSourceType.CAMERA,
+
+    let options: CameraOptions = {
+      quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
-      encodingType: this.camera.EncodingType.JPEG
+      sourceType: this.camera.PictureSourceType.CAMERA
     }
+
+    this.camera.getPicture(
+      options
     ).then((res) => {
       //this.imgURL = res;
-      this.imgURL = this.WebView.convertFileSrc('data:image/jpeg;base64,' + res);
-      this.myForm.controls.name.setValue(this.imgURL)
+      //this.imgURL = this.WebView.convertFileSrc('data:image/jpeg;base64,' + res);
+      //this.myForm.controls.name.setValue(this.imgURL)
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
       //let dividir = this.imgURL.split('///');
       //let dividir2 = dividir[1].split('/');
       //let dividir3 = dividir2[5].split('.');
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
-      let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
-      this.myForm.controls.name.setValue("hola2")
+      //let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
+      //this.myForm.controls.name.setValue("hola2")
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
-      this.guestService.storeImage(fileObject)
+      //this.guestService.storeImage(fileObject)
       
       //this.subir2()
 
+        this.image = this.WebView.convertFileSrc(res);
+        this.imgURL = this.image;
     }).catch(e=>{
-      this.myForm.controls.name.setValue("hola3")
+      //this.myForm.controls.name.setValue("hola3")
       console.log(e);
     });
   }
