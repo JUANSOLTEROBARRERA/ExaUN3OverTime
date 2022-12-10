@@ -769,8 +769,7 @@ export class NewReservationPage implements OnInit {
           Validators.pattern('[0-9]+([.][0-9]+)?'),
         ]),
       ],
-      imagen: [''],
-      imgpreview: [''],
+      imagen: ['']
     });
 
     this.validationMessages = {

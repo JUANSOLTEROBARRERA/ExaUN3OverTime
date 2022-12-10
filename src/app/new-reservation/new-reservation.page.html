@@ -195,7 +195,7 @@
         </ion-col>
       </ion-row>
 
-      <img formControlName="imgpreview" [src]="imgURL" height="200" width="200"/>
+      
     </form>
   </ion-grid>
 
@@ -212,7 +212,7 @@
   </ion-button>
 
   <br>
-    
+  <img [src]="imgURL" height="200" width="200"/>
     <ion-button (click)="getCamera()">From Camera</ion-button>
     <ion-button (click)="getGallery()">From Gallery</ion-button>
 
