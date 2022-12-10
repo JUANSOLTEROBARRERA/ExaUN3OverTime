@@ -846,15 +846,15 @@ export class NewReservationPage implements OnInit {
       this.imgURL = this.WebView.convertFileSrc(res);
 
       //Ejemplo: file:///data/user/0/io.ionic.starter/cache/1670619070156.jpg
-      let dividir = this.imgURL.split('///');
-      let dividir2 = dividir[1].split('/');
-      let dividir3 = dividir2[5].split('.');
+      //let dividir = this.imgURL.split('///');
+      //let dividir2 = dividir[1].split('/');
+      //let dividir3 = dividir2[5].split('.');
       // dividir3[0]=nombre de imagen; dividir3[1]=extension del archivo
 
       let fileObject = new File([this.imgURL], this.imageName()+"", { type: "image/jpeg"});
       this.myForm.controls.name.setValue("hola2")
       //this.myForm.controls.name.setValue("URL:"+this.imgURL+"TIPO:"+"image/"+dividir3[1])
-      this.guestService.storeImage2(fileObject)
+      this.guestService.storeImage(this.imgURL)
       
       //this.subir2()
 
