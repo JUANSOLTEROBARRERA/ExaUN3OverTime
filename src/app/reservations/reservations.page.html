@@ -15,8 +15,11 @@
               <!-- <ion-item href="/account/{{i}}" (click)="obtainStudent(i)"> -->
               <ion-item>
                 <ion-label (click)="getGuestByToken(item.id)">
-                  <div style="float: left"><a>Huésped: </a>{{item.name}}</div>
-                  <div style="float: right"><a>Habitación: </a>{{item.room}}</div>
+                  <div><a>Huésped: </a>{{item.name}}</div>
+                  <div><a>Habitación: </a>{{item.room}}</div>
+                  <div><a>Entrada: </a>{{item.f_arrival2}}</div>
+                  <div><a>Salida: </a>{{item.f_leave2}}</div>
+                  <img style="object-fit: cover; float: right; position:absolute; right: 15px; top:15px; border-radius:150px;" width="100px" height="100px" [src]="item.photo">
                   <br>
                   <ion-chip color="success" style="float: left">
                     <ion-label (click)="getPhone(i)">
@@ -27,8 +30,7 @@
                     <ion-icon name="logo-whatsapp" style="font-size: 20px;">
                     </ion-icon>
                   </ion-chip>
-                  <div style="margin-top: 2%;float: right"><a>Salida: </a>{{item.f_leave2}}</div>
-                  <div style="margin: 2% auto; width: 100px;"><a>Entrada: </a>{{item.f_arrival2}}</div>
+                  
                   
 
                 </ion-label>
